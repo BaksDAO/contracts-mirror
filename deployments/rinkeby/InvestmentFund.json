@@ -1,0 +1,191 @@
+{
+  "address": "0x3FCe37328Fa373B1DDa44d99eB533f5Ba44E0529",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "GovernedCantGoverItself",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedGovernorZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyPendingGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "GovernanceTransited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "PendingGovernanceTransition",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "acceptGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "governor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pendingGovernor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "transitGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x9a589b35468cbaf20c5c2b74f421ef8881c3ec63cb49513d3ef4cb8bfab3d8e8",
+  "receipt": {
+    "to": null,
+    "from": "0x21309DA9AD64eA82431758B27cbD63E5d53A556c",
+    "contractAddress": "0x3FCe37328Fa373B1DDa44d99eB533f5Ba44E0529",
+    "transactionIndex": 49,
+    "gasUsed": "197787",
+    "logsBloom": "0x00000000000000000001000080000000400000000000000000000000000000000000000000000000000000000000000000000000000000400000800000000002000040000000000080000010000000000000000400000000000000000000000000000000020000000000000000000800000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x2872f3e99c4efca9a26aefd6dfe653de7d4cfcfbfc7e97238fc384ed43b22593",
+    "transactionHash": "0x9a589b35468cbaf20c5c2b74f421ef8881c3ec63cb49513d3ef4cb8bfab3d8e8",
+    "logs": [
+      {
+        "transactionIndex": 49,
+        "blockNumber": 9227293,
+        "transactionHash": "0x9a589b35468cbaf20c5c2b74f421ef8881c3ec63cb49513d3ef4cb8bfab3d8e8",
+        "address": "0x3FCe37328Fa373B1DDa44d99eB533f5Ba44E0529",
+        "topics": [
+          "0xc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb1",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000021309da9ad64ea82431758b27cbd63e5d53a556c"
+        ],
+        "data": "0x",
+        "logIndex": 37,
+        "blockHash": "0x2872f3e99c4efca9a26aefd6dfe653de7d4cfcfbfc7e97238fc384ed43b22593"
+      },
+      {
+        "transactionIndex": 49,
+        "blockNumber": 9227293,
+        "transactionHash": "0x9a589b35468cbaf20c5c2b74f421ef8881c3ec63cb49513d3ef4cb8bfab3d8e8",
+        "address": "0x3FCe37328Fa373B1DDa44d99eB533f5Ba44E0529",
+        "topics": [
+          "0x564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000021309da9ad64ea82431758b27cbd63e5d53a556c"
+        ],
+        "data": "0x",
+        "logIndex": 38,
+        "blockHash": "0x2872f3e99c4efca9a26aefd6dfe653de7d4cfcfbfc7e97238fc384ed43b22593"
+      }
+    ],
+    "blockNumber": 9227293,
+    "cumulativeGasUsed": "12735218",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "ee81eac0b6770a7f9008729207f6bf31",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.7+commit.e28d00a7\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"GovernedCantGoverItself\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedGovernorZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyPendingGovernorAllowedToCall\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"PendingGovernanceTransition\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"transitGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/InvestmentFund.sol\":\"InvestmentFund\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/Governance.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.7;\\n\\nerror GovernedOnlyGovernorAllowedToCall();\\nerror GovernedOnlyPendingGovernorAllowedToCall();\\nerror GovernedGovernorZeroAddress();\\nerror GovernedCantGoverItself();\\n\\nabstract contract Governed {\\n    address public governor;\\n    address public pendingGovernor;\\n\\n    event PendingGovernanceTransition(address indexed governor, address indexed newGovernor);\\n    event GovernanceTransited(address indexed governor, address indexed newGovernor);\\n\\n    modifier onlyGovernor() {\\n        if (msg.sender != governor) {\\n            revert GovernedOnlyGovernorAllowedToCall();\\n        }\\n        _;\\n    }\\n\\n    constructor() {\\n        governor = msg.sender;\\n        emit PendingGovernanceTransition(address(0), governor);\\n        emit GovernanceTransited(address(0), governor);\\n    }\\n\\n    function transitGovernance(address newGovernor) external {\\n        if (newGovernor == address(0)) {\\n            revert GovernedGovernorZeroAddress();\\n        }\\n        if (newGovernor == address(this)) {\\n            revert GovernedCantGoverItself();\\n        }\\n\\n        pendingGovernor = newGovernor;\\n        emit PendingGovernanceTransition(governor, newGovernor);\\n    }\\n\\n    function acceptGovernance() external {\\n        if (msg.sender != pendingGovernor) {\\n            revert GovernedOnlyPendingGovernorAllowedToCall();\\n        }\\n\\n        governor = pendingGovernor;\\n        emit GovernanceTransited(governor, pendingGovernor);\\n    }\\n}\\n\",\"keccak256\":\"0x144bdf7b3aad44cc0084cacb3d6ac9c68a19484d2a0f0021a40ee03129c9b462\",\"license\":\"BUSL-1.1\"},\"contracts/InvestmentFund.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.7;\\n\\nimport {Governed} from \\\"./Governance.sol\\\";\\n\\ncontract InvestmentFund is Governed {}\\n\",\"keccak256\":\"0x6f162e43c0e9b9df6de0060e0ad55473dd031cd199455ac2595a7419f78643b5\",\"license\":\"BUSL-1.1\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50600080546001600160a01b0319163390811782556040519091907fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb1908290a3600080546040516001600160a01b0390911691907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e908290a361021f806100986000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c80630c340a2414610051578063238efcbc14610080578063631aa9e21461008a578063e3056a341461009d575b600080fd5b600054610064906001600160a01b031681565b6040516001600160a01b03909116815260200160405180910390f35b6100886100b0565b005b6100886100983660046101e2565b610133565b600154610064906001600160a01b031681565b6001546001600160a01b031633146100db5760405163aec80d4b60e01b815260040160405180910390fd5b6001546000805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b03909216918217815560405182917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b6001600160a01b03811661015a5760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b038116301415610184576040516306b3e95d60e21b815260040160405180910390fd5b6001805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0383811691821790925560008054604051929316917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb19190a350565b6000602082840312156101f457600080fd5b81356001600160a01b038116811461020b57600080fd5b939250505056fea164736f6c6343000807000a",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c80630c340a2414610051578063238efcbc14610080578063631aa9e21461008a578063e3056a341461009d575b600080fd5b600054610064906001600160a01b031681565b6040516001600160a01b03909116815260200160405180910390f35b6100886100b0565b005b6100886100983660046101e2565b610133565b600154610064906001600160a01b031681565b6001546001600160a01b031633146100db5760405163aec80d4b60e01b815260040160405180910390fd5b6001546000805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b03909216918217815560405182917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b6001600160a01b03811661015a5760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b038116301415610184576040516306b3e95d60e21b815260040160405180910390fd5b6001805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0383811691821790925560008054604051929316917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb19190a350565b6000602082840312156101f457600080fd5b81356001600160a01b038116811461020b57600080fd5b939250505056fea164736f6c6343000807000a",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3431,
+        "contract": "contracts/InvestmentFund.sol:InvestmentFund",
+        "label": "governor",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 3433,
+        "contract": "contracts/InvestmentFund.sol:InvestmentFund",
+        "label": "pendingGovernor",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      }
+    }
+  }
+}

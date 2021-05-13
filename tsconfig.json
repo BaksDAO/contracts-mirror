@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "baseUrl": ".",
+    "composite": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "exactOptionalPropertyTypes": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["ES2020"],
+    "module": "CommonJS",
+    "newLine": "LF",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist/",
+    "paths": {},
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true
+  },
+  "exclude": ["node_modules"],
+  "files": ["./hardhat.config.ts"],
+  "include": [
+    "./deploy/**/*.ts",
+    "./scripts/**/*.ts",
+    "./tasks/**/*.ts",
+    "./tests/**/*.ts",
+    "./typechain/**/*.ts"
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental"
+  }
+}

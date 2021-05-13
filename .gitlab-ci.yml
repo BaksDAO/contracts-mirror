@@ -1,0 +1,49 @@
+include:
+  - template: Workflows/MergeRequest-Pipelines.gitlab-ci.yml
+
+image: node:lts-alpine
+
+before_script:
+  - yarn install --immutable
+
+cache:
+  paths:
+    - ./.yarn/cache/
+
+stages:
+  - test
+  - deliver
+
+lint:
+  stage: test
+  tags:
+    - build-solidity
+  script:
+    - yarn run lint
+
+profile-gas-usage:
+  stage: test
+  tags:
+    - build-solidity
+  variables:
+    CI: "1"
+    REPORT_GAS: "true"
+  script:
+    - yarn run test
+  artifacts:
+    paths:
+      - ./metrics.txt
+    reports:
+      metrics: ./metrics.txt
+
+coverage:
+  stage: test
+  tags:
+    - build-solidity
+  script:
+    - yarn run coverage
+  artifacts:
+    when: always
+    reports:
+      junit: ./test-results.xml
+      cobertura: ./coverage/cobertura-coverage.xml

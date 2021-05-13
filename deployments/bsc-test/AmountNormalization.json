@@ -1,0 +1,39 @@
+{
+  "address": "0xE0EBb2c8E2545A38371ba7beb5Ff4724c3c148Dc",
+  "abi": [],
+  "transactionHash": "0x1d937a00d945310438fe2c04e264c366b2ae3c0c9a51cf9272a5cf55517eed31",
+  "receipt": {
+    "to": null,
+    "from": "0x21309DA9AD64eA82431758B27cbD63E5d53A556c",
+    "contractAddress": "0xE0EBb2c8E2545A38371ba7beb5Ff4724c3c148Dc",
+    "transactionIndex": 4,
+    "gasUsed": "63352",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xad0e7f8ca1fcf8249aa891dcf226002b3e230464a52b93620d04681a12b3e84a",
+    "transactionHash": "0x1d937a00d945310438fe2c04e264c366b2ae3c0c9a51cf9272a5cf55517eed31",
+    "logs": [],
+    "blockNumber": 13128653,
+    "cumulativeGasUsed": "572210",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "37e44ceb5ade6fd628df41eb5d70582d",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/libraries/AmountNormalization.sol\":\"AmountNormalization\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/interfaces/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IERC20 {\\n    event Approval(address indexed owner, address indexed spender, uint256 amount);\\n    event Transfer(address indexed from, address indexed to, uint256 amount);\\n\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    function transferFrom(\\n        address from,\\n        address to,\\n        uint256 amount\\n    ) external returns (bool);\\n\\n    function transfer(address to, uint256 amount) external returns (bool);\\n\\n    function totalSupply() external view returns (uint256);\\n\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    function name() external view returns (string memory);\\n\\n    function symbol() external view returns (string memory);\\n\\n    function decimals() external view returns (uint8);\\n}\\n\\ninterface IMintableAndBurnableERC20 is IERC20 {\\n    function mint(address to, uint256 amount) external;\\n\\n    function burn(address from, uint256 amount) external;\\n}\\n\",\"keccak256\":\"0x555b3bf9906cdd22fd702e227764b81c027180c0af11c48222ba6273441c63f3\",\"license\":\"MIT\"},\"contracts/libraries/AmountNormalization.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\nimport \\\"./../interfaces/IERC20.sol\\\";\\n\\nlibrary AmountNormalization {\\n    uint8 internal constant DECIMALS = 18;\\n\\n    function normalizeAmount(IERC20 self, uint256 denormalizedAmount) internal view returns (uint256 normalizedAmount) {\\n        uint256 scale = 10**(DECIMALS - self.decimals());\\n        if (scale != 1) {\\n            return denormalizedAmount * scale;\\n        }\\n        return denormalizedAmount;\\n    }\\n\\n    function denormalizeAmount(IERC20 self, uint256 normalizedAmount)\\n        internal\\n        view\\n        returns (uint256 denormalizedAmount)\\n    {\\n        uint256 scale = 10**(DECIMALS - self.decimals());\\n        if (scale != 1) {\\n            return normalizedAmount / scale;\\n        }\\n        return normalizedAmount;\\n    }\\n}\\n\",\"keccak256\":\"0x420a9fd7d1520d9f1f6d021f99fa08aaaeb728b6ef4e4759a875d1dda90799e4\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x602d6037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea164736f6c6343000809000a",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea164736f6c6343000809000a",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}
