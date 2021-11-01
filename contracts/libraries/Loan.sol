@@ -18,7 +18,7 @@ library Loan {
         uint256 stabilityFee;
         uint256 stabilizationFee;
         uint256 exchangeFee;
-        uint256 investmentFee;
+        uint256 developmentFee;
         uint256 principalAmount;
         uint256 collateralAmount;
         uint256 lastDepositAt;

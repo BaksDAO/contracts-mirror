@@ -3,4 +3,4 @@ pragma solidity 0.8.9;
 
 import {Governed} from "./Governance.sol";
 
-contract InvestmentFund is Governed {}
+contract DevelopmentFund is Governed {}

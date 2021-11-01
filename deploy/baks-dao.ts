@@ -24,7 +24,7 @@ const deploy: DeployFunction = async function ({
     : await deployments.get("ChainlinkPriceOracle");
   // const priceOracle = await deployments.get("ChainlinkPriceOracle");
   const exchangeFund = await deployments.get("ExchangeFund");
-  const investmentFund = await deployments.get("InvestmentFund");
+  const developmentFund = await deployments.get("DevelopmentFund");
 
   const baksDao = await deploy("BaksDAO", {
     from: deployer!.address,
@@ -35,7 +35,7 @@ const deploy: DeployFunction = async function ({
       operator!.address,
       liquidator!.address,
       exchangeFund.address,
-      investmentFund.address,
+      developmentFund.address,
     ],
     libraries: {
       AmountNormalization: amountNormalization.address,
@@ -63,7 +63,7 @@ deploy.dependencies = [
   "EnumerableAddressSet",
   "ExchangeFund",
   "FixedPointMath",
-  "InvestmentFund",
+  "DevelopmentFund",
   "Loan",
   "CollateralToken",
   "PriceOracle",

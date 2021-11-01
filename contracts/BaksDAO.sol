@@ -42,8 +42,8 @@ error BaksDAOInitialLoanToValueRatioTooHigh(IERC20 token, uint256 initialLoanToV
 /// @dev Thrown when trying to set platform fees that don't sum up to one.
 /// @param stabilizationFee The stabilization fee that was tried to set.
 /// @param exchangeFee The stabilization fee that was tried to set.
-/// @param investmentFee The stabilization fee that was tried to set.
-error BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 investmentFee);
+/// @param developmentFee The stabilization fee that was tried to set.
+error BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);
 
 /// @dev Thrown when trying to interact with inactive loan with `id` id.
 /// @param id The loan id.
@@ -121,13 +121,13 @@ contract BaksDAO is Governed, ReentrancyGuard {
     address public immutable operator;
     address public immutable liquidator;
     address public immutable exchangeFund;
-    address public immutable investmentFund;
+    address public immutable developmentFund;
 
     uint256 public minimumPrincipalAmount = 50e18; // 50 BAKS
     uint256 public stabilityFee = 3e16; // 3 %
     uint256 public stabilizationFee = 85e16; // 85 %
     uint256 public exchangeFee = 15e16; // 15 %
-    uint256 public investmentFee = 0;
+    uint256 public developmentFee = 0;
     uint256 public marginCallLoanToValueRatio = 75e16; // 75 %
     uint256 public liquidationLoanToValueRatio = 83e16; // 83 %
     uint256 public rebalancingThreshold = 1e16; // 1 %
@@ -149,8 +149,8 @@ contract BaksDAO is Governed, ReentrancyGuard {
         uint256 newStabilizationFee,
         uint256 exchangeFee,
         uint256 newExchangeFee,
-        uint256 investmentFee,
-        uint256 newInvestmentFee
+        uint256 developmentFee,
+        uint256 newDevelopmentFee
     );
     event MarginCallLoanToValueRatioUpdated(uint256 marginCallLoanToValueRatio, uint256 newMarginCallLoanToValueRatio);
     event LiquidationLoanToValueRatioUpdated(
@@ -214,7 +214,7 @@ contract BaksDAO is Governed, ReentrancyGuard {
         address _operator,
         address _liquidator,
         address _exchangeFund,
-        address _investmentFund
+        address _developmentFund
     ) {
         wrappedNativeCurrency = _wrappedNativeCurrency;
         stablecoin = _stablecoin;
@@ -222,7 +222,7 @@ contract BaksDAO is Governed, ReentrancyGuard {
         operator = _operator;
         liquidator = _liquidator;
         exchangeFund = _exchangeFund;
-        investmentFund = _investmentFund;
+        developmentFund = _developmentFund;
     }
 
     receive() external payable {
@@ -413,7 +413,7 @@ contract BaksDAO is Governed, ReentrancyGuard {
                 stabilityFee: stabilityFee,
                 stabilizationFee: stabilizationFee,
                 exchangeFee: exchangeFee,
-                investmentFee: investmentFee,
+                developmentFee: developmentFee,
                 initialLoanToValueRatio: initialLoanToValueRatio,
                 marginCallLoanToValueRatio: marginCallLoanToValueRatio,
                 liquidationLoanToValueRatio: liquidationLoanToValueRatio,
@@ -449,22 +449,22 @@ contract BaksDAO is Governed, ReentrancyGuard {
     function setPlatformFees(
         uint256 newStabilizationFee,
         uint256 newExchangeFee,
-        uint256 newInvestmentFee
+        uint256 newDevelopmentFee
     ) external onlyGovernor {
-        if (newStabilizationFee + newExchangeFee + newInvestmentFee != ONE) {
-            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newInvestmentFee);
+        if (newStabilizationFee + newExchangeFee + newDevelopmentFee != ONE) {
+            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);
         }
         emit PlatformFeesUpdated(
             stabilizationFee,
             newStabilizationFee,
             exchangeFee,
             newExchangeFee,
-            investmentFee,
-            newInvestmentFee
+            developmentFee,
+            newDevelopmentFee
         );
         stabilizationFee = newStabilizationFee;
         exchangeFee = newExchangeFee;
-        investmentFee = newInvestmentFee;
+        developmentFee = newDevelopmentFee;
     }
 
     function setMarginCallLoanToValueRatio(uint256 newMarginCallLoanToValueRatio) external onlyGovernor {
@@ -582,7 +582,7 @@ contract BaksDAO is Governed, ReentrancyGuard {
 
         stablecoin.mint(address(this), loan.stabilizationFee);
         stablecoin.mint(exchangeFund, loan.exchangeFee);
-        stablecoin.mint(investmentFund, loan.investmentFee);
+        stablecoin.mint(developmentFund, loan.developmentFee);
         stablecoin.mint(loan.borrower, loan.principalAmount);
 
         uint256 id = loans.length;

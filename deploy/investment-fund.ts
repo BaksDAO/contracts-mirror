@@ -4,11 +4,11 @@ const deploy: DeployFunction = async function ({ deployments, ethers }) {
   const { deploy } = deployments;
   const { deployer } = await ethers.getNamedSigners();
 
-  await deploy("InvestmentFund", {
+  await deploy("DevelopmentFund", {
     from: deployer!.address,
     log: true,
   });
 };
-deploy.tags = ["InvestmentFund"];
+deploy.tags = ["DevelopmentFund"];
 
 export default deploy;

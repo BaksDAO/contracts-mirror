@@ -7,8 +7,8 @@ import {
   Baks,
   BaksDAO,
   BaseToken,
+  DevelopmentFund,
   ExchangeFund,
-  InvestmentFund,
   IPriceOracle as PriceOracle,
   IUniswapV2Factory as UniswapV2Factory,
   IUniswapV2Pair as UniswapV2Pair,
@@ -35,8 +35,8 @@ export class Environment {
     public readonly baksDao: BaksDAO,
     public readonly governedExchangeFund: ExchangeFund,
     public readonly exchangeFund: ExchangeFund,
-    public readonly governedInvestmentFund: InvestmentFund,
-    public readonly investmentFund: InvestmentFund,
+    public readonly governedDevelopmentFund: DevelopmentFund,
+    public readonly developmentFund: DevelopmentFund,
     public readonly uniswapV2Router: FakeContract<UniswapV2Router>,
     public readonly uniswapV2Pair: FakeContract<UniswapV2Pair>,
     public readonly wrappedNativeCurrency: SignerWithAddress,
@@ -135,11 +135,11 @@ export const setupEnvironment = deployments.createFixture(async () => {
   exchangeFund = exchangeFund.connect(user!);
   const governedExchangeFund = exchangeFund.connect(deployer!);
 
-  let investmentFund = (await ethers.getContract(
-    "InvestmentFund",
-  )) as InvestmentFund;
-  investmentFund = investmentFund.connect(user!);
-  const governedInvestmentFund = investmentFund.connect(deployer!);
+  let developmentFund = (await ethers.getContract(
+    "DevelopmentFund",
+  )) as DevelopmentFund;
+  developmentFund = developmentFund.connect(user!);
+  const governedDevelopmentFund = developmentFund.connect(deployer!);
 
   const env = new Environment(
     deployer!,
@@ -154,8 +154,8 @@ export const setupEnvironment = deployments.createFixture(async () => {
     baksDao,
     governedExchangeFund,
     exchangeFund,
-    governedInvestmentFund,
-    investmentFund,
+    governedDevelopmentFund,
+    developmentFund,
     router,
     pair,
     wrappedNativeToken!,

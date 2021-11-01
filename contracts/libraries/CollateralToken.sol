@@ -15,7 +15,7 @@ library CollateralToken {
         uint256 stabilityFee;
         uint256 stabilizationFee;
         uint256 exchangeFee;
-        uint256 investmentFee;
+        uint256 developmentFee;
         uint256 initialLoanToValueRatio;
         uint256 marginCallLoanToValueRatio;
         uint256 liquidationLoanToValueRatio;
@@ -36,7 +36,7 @@ library CollateralToken {
         );
         uint256 stabilizationFee = restOfIssuance.mul(self.stabilizationFee);
         uint256 exchangeFee = restOfIssuance.mul(self.exchangeFee);
-        uint256 investmentFee = restOfIssuance.mul(self.investmentFee);
+        uint256 developmentFee = restOfIssuance.mul(self.developmentFee);
 
         uint256 collateralAmount = principalAmount.div(self.initialLoanToValueRatio.mul(collateralTokenPrice));
         uint256 stabilityFee = self.stabilityFee.mul(principalAmount).div(collateralTokenPrice);
@@ -52,7 +52,7 @@ library CollateralToken {
                 stabilityFee: stabilityFee,
                 stabilizationFee: stabilizationFee,
                 exchangeFee: exchangeFee,
-                investmentFee: investmentFee,
+                developmentFee: developmentFee,
                 principalAmount: principalAmount,
                 collateralAmount: collateralAmount,
                 lastDepositAt: block.timestamp,
@@ -73,7 +73,7 @@ library CollateralToken {
         );
         uint256 stabilizationFee = restOfIssuance.mul(self.stabilizationFee);
         uint256 exchangeFee = restOfIssuance.mul(self.exchangeFee);
-        uint256 investmentFee = restOfIssuance.mul(self.investmentFee);
+        uint256 developmentFee = restOfIssuance.mul(self.developmentFee);
 
         uint256 stabilityFee = self.stabilityFee.mul(principalAmount).div(collateralTokenPrice);
 
@@ -88,7 +88,7 @@ library CollateralToken {
                 stabilityFee: stabilityFee,
                 stabilizationFee: stabilizationFee,
                 exchangeFee: exchangeFee,
-                investmentFee: investmentFee,
+                developmentFee: developmentFee,
                 principalAmount: principalAmount,
                 collateralAmount: collateralAmount,
                 lastDepositAt: block.timestamp,

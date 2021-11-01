@@ -33,8 +33,8 @@ describe("BaksDAO", () => {
     expect(await env.baksDao.operator()).to.equal(env.operator.address);
     expect(await env.baksDao.liquidator()).to.equal(env.liquidator.address);
     expect(await env.baksDao.exchangeFund()).to.equal(env.exchangeFund.address);
-    expect(await env.baksDao.investmentFund()).to.equal(
-      env.investmentFund.address,
+    expect(await env.baksDao.developmentFund()).to.equal(
+      env.developmentFund.address,
     );
   });
 
@@ -92,13 +92,13 @@ describe("BaksDAO", () => {
       it("reverts when platform fees sum up to less than one", async () => {
         const newStabilizationFee = percent(33);
         const newExchangeFee = percent(33);
-        const newInvestmentFee = percent(32);
+        const newDevelopmentFee = percent(32);
 
         await expect(
           env.governedBaksDAO.setPlatformFees(
             newStabilizationFee,
             newExchangeFee,
-            newInvestmentFee,
+            newDevelopmentFee,
           ),
         ).to.be.revertedWith(BaksDAOErrors.PlatformFeesDontSumUpToOne);
       });
@@ -106,13 +106,13 @@ describe("BaksDAO", () => {
       it("reverts when platform fees sum up to more than one", async () => {
         const newStabilizationFee = percent(33);
         const newExchangeFee = percent(33);
-        const newInvestmentFee = percent(35);
+        const newDevelopmentFee = percent(35);
 
         await expect(
           env.governedBaksDAO.setPlatformFees(
             newStabilizationFee,
             newExchangeFee,
-            newInvestmentFee,
+            newDevelopmentFee,
           ),
         ).to.be.revertedWith(BaksDAOErrors.PlatformFeesDontSumUpToOne);
       });
@@ -120,17 +120,17 @@ describe("BaksDAO", () => {
       it("updates platform fees", async () => {
         const stabilizationFee = await env.baksDao.stabilizationFee();
         const exchangeFee = await env.baksDao.exchangeFee();
-        const investmentFee = await env.baksDao.investmentFee();
+        const developmentFee = await env.baksDao.developmentFee();
 
         const newStabilizationFee = percent(25);
         const newExchangeFee = percent(50);
-        const newInvestmentFee = percent(25);
+        const newDevelopmentFee = percent(25);
 
         await expect(
           env.governedBaksDAO.setPlatformFees(
             newStabilizationFee,
             newExchangeFee,
-            newInvestmentFee,
+            newDevelopmentFee,
           ),
         )
           .to.emit(env.baksDao, "PlatformFeesUpdated")
@@ -139,15 +139,17 @@ describe("BaksDAO", () => {
             newStabilizationFee,
             exchangeFee,
             newExchangeFee,
-            investmentFee,
-            newInvestmentFee,
+            developmentFee,
+            newDevelopmentFee,
           );
 
         expect(await env.baksDao.stabilizationFee()).to.be.equal(
           newStabilizationFee,
         );
         expect(await env.baksDao.exchangeFee()).to.be.equal(newExchangeFee);
-        expect(await env.baksDao.investmentFee()).to.be.equal(newInvestmentFee);
+        expect(await env.baksDao.developmentFee()).to.be.equal(
+          newDevelopmentFee,
+        );
       });
     });
 
@@ -332,8 +334,8 @@ describe("BaksDAO", () => {
       expect(await env.$.balanceOf(env.exchangeFund.address)).to.be.equal(
         loan.exchangeFee,
       );
-      expect(await env.$.balanceOf(env.investmentFund.address)).to.be.equal(
-        loan.investmentFee,
+      expect(await env.$.balanceOf(env.developmentFund.address)).to.be.equal(
+        loan.developmentFee,
       );
       expect(await env.$.balanceOf(env.user.address)).to.be.equal(
         LOAN_PRINICPAL_AMOUNT,
