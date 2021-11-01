@@ -23,21 +23,23 @@
     "**/cache": false,
     "**/coverage*": false,
     "**/node_modules": false,
-    "**/typechain": false,
+    "**/typings": false,
     "**/LICENSE": false,
-    "**/tsconfig.json": false,
+    "**/tsconfig*": false,
     "**/.sol*": false,
     "**/.*ignore": false,
-    "**/metrics.txt": false,
+    "**/gas-profile-report.txt": false,
     "**/gasReporterOutput.json": false,
-    "**/*.xml": false
+    "**/*.xml": false,
+    "**/Dockerfile": false,
+    "**/*.tsbuildinfo": false
   },
   "search.exclude": {
     "**/node_modules": true,
     "**/deployments": true
   },
   "mochaExplorer.files": "./tests/**/*.ts",
-  "mochaExplorer.require": "@swc/register",
+  "mochaExplorer.require": "@swc-node/register",
   "solidity.packageDefaultDependenciesContractsDirectory": "",
   "solidity.packageDefaultDependenciesDirectory": "./node_modules/",
   "typescript.enablePromptUseWorkspaceTsdk": true,

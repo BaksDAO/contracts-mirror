@@ -9,6 +9,7 @@
 node_modules/
 
 # TypeScript artifacts
+*.tsbuildinfo
 dist/
 
 # Hardhat artifacts
@@ -16,7 +17,21 @@ artifacts/
 cache/
 
 # Typechain artifacts
-typechain/
+src/types/*
+!src/types/common.ts
+!src/types/Baks.ts
+!src/types/BaksDAO.ts
+!src/types/ChainlinkPriceOracle.ts
+!src/types/DevelopmentFund.ts
+!src/types/ExchangeFund.ts
+
+!src/types/factories
+src/types/factories/*
+!src/types/factories/Baks__factory.ts
+!src/types/factories/BaksDAO__factory.ts
+!src/types/factories/ChainlinkPriceOracle__factory.ts
+!src/types/factories/DevelopmentFund__factory.ts
+!src/types/factories/ExchangeFund__factory.ts
 
 # dotenv config file
 .env
@@ -29,7 +44,7 @@ coverage.json
 gasReporterOutput.json
 
 # OpenMetrics report
-metrics.txt
+gas-profile-report.txt
 
 # JUnit report
 test-results.xml

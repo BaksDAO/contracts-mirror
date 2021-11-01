@@ -5,7 +5,9 @@ import chalk from "chalk";
 import dotenv from "dotenv";
 import "hardhat-deploy";
 import "hardhat-gas-reporter";
+import "hardhat-packager";
 import { HardhatUserConfig } from "hardhat/config";
+import isCI from "is-ci";
 import "solidity-coverage";
 import "./tasks";
 
@@ -115,8 +117,15 @@ const config: HardhatUserConfig = {
   paths: {
     tests: "./tests/",
   },
+  mocha: {
+    reporter: isCI ? "mocha-junit-reporter" : "spec",
+    reporterOptions: {
+      jenkinsMode: true,
+    },
+  },
   typechain: {
     target: "ethers-v5",
+    outDir: "./src/types/",
   },
   namedAccounts: {
     deployer: {
@@ -149,6 +158,16 @@ const config: HardhatUserConfig = {
       "bsc-test": "0x2Cf210ad0a8f31D8A7b5742931B9C3ECb663cdB8",
       "bsc-test-2": "0x2Cf210ad0a8f31D8A7b5742931B9C3ECb663cdB8",
     },
+  },
+  packager: {
+    contracts: [
+      "Baks",
+      "BaksDAO",
+      "ChainlinkPriceOracle",
+      "DevelopmentFund",
+      "ExchangeFund",
+    ],
+    includeFactories: true,
   },
 };
 

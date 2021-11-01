@@ -9,7 +9,7 @@ artifacts/
 cache/
 
 # Typechain artifacts
-typechain/
+src/types/
 
 # solidity-coverage artifacts
 coverage/
