@@ -133,7 +133,7 @@ task(TASK_TEST, "Runs mocha tests", async (taskArgs, _hre, runSuper) => {
     }
 
     report.push("# EOF");
-    await outputFile("./metrics.txt", report.join("\n"));
+    await outputFile("./gas-profile-report.txt", report.join("\n"));
   } finally {
     return res;
   }
