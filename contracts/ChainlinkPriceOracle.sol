@@ -1,26 +1,29 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.9;
 
-import "./interfaces/IChainlinkAggregator.sol";
-import "./interfaces/IERC20.sol";
+import "./interfaces/Chainlink.sol";
+import "./interfaces/IPriceOracle.sol";
 import "./libraries/FixedPointMath.sol";
 import {Governed} from "./Governance.sol";
-import "./interfaces/IPriceOracle.sol";
+import {IERC20} from "./interfaces/ERC20.sol";
+import {Initializable} from "./libraries/Upgradability.sol";
 
-contract ChainlinkPriceOracle is Governed, IPriceOracle {
+contract ChainlinkPriceOracle is Initializable, Governed, IPriceOracle {
     using FixedPointMath for uint256;
 
     uint256 internal constant DIRECT_CONVERSION_PATH_SCALE = 1e10;
     uint256 internal constant INTERMEDIATE_CONVERSION_PATH_SCALE = 1e8;
 
-    IERC20 public immutable wrappedNativeCurrency;
+    IERC20 public wrappedNativeCurrency;
 
     mapping(IERC20 => IChainlinkAggregator) public nativeAggregators;
     mapping(IERC20 => IChainlinkAggregator) public usdAggregators;
 
     event AggregatorSet(IERC20 token, IChainlinkAggregator aggregator, bool isQuoteNative);
 
-    constructor(IERC20 _wrappedNativeCurrency) {
+    function initialize(IERC20 _wrappedNativeCurrency) external initializer {
+        setGovernor(msg.sender);
+
         wrappedNativeCurrency = _wrappedNativeCurrency;
     }
 

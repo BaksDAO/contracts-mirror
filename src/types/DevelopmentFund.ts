@@ -28,8 +28,9 @@ export interface DevelopmentFundInterface extends ethers.utils.Interface {
   functions: {
     "acceptGovernance()": FunctionFragment;
     "governor()": FunctionFragment;
+    "initialize()": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
-    "transitGovernance(address)": FunctionFragment;
+    "transitGovernance(address,bool)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -38,12 +39,16 @@ export interface DevelopmentFundInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "initialize",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "pendingGovernor",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "transitGovernance",
-    values: [string]
+    values: [string, boolean]
   ): string;
 
   decodeFunctionResult(
@@ -51,6 +56,7 @@ export interface DevelopmentFundInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "governor", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pendingGovernor",
     data: BytesLike
@@ -120,10 +126,15 @@ export interface DevelopmentFund extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<[string]>;
 
+    initialize(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     pendingGovernor(overrides?: CallOverrides): Promise<[string]>;
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -134,10 +145,15 @@ export interface DevelopmentFund extends BaseContract {
 
   governor(overrides?: CallOverrides): Promise<string>;
 
+  initialize(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   pendingGovernor(overrides?: CallOverrides): Promise<string>;
 
   transitGovernance(
     newGovernor: string,
+    force: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -146,10 +162,13 @@ export interface DevelopmentFund extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<string>;
 
+    initialize(overrides?: CallOverrides): Promise<void>;
+
     pendingGovernor(overrides?: CallOverrides): Promise<string>;
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -181,10 +200,15 @@ export interface DevelopmentFund extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initialize(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     pendingGovernor(overrides?: CallOverrides): Promise<BigNumber>;
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -196,10 +220,15 @@ export interface DevelopmentFund extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    initialize(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     pendingGovernor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

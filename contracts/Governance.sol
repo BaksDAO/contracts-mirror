@@ -20,13 +20,7 @@ abstract contract Governed {
         _;
     }
 
-    constructor() {
-        governor = msg.sender;
-        emit PendingGovernanceTransition(address(0), governor);
-        emit GovernanceTransited(address(0), governor);
-    }
-
-    function transitGovernance(address newGovernor) external onlyGovernor {
+    function transitGovernance(address newGovernor, bool force) external onlyGovernor {
         if (newGovernor == address(0)) {
             revert GovernedGovernorZeroAddress();
         }
@@ -35,7 +29,11 @@ abstract contract Governed {
         }
 
         pendingGovernor = newGovernor;
-        emit PendingGovernanceTransition(governor, newGovernor);
+        if (!force) {
+            emit PendingGovernanceTransition(governor, newGovernor);
+        } else {
+            setGovernor(newGovernor);
+        }
     }
 
     function acceptGovernance() external {
@@ -45,5 +43,10 @@ abstract contract Governed {
 
         governor = pendingGovernor;
         emit GovernanceTransited(governor, pendingGovernor);
+    }
+
+    function setGovernor(address newGovernor) internal {
+        governor = newGovernor;
+        emit GovernanceTransited(governor, newGovernor);
     }
 }

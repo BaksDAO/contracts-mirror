@@ -7,14 +7,6 @@ import "./../interfaces/IWrappedNativeCurrency.sol";
 error WrappedNativeCurrencyLowLevelCallFailed();
 
 contract WrappedNativeCurrency is BaseToken, IWrappedNativeCurrency {
-    constructor(
-        string memory _name,
-        string memory _symbol,
-        uint8 _decimals,
-        string memory _version,
-        address _minter
-    ) BaseToken(_name, _symbol, _decimals, _version, _minter) {}
-
     function deposit() external payable override {
         _mint(msg.sender, msg.value);
     }

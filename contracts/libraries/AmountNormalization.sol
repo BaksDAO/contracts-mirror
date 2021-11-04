@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-import "./../interfaces/IERC20.sol";
+import {IERC20} from "./../interfaces/ERC20.sol";
 
 library AmountNormalization {
     uint8 internal constant DECIMALS = 18;

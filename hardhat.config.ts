@@ -162,7 +162,8 @@ const config: HardhatUserConfig = {
   packager: {
     contracts: [
       "Baks",
-      "BaksDAO",
+      "Bank",
+      "Core",
       "ChainlinkPriceOracle",
       "DevelopmentFund",
       "ExchangeFund",

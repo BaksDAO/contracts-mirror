@@ -1,5 +1,5 @@
 export { Baks } from "./types/Baks";
-export { BaksDAO } from "./types/BaksDAO";
+export { Bank } from "./types/Bank";
 export { ChainlinkPriceOracle } from "./types/ChainlinkPriceOracle";
 export { DevelopmentFund } from "./types/DevelopmentFund";
 export { ExchangeFund } from "./types/ExchangeFund";

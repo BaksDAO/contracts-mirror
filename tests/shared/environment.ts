@@ -1,19 +1,15 @@
+import { Bank } from "!types/Bank";
+import { BaseToken } from "!types/BaseToken";
+import { Core } from "!types/Core";
+import { IPriceOracle as PriceOracle } from "!types/IPriceOracle";
+import { IUniswapV2Factory as UniswapV2Factory } from "!types/IUniswapV2Factory";
+import { IUniswapV2Pair as UniswapV2Pair } from "!types/IUniswapV2Pair";
+import { IUniswapV2Router as UniswapV2Router } from "!types/IUniswapV2Router";
 import { FakeContract, smock } from "@defi-wonderland/smock";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 import { BigNumberish, ContractTransaction } from "ethers";
 import { deployments, ethers } from "hardhat";
-import { version as VERSION } from "./../../package.json";
-import {
-  Baks,
-  BaksDAO,
-  BaseToken,
-  DevelopmentFund,
-  ExchangeFund,
-  IPriceOracle as PriceOracle,
-  IUniswapV2Factory as UniswapV2Factory,
-  IUniswapV2Pair as UniswapV2Pair,
-  IUniswapV2Router as UniswapV2Router,
-} from "./../../typechain";
+import { Baks, DevelopmentFund, ExchangeFund } from "./../../src";
 import {
   COL,
   DEFAULT_INITIAL_LOAN_TO_VALUE_RATIO,
@@ -31,8 +27,8 @@ export class Environment {
     public readonly collateralToken: BaseToken,
     public readonly priceOracle: FakeContract<PriceOracle>,
     public readonly $: Baks,
-    public readonly governedBaksDAO: BaksDAO,
-    public readonly baksDao: BaksDAO,
+    public readonly governedBank: Bank,
+    public readonly bank: Bank,
     public readonly governedExchangeFund: ExchangeFund,
     public readonly exchangeFund: ExchangeFund,
     public readonly governedDevelopmentFund: DevelopmentFund,
@@ -40,6 +36,7 @@ export class Environment {
     public readonly uniswapV2Router: FakeContract<UniswapV2Router>,
     public readonly uniswapV2Pair: FakeContract<UniswapV2Pair>,
     public readonly wrappedNativeCurrency: SignerWithAddress,
+    public readonly core: Core,
   ) {}
 
   public setCollateralPrice(price: BigNumberish): void {
@@ -48,10 +45,10 @@ export class Environment {
 
   public async borrow(amount: BigNumberish): Promise<ContractTransaction> {
     await this.collateralToken.approve(
-      this.baksDao.address,
+      this.bank.address,
       ethers.constants.MaxUint256,
     );
-    return this.baksDao.borrow(this.collateralToken.address, amount);
+    return this.bank.borrow(this.collateralToken.address, amount);
   }
 
   public async deposit(
@@ -59,18 +56,18 @@ export class Environment {
     amount: BigNumberish,
   ): Promise<ContractTransaction> {
     await this.collateralToken.approve(
-      this.baksDao.address,
+      this.bank.address,
       ethers.constants.MaxUint256,
     );
-    return this.baksDao.deposit(loanId, amount);
+    return this.bank.deposit(loanId, amount);
   }
 
   public async repay(
     loanId: number,
     amount: BigNumberish,
   ): Promise<ContractTransaction> {
-    await this.$.approve(this.baksDao.address, ethers.constants.MaxUint256);
-    return this.baksDao.repay(loanId, amount);
+    await this.$.approve(this.bank.address, ethers.constants.MaxUint256);
+    return this.bank.repay(loanId, amount);
   }
 }
 
@@ -94,15 +91,23 @@ export const setupEnvironment = deployments.createFixture(async () => {
   });
 
   let $ = (await ethers.getContract("Baks")) as Baks;
-  let baksDao = (await ethers.getContract("BaksDAO")) as BaksDAO;
+  let bank = (await ethers.getContract("Bank")) as Bank;
+  let core = (await ethers.getContract("Core")) as Core;
 
   $ = $.connect(user!);
-  baksDao = baksDao.connect(user!);
-  const governedBaksDAO = baksDao.connect(deployer!);
+  bank = bank.connect(user!);
+  const governedBank = bank.connect(deployer!);
 
   const { address: colAddress } = await deploy("BaseToken", {
     from: deployer!.address,
-    args: [COL.NAME, COL.SYMBOL, COL.DECIMALS, VERSION, minter!.address],
+    proxy: {
+      execute: {
+        init: {
+          methodName: "initialize",
+          args: [COL.NAME, COL.SYMBOL, COL.DECIMALS, minter!.address],
+        },
+      },
+    },
   });
   let collateralToken = (await ethers.getContractAt(
     "BaseToken",
@@ -150,8 +155,8 @@ export const setupEnvironment = deployments.createFixture(async () => {
     collateralToken,
     priceOracle,
     $,
-    governedBaksDAO,
-    baksDao,
+    governedBank,
+    bank,
     governedExchangeFund,
     exchangeFund,
     governedDevelopmentFund,
@@ -159,13 +164,14 @@ export const setupEnvironment = deployments.createFixture(async () => {
     router,
     pair,
     wrappedNativeToken!,
+    core.connect(deployer!),
   );
 
   await env.collateralToken
     .connect(minter!)
     .mint(user!.address, INITIAL_USER_COL_BALANCE);
 
-  await env.governedBaksDAO.listCollateralToken(
+  await env.governedBank.listCollateralToken(
     collateralToken.address,
     DEFAULT_INITIAL_LOAN_TO_VALUE_RATIO,
   );

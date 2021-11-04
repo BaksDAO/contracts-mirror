@@ -1,6 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
 import { task, types } from "hardhat/config";
-import { BaksDAO } from "./../typechain";
+import { Bank } from "./../src";
 
 task("unlist-collateral-token", "Unlists the collateral token")
   .addParam(
@@ -10,7 +10,7 @@ task("unlist-collateral-token", "Unlists the collateral token")
     types.string,
   )
   .setAction(async ({ tokenAddress }, hre) => {
-    const baksDao = (await hre.ethers.getContract("BaksDAO")) as BaksDAO;
+    const bank = (await hre.ethers.getContract("Bank")) as Bank;
 
-    await baksDao.unlistCollateralToken(tokenAddress);
+    await bank.unlistCollateralToken(tokenAddress);
   });

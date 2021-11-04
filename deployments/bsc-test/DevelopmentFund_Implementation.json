@@ -1,0 +1,205 @@
+{
+  "address": "0x17E83D19fF3b319b8Bf55acE0Cb5e7DeD4779996",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "ContractAlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedCantGoverItself",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedGovernorZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyPendingGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "GovernanceTransited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "PendingGovernanceTransition",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "acceptGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "governor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pendingGovernor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "force",
+          "type": "bool"
+        }
+      ],
+      "name": "transitGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x94b51b8590fb10acc45f42785b47e0f9ee2206033193d94466021b5fa33aacce",
+  "receipt": {
+    "to": null,
+    "from": "0x21309DA9AD64eA82431758B27cbD63E5d53A556c",
+    "contractAddress": "0x17E83D19fF3b319b8Bf55acE0Cb5e7DeD4779996",
+    "transactionIndex": 7,
+    "gasUsed": "254996",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xbc495e11448b24ddc38fca637510604e2bada17a029cb063a142285c871812de",
+    "transactionHash": "0x94b51b8590fb10acc45f42785b47e0f9ee2206033193d94466021b5fa33aacce",
+    "logs": [],
+    "blockNumber": 13812497,
+    "cumulativeGasUsed": "1682824",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "bc61a727c19226a6a876172a110a900c",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"ContractAlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedCantGoverItself\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedGovernorZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyGovernorAllowedToCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyPendingGovernorAllowedToCall\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"PendingGovernanceTransition\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"force\",\"type\":\"bool\"}],\"name\":\"transitGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/DevelopmentFund.sol\":\"DevelopmentFund\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/DevelopmentFund.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.9;\\n\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\nimport {Governed} from \\\"./Governance.sol\\\";\\n\\ncontract DevelopmentFund is Initializable, Governed {\\n    function initialize() external initializer {\\n        setGovernor(msg.sender);\\n    }\\n}\\n\",\"keccak256\":\"0x92cbc747e42261555dc5a4e19e1385a7563046a4622273847fd4b256a4f330cb\",\"license\":\"BUSL-1.1\"},\"contracts/Governance.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.9;\\n\\nerror GovernedOnlyGovernorAllowedToCall();\\nerror GovernedOnlyPendingGovernorAllowedToCall();\\nerror GovernedGovernorZeroAddress();\\nerror GovernedCantGoverItself();\\n\\nabstract contract Governed {\\n    address public governor;\\n    address public pendingGovernor;\\n\\n    event PendingGovernanceTransition(address indexed governor, address indexed newGovernor);\\n    event GovernanceTransited(address indexed governor, address indexed newGovernor);\\n\\n    modifier onlyGovernor() {\\n        if (msg.sender != governor) {\\n            revert GovernedOnlyGovernorAllowedToCall();\\n        }\\n        _;\\n    }\\n\\n    function transitGovernance(address newGovernor, bool force) external onlyGovernor {\\n        if (newGovernor == address(0)) {\\n            revert GovernedGovernorZeroAddress();\\n        }\\n        if (newGovernor == address(this)) {\\n            revert GovernedCantGoverItself();\\n        }\\n\\n        pendingGovernor = newGovernor;\\n        if (!force) {\\n            emit PendingGovernanceTransition(governor, newGovernor);\\n        } else {\\n            setGovernor(newGovernor);\\n        }\\n    }\\n\\n    function acceptGovernance() external {\\n        if (msg.sender != pendingGovernor) {\\n            revert GovernedOnlyPendingGovernorAllowedToCall();\\n        }\\n\\n        governor = pendingGovernor;\\n        emit GovernanceTransited(governor, pendingGovernor);\\n    }\\n\\n    function setGovernor(address newGovernor) internal {\\n        governor = newGovernor;\\n        emit GovernanceTransited(governor, newGovernor);\\n    }\\n}\\n\",\"keccak256\":\"0xe86e94a8fa51fb298c4152828f39bd32ceb0eed75717c70cc519528e7e448875\",\"license\":\"BUSL-1.1\"},\"contracts/libraries/Address.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\nerror CallToNonContract(address target);\\n\\nlibrary Address {\\n    function functionCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.call(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function delegateCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.delegatecall(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function isContract(address account) internal view returns (bool) {\\n        uint256 codeSize;\\n        assembly {\\n            codeSize := extcodesize(account)\\n        }\\n\\n        return codeSize > 0;\\n    }\\n\\n    function verifyCallResult(\\n        bool success,\\n        bytes memory returnData,\\n        string memory errorMessage\\n    ) internal pure returns (bytes memory) {\\n        if (success) {\\n            return returnData;\\n        } else {\\n            if (returnData.length > 0) {\\n                assembly {\\n                    let returnDataSize := mload(returnData)\\n                    revert(add(returnData, 32), returnDataSize)\\n                }\\n            } else {\\n                revert(errorMessage);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x0600a1e06b9ff00c4175ca0f55c0b85cbc9283a101cc0c2a0624c600c456c003\",\"license\":\"MIT\"},\"contracts/libraries/Upgradability.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\nimport \\\"./Address.sol\\\";\\n\\nerror EIP1967ImplementationIsNotContract(address implementation);\\nerror ContractAlreadyInitialized();\\nerror OnlyProxyCallAllowed();\\nerror OnlyCurrentImplementationAllowed();\\n\\nlibrary EIP1967 {\\n    using Address for address;\\n\\n    bytes32 internal constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;\\n\\n    event Upgraded(address indexed newImplementation);\\n\\n    function upgradeTo(address newImplementation) internal {\\n        if (!newImplementation.isContract()) {\\n            revert EIP1967ImplementationIsNotContract(newImplementation);\\n        }\\n\\n        assembly {\\n            sstore(IMPLEMENTATION_SLOT, newImplementation)\\n        }\\n\\n        emit Upgraded(newImplementation);\\n    }\\n\\n    function getImplementation() internal view returns (address implementation) {\\n        assembly {\\n            implementation := sload(IMPLEMENTATION_SLOT)\\n        }\\n    }\\n}\\n\\ncontract Proxy {\\n    using Address for address;\\n\\n    constructor(address implementation, bytes memory data) {\\n        EIP1967.upgradeTo(implementation);\\n        implementation.delegateCall(data, \\\"Proxy: construction failed\\\");\\n    }\\n\\n    receive() external payable {\\n        delegateCall();\\n    }\\n\\n    fallback() external payable {\\n        delegateCall();\\n    }\\n\\n    function delegateCall() internal {\\n        address implementation = EIP1967.getImplementation();\\n\\n        assembly {\\n            calldatacopy(0, 0, calldatasize())\\n\\n            let result := delegatecall(gas(), implementation, 0, calldatasize(), 0, 0)\\n\\n            returndatacopy(0, 0, returndatasize())\\n\\n            switch result\\n            case 0 {\\n                revert(0, returndatasize())\\n            }\\n            default {\\n                return(0, returndatasize())\\n            }\\n        }\\n    }\\n}\\n\\nabstract contract Upgradeable {\\n    address private immutable self = address(this);\\n\\n    modifier onlyProxy() {\\n        if (address(this) == self) {\\n            revert OnlyProxyCallAllowed();\\n        }\\n        if (EIP1967.getImplementation() != self) {\\n            revert OnlyCurrentImplementationAllowed();\\n        }\\n        _;\\n    }\\n\\n    function upgradeTo(address newImplementation) public virtual onlyProxy {\\n        EIP1967.upgradeTo(newImplementation);\\n    }\\n}\\n\\nabstract contract Initializable {\\n    bool private initializing;\\n    bool private initialized;\\n\\n    modifier initializer() {\\n        if (!initializing && initialized) {\\n            revert ContractAlreadyInitialized();\\n        }\\n\\n        bool isTopLevelCall = !initializing;\\n        if (isTopLevelCall) {\\n            initializing = true;\\n            initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x60f5d719243332028141aec4adf396d615df4fc5113fe4e80f21af3af9174d58\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506103a8806100206000396000f3fe608060405234801561001057600080fd5b50600436106100675760003560e01c80638129fc1c116100505780638129fc1c146100ab578063ddc12526146100b3578063e3056a34146100c657600080fd5b80630c340a241461006c578063238efcbc146100a1575b600080fd5b600054610085906201000090046001600160a01b031681565b6040516001600160a01b03909116815260200160405180910390f35b6100a96100d9565b005b6100a961016e565b6100a96100c1366004610351565b6101e0565b600154610085906001600160a01b031681565b6001546001600160a01b031633146101045760405163aec80d4b60e01b815260040160405180910390fd5b60015460008054620100006001600160a01b0393841681810275ffffffffffffffffffffffffffffffffffffffff00001990931692909217808455604051929491900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b60005460ff161580156101885750600054610100900460ff165b156101a657604051631ee1e30360e21b815260040160405180910390fd5b60005460ff161580156101c3576000805461ffff19166101011790555b6101cc336102ea565b80156101dd576000805460ff191690555b50565b6000546201000090046001600160a01b03163314610211576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166102385760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b038216301415610262576040516306b3e95d60e21b815260040160405180910390fd5b600180547fffffffffffffffffffffffff0000000000000000000000000000000000000000166001600160a01b038416179055806102dd57600080546040516001600160a01b03808616936201000090930416917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb191a35050565b6102e6826102ea565b5050565b6000805475ffffffffffffffffffffffffffffffffffffffff00001916620100006001600160a01b0384811682810293909317808555604051939492900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e9190a350565b6000806040838503121561036457600080fd5b82356001600160a01b038116811461037b57600080fd5b91506020830135801515811461039057600080fd5b80915050925092905056fea164736f6c6343000809000a",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100675760003560e01c80638129fc1c116100505780638129fc1c146100ab578063ddc12526146100b3578063e3056a34146100c657600080fd5b80630c340a241461006c578063238efcbc146100a1575b600080fd5b600054610085906201000090046001600160a01b031681565b6040516001600160a01b03909116815260200160405180910390f35b6100a96100d9565b005b6100a961016e565b6100a96100c1366004610351565b6101e0565b600154610085906001600160a01b031681565b6001546001600160a01b031633146101045760405163aec80d4b60e01b815260040160405180910390fd5b60015460008054620100006001600160a01b0393841681810275ffffffffffffffffffffffffffffffffffffffff00001990931692909217808455604051929491900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b60005460ff161580156101885750600054610100900460ff165b156101a657604051631ee1e30360e21b815260040160405180910390fd5b60005460ff161580156101c3576000805461ffff19166101011790555b6101cc336102ea565b80156101dd576000805460ff191690555b50565b6000546201000090046001600160a01b03163314610211576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166102385760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b038216301415610262576040516306b3e95d60e21b815260040160405180910390fd5b600180547fffffffffffffffffffffffff0000000000000000000000000000000000000000166001600160a01b038416179055806102dd57600080546040516001600160a01b03808616936201000090930416917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb191a35050565b6102e6826102ea565b5050565b6000805475ffffffffffffffffffffffffffffffffffffffff00001916620100006001600160a01b0384811682810293909317808555604051939492900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e9190a350565b6000806040838503121561036457600080fd5b82356001600160a01b038116811461037b57600080fd5b91506020830135801515811461039057600080fd5b80915050925092905056fea164736f6c6343000809000a",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5927,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "initializing",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 5929,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "initialized",
+        "offset": 1,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 4117,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "governor",
+        "offset": 2,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 4119,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "pendingGovernor",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      }
+    }
+  }
+}

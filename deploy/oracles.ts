@@ -8,23 +8,30 @@ const deploy: DeployFunction = async function ({ deployments, network }) {
   if (network.tags.staging) {
     await deploy("DummyPriceOracle", {
       from: deployer!.address,
-      args: [wrappedNativeToken!.address],
+      proxy: {
+        execute: {
+          init: {
+            methodName: "initialize",
+            args: [wrappedNativeToken!.address],
+          },
+        },
+      },
       log: true,
     });
   } else {
     await deploy("ChainlinkPriceOracle", {
       from: deployer!.address,
-      args: [wrappedNativeToken!.address],
+      proxy: {
+        execute: {
+          init: {
+            methodName: "initialize",
+            args: [wrappedNativeToken!.address],
+          },
+        },
+      },
       log: true,
     });
   }
-  /*
-  await deploy("ChainlinkPriceOracle", {
-    from: deployer!.address,
-    args: [wrappedNativeToken!.address],
-    log: true,
-  });
-  */
 };
 deploy.tags = ["PriceOracle"];
 

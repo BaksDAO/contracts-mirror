@@ -1,7 +1,7 @@
 import { parseFixed } from "@ethersproject/bignumber";
 import "@nomiclabs/hardhat-ethers";
 import { task, types } from "hardhat/config";
-import { BaksDAO, ChainlinkPriceOracle, ExchangeFund } from "./../typechain";
+import { Bank, ChainlinkPriceOracle, ExchangeFund } from "./../src";
 
 task("list-collateral-token", "Lists the collateral token")
   .addParam(
@@ -46,7 +46,7 @@ task("list-collateral-token", "Lists the collateral token")
       },
       hre,
     ) => {
-      const baksDao = (await hre.ethers.getContract("BaksDAO")) as BaksDAO;
+      const bank = (await hre.ethers.getContract("Bank")) as Bank;
 
       const ltv = parseFixed(initialLoanToValueRatio.toString(), 18);
 
@@ -60,7 +60,7 @@ task("list-collateral-token", "Lists the collateral token")
           isQuoteNative,
         );
       }
-      await baksDao.listCollateralToken(tokenAddress, ltv);
+      await bank.listCollateralToken(tokenAddress, ltv);
 
       if (createLiquidityPool) {
         const exchangeFund = (await hre.ethers.getContract(

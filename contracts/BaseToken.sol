@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.9;
 
-import {IMintableAndBurnableERC20} from "./interfaces/IERC20.sol";
 import "./interfaces/IEIP2612.sol";
+import {Governed} from "./Governance.sol";
+import {IMintableAndBurnableERC20} from "./interfaces/ERC20.sol";
+import {Initializable} from "./libraries/Upgradability.sol";
 
 error ApproveFromZeroAddress(address spender, uint256 amount);
 error ApproveToZeroAddress(address owner, uint256 amount);
@@ -23,7 +25,7 @@ error OnlyMinterAllowed();
 error EIP2612PermissionExpired(uint256 deadline);
 error EIP2612InvalidSignature(address owner, address signer);
 
-contract BaseToken is IMintableAndBurnableERC20, IEIP2612 {
+contract BaseToken is Initializable, Governed, IMintableAndBurnableERC20, IEIP2612 {
     bytes32 private constant EIP_712_DOMAIN_TYPE_HASH =
         keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
     bytes32 private constant PERMIT_TYPE_HASH =
@@ -34,15 +36,17 @@ contract BaseToken is IMintableAndBurnableERC20, IEIP2612 {
     uint8 public override decimals;
     string public version;
 
+    address public minter;
+
     uint256 public override totalSupply;
     mapping(address => uint256) public override balanceOf;
     mapping(address => mapping(address => uint256)) public override allowance;
 
-    address public minter;
-
     // solhint-disable-next-line var-name-mixedcase
-    bytes32 public immutable override DOMAIN_SEPARATOR;
+    bytes32 public override DOMAIN_SEPARATOR;
     mapping(address => uint256) public override nonces;
+
+    event MinterChanged(address indexed minter, address indexed newMinter);
 
     modifier onlyMinter() {
         if (msg.sender != minter) {
@@ -51,13 +55,14 @@ contract BaseToken is IMintableAndBurnableERC20, IEIP2612 {
         _;
     }
 
-    constructor(
+    function initialize(
         string memory _name,
         string memory _symbol,
         uint8 _decimals,
-        string memory _version,
         address _minter
-    ) {
+    ) external initializer {
+        setGovernor(msg.sender);
+
         if (_minter == address(0)) {
             revert MinterZeroAddress();
         }
@@ -67,8 +72,7 @@ contract BaseToken is IMintableAndBurnableERC20, IEIP2612 {
         symbol = _symbol;
         decimals = _decimals;
 
-        version = _version;
-
+        version = "1";
         DOMAIN_SEPARATOR = keccak256(
             abi.encode(
                 EIP_712_DOMAIN_TYPE_HASH,
@@ -142,6 +146,14 @@ contract BaseToken is IMintableAndBurnableERC20, IEIP2612 {
             revert EIP2612InvalidSignature(owner, signer);
         }
         _approve(owner, spender, amount);
+    }
+
+    function setMinter(address newMinter) external onlyGovernor {
+        if (newMinter == address(0)) {
+            revert MinterZeroAddress();
+        }
+        minter = newMinter;
+        emit MinterChanged(minter, newMinter);
     }
 
     function _approve(

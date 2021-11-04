@@ -6,7 +6,14 @@ const deploy: DeployFunction = async function ({ deployments, ethers }) {
 
   await deploy("Baks", {
     from: deployer!.address,
-    args: [minter!.address],
+    proxy: {
+      execute: {
+        init: {
+          methodName: "initialize",
+          args: ["Baks", "BAKS", 18, minter!.address],
+        },
+      },
+    },
     log: true,
   });
 };

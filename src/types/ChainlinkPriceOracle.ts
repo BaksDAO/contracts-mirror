@@ -29,10 +29,11 @@ export interface ChainlinkPriceOracleInterface extends ethers.utils.Interface {
     "acceptGovernance()": FunctionFragment;
     "getNormalizedPrice(address)": FunctionFragment;
     "governor()": FunctionFragment;
+    "initialize(address)": FunctionFragment;
     "nativeAggregators(address)": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
     "setAggregator(address,address,bool)": FunctionFragment;
-    "transitGovernance(address)": FunctionFragment;
+    "transitGovernance(address,bool)": FunctionFragment;
     "usdAggregators(address)": FunctionFragment;
     "wrappedNativeCurrency()": FunctionFragment;
   };
@@ -46,6 +47,7 @@ export interface ChainlinkPriceOracleInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
+  encodeFunctionData(functionFragment: "initialize", values: [string]): string;
   encodeFunctionData(
     functionFragment: "nativeAggregators",
     values: [string]
@@ -60,7 +62,7 @@ export interface ChainlinkPriceOracleInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "transitGovernance",
-    values: [string]
+    values: [string, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "usdAggregators",
@@ -80,6 +82,7 @@ export interface ChainlinkPriceOracleInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "governor", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "nativeAggregators",
     data: BytesLike
@@ -179,6 +182,11 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<[string]>;
 
+    initialize(
+      _wrappedNativeCurrency: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     nativeAggregators(
       arg0: string,
       overrides?: CallOverrides
@@ -195,6 +203,7 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -214,6 +223,11 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
   governor(overrides?: CallOverrides): Promise<string>;
 
+  initialize(
+    _wrappedNativeCurrency: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   nativeAggregators(arg0: string, overrides?: CallOverrides): Promise<string>;
 
   pendingGovernor(overrides?: CallOverrides): Promise<string>;
@@ -227,6 +241,7 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
   transitGovernance(
     newGovernor: string,
+    force: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -244,6 +259,11 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<string>;
 
+    initialize(
+      _wrappedNativeCurrency: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     nativeAggregators(arg0: string, overrides?: CallOverrides): Promise<string>;
 
     pendingGovernor(overrides?: CallOverrides): Promise<string>;
@@ -257,6 +277,7 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -308,6 +329,11 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initialize(
+      _wrappedNativeCurrency: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     nativeAggregators(
       arg0: string,
       overrides?: CallOverrides
@@ -324,6 +350,7 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -344,6 +371,11 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    initialize(
+      _wrappedNativeCurrency: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     nativeAggregators(
       arg0: string,
       overrides?: CallOverrides
@@ -360,6 +392,7 @@ export interface ChainlinkPriceOracle extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
