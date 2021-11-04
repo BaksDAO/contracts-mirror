@@ -33,14 +33,18 @@ export interface CoreInterface extends ethers.utils.Interface {
     "initialize()": FunctionFragment;
     "liquidationLoanToValueRatio()": FunctionFragment;
     "marginCallLoanToValueRatio()": FunctionFragment;
+    "minimumLiquidity()": FunctionFragment;
     "minimumPrincipalAmount()": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
     "rebalancingThreshold()": FunctionFragment;
+    "servicingThreshold()": FunctionFragment;
     "setLiquidationLoanToValueRatio(uint256)": FunctionFragment;
     "setMarginCallLoanToValueRatio(uint256)": FunctionFragment;
+    "setMinimumLiquidity(uint256)": FunctionFragment;
     "setMinimumPrincipalAmount(uint256)": FunctionFragment;
     "setPlatformFees(uint256,uint256,uint256)": FunctionFragment;
     "setRebalancingThreshold(uint256)": FunctionFragment;
+    "setServicingThreshold(uint256)": FunctionFragment;
     "setStabilityFee(uint256)": FunctionFragment;
     "stabilityFee()": FunctionFragment;
     "stabilizationFee()": FunctionFragment;
@@ -73,6 +77,10 @@ export interface CoreInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "minimumLiquidity",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "minimumPrincipalAmount",
     values?: undefined
   ): string;
@@ -85,11 +93,19 @@ export interface CoreInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "servicingThreshold",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "setLiquidationLoanToValueRatio",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setMarginCallLoanToValueRatio",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMinimumLiquidity",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -102,6 +118,10 @@ export interface CoreInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setRebalancingThreshold",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setServicingThreshold",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -144,6 +164,10 @@ export interface CoreInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "minimumLiquidity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "minimumPrincipalAmount",
     data: BytesLike
   ): Result;
@@ -156,11 +180,19 @@ export interface CoreInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "servicingThreshold",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setLiquidationLoanToValueRatio",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setMarginCallLoanToValueRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumLiquidity",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -173,6 +205,10 @@ export interface CoreInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setRebalancingThreshold",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setServicingThreshold",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -196,10 +232,12 @@ export interface CoreInterface extends ethers.utils.Interface {
     "GovernanceTransited(address,address)": EventFragment;
     "LiquidationLoanToValueRatioUpdated(uint256,uint256)": EventFragment;
     "MarginCallLoanToValueRatioUpdated(uint256,uint256)": EventFragment;
+    "MinimumLiquidityUpdated(uint256,uint256)": EventFragment;
     "MinimumPrincipalAmountUpdated(uint256,uint256)": EventFragment;
     "PendingGovernanceTransition(address,address)": EventFragment;
     "PlatformFeesUpdated(uint256,uint256,uint256,uint256,uint256,uint256)": EventFragment;
     "RebalancingThresholdUpdated(uint256,uint256)": EventFragment;
+    "ServicingThresholdUpdated(uint256,uint256)": EventFragment;
     "StabilityFeeUpdated(uint256,uint256)": EventFragment;
   };
 
@@ -210,6 +248,7 @@ export interface CoreInterface extends ethers.utils.Interface {
   getEvent(
     nameOrSignatureOrTopic: "MarginCallLoanToValueRatioUpdated"
   ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MinimumLiquidityUpdated"): EventFragment;
   getEvent(
     nameOrSignatureOrTopic: "MinimumPrincipalAmountUpdated"
   ): EventFragment;
@@ -220,6 +259,7 @@ export interface CoreInterface extends ethers.utils.Interface {
   getEvent(
     nameOrSignatureOrTopic: "RebalancingThresholdUpdated"
   ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ServicingThresholdUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "StabilityFeeUpdated"): EventFragment;
 }
 
@@ -252,6 +292,14 @@ export type MarginCallLoanToValueRatioUpdatedEvent = TypedEvent<
 
 export type MarginCallLoanToValueRatioUpdatedEventFilter =
   TypedEventFilter<MarginCallLoanToValueRatioUpdatedEvent>;
+
+export type MinimumLiquidityUpdatedEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  { minimumLiquidity: BigNumber; newMinimumLiquidity: BigNumber }
+>;
+
+export type MinimumLiquidityUpdatedEventFilter =
+  TypedEventFilter<MinimumLiquidityUpdatedEvent>;
 
 export type MinimumPrincipalAmountUpdatedEvent = TypedEvent<
   [BigNumber, BigNumber],
@@ -291,6 +339,14 @@ export type RebalancingThresholdUpdatedEvent = TypedEvent<
 
 export type RebalancingThresholdUpdatedEventFilter =
   TypedEventFilter<RebalancingThresholdUpdatedEvent>;
+
+export type ServicingThresholdUpdatedEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  { servicingThreshold: BigNumber; newServicingThreshold: BigNumber }
+>;
+
+export type ServicingThresholdUpdatedEventFilter =
+  TypedEventFilter<ServicingThresholdUpdatedEvent>;
 
 export type StabilityFeeUpdatedEvent = TypedEvent<
   [BigNumber, BigNumber],
@@ -347,11 +403,15 @@ export interface Core extends BaseContract {
 
     marginCallLoanToValueRatio(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    minimumLiquidity(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     minimumPrincipalAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     pendingGovernor(overrides?: CallOverrides): Promise<[string]>;
 
     rebalancingThreshold(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    servicingThreshold(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     setLiquidationLoanToValueRatio(
       newLiquidationLoanToValueRatio: BigNumberish,
@@ -360,6 +420,11 @@ export interface Core extends BaseContract {
 
     setMarginCallLoanToValueRatio(
       newMarginCallLoanToValueRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setMinimumLiquidity(
+      newMinimumLiquidity: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -377,6 +442,11 @@ export interface Core extends BaseContract {
 
     setRebalancingThreshold(
       newRebalancingThreshold: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setServicingThreshold(
+      newServicingThreshold: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -414,11 +484,15 @@ export interface Core extends BaseContract {
 
   marginCallLoanToValueRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+  minimumLiquidity(overrides?: CallOverrides): Promise<BigNumber>;
+
   minimumPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   pendingGovernor(overrides?: CallOverrides): Promise<string>;
 
   rebalancingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+
+  servicingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
   setLiquidationLoanToValueRatio(
     newLiquidationLoanToValueRatio: BigNumberish,
@@ -427,6 +501,11 @@ export interface Core extends BaseContract {
 
   setMarginCallLoanToValueRatio(
     newMarginCallLoanToValueRatio: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setMinimumLiquidity(
+    newMinimumLiquidity: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -444,6 +523,11 @@ export interface Core extends BaseContract {
 
   setRebalancingThreshold(
     newRebalancingThreshold: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setServicingThreshold(
+    newServicingThreshold: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -477,11 +561,15 @@ export interface Core extends BaseContract {
 
     marginCallLoanToValueRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+    minimumLiquidity(overrides?: CallOverrides): Promise<BigNumber>;
+
     minimumPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     pendingGovernor(overrides?: CallOverrides): Promise<string>;
 
     rebalancingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+
+    servicingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
     setLiquidationLoanToValueRatio(
       newLiquidationLoanToValueRatio: BigNumberish,
@@ -490,6 +578,11 @@ export interface Core extends BaseContract {
 
     setMarginCallLoanToValueRatio(
       newMarginCallLoanToValueRatio: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMinimumLiquidity(
+      newMinimumLiquidity: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -507,6 +600,11 @@ export interface Core extends BaseContract {
 
     setRebalancingThreshold(
       newRebalancingThreshold: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setServicingThreshold(
+      newServicingThreshold: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -554,6 +652,15 @@ export interface Core extends BaseContract {
       newMarginCallLoanToValueRatio?: null
     ): MarginCallLoanToValueRatioUpdatedEventFilter;
 
+    "MinimumLiquidityUpdated(uint256,uint256)"(
+      minimumLiquidity?: null,
+      newMinimumLiquidity?: null
+    ): MinimumLiquidityUpdatedEventFilter;
+    MinimumLiquidityUpdated(
+      minimumLiquidity?: null,
+      newMinimumLiquidity?: null
+    ): MinimumLiquidityUpdatedEventFilter;
+
     "MinimumPrincipalAmountUpdated(uint256,uint256)"(
       minimumPrincipalAmount?: null,
       newMinimumPrincipalAmount?: null
@@ -598,6 +705,15 @@ export interface Core extends BaseContract {
       newRebalancingThreshold?: null
     ): RebalancingThresholdUpdatedEventFilter;
 
+    "ServicingThresholdUpdated(uint256,uint256)"(
+      servicingThreshold?: null,
+      newServicingThreshold?: null
+    ): ServicingThresholdUpdatedEventFilter;
+    ServicingThresholdUpdated(
+      servicingThreshold?: null,
+      newServicingThreshold?: null
+    ): ServicingThresholdUpdatedEventFilter;
+
     "StabilityFeeUpdated(uint256,uint256)"(
       stabilityFee?: null,
       newStabilityFee?: null
@@ -627,11 +743,15 @@ export interface Core extends BaseContract {
 
     marginCallLoanToValueRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+    minimumLiquidity(overrides?: CallOverrides): Promise<BigNumber>;
+
     minimumPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     pendingGovernor(overrides?: CallOverrides): Promise<BigNumber>;
 
     rebalancingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+
+    servicingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
     setLiquidationLoanToValueRatio(
       newLiquidationLoanToValueRatio: BigNumberish,
@@ -640,6 +760,11 @@ export interface Core extends BaseContract {
 
     setMarginCallLoanToValueRatio(
       newMarginCallLoanToValueRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setMinimumLiquidity(
+      newMinimumLiquidity: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -657,6 +782,11 @@ export interface Core extends BaseContract {
 
     setRebalancingThreshold(
       newRebalancingThreshold: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setServicingThreshold(
+      newServicingThreshold: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -699,6 +829,8 @@ export interface Core extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    minimumLiquidity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     minimumPrincipalAmount(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -709,6 +841,10 @@ export interface Core extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    servicingThreshold(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     setLiquidationLoanToValueRatio(
       newLiquidationLoanToValueRatio: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -716,6 +852,11 @@ export interface Core extends BaseContract {
 
     setMarginCallLoanToValueRatio(
       newMarginCallLoanToValueRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumLiquidity(
+      newMinimumLiquidity: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -733,6 +874,11 @@ export interface Core extends BaseContract {
 
     setRebalancingThreshold(
       newRebalancingThreshold: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setServicingThreshold(
+      newServicingThreshold: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

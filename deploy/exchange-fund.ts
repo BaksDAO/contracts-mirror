@@ -10,6 +10,7 @@ const deploy: DeployFunction = async function ({
     await ethers.getNamedSigners();
 
   const $ = await deployments.get("Baks");
+  const core = await deployments.get("Core");
   const priceOracle = network.tags.staging
     ? await deployments.get("DummyPriceOracle")
     : await deployments.get("ChainlinkPriceOracle");
@@ -22,6 +23,7 @@ const deploy: DeployFunction = async function ({
           methodName: "initialize",
           args: [
             wrappedNativeToken!.address,
+            core.address,
             $.address,
             priceOracle.address,
             uniswapV2Router!.address,

@@ -27,21 +27,22 @@ import type {
 export interface ExchangeFundInterface extends ethers.utils.Interface {
   functions: {
     "acceptGovernance()": FunctionFragment;
+    "core()": FunctionFragment;
     "deposit(address,uint256)": FunctionFragment;
     "depositableTokens(address)": FunctionFragment;
     "deposits(address,address)": FunctionFragment;
     "divest(address,uint256)": FunctionFragment;
     "getDepositableTokens()": FunctionFragment;
     "governor()": FunctionFragment;
-    "initialize(address,address,address,address,address)": FunctionFragment;
+    "initialize(address,address,address,address,address,address)": FunctionFragment;
     "invest(address,uint256)": FunctionFragment;
     "liquidity(address,address)": FunctionFragment;
     "listDepositableToken(address)": FunctionFragment;
     "operator()": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
     "priceOracle()": FunctionFragment;
-    "quote(address,uint256)": FunctionFragment;
     "salvage(address)": FunctionFragment;
+    "service(address)": FunctionFragment;
     "setSlippageTolerance(uint256)": FunctionFragment;
     "setSwapDeadline(uint256)": FunctionFragment;
     "slippageTolerance()": FunctionFragment;
@@ -59,6 +60,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     functionFragment: "acceptGovernance",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "core", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "deposit",
     values: [string, BigNumberish]
@@ -82,7 +84,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string, string, string, string]
+    values: [string, string, string, string, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "invest",
@@ -105,11 +107,8 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     functionFragment: "priceOracle",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "quote",
-    values: [string, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "salvage", values: [string]): string;
+  encodeFunctionData(functionFragment: "service", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setSlippageTolerance",
     values: [BigNumberish]
@@ -159,6 +158,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     functionFragment: "acceptGovernance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "core", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "depositableTokens",
@@ -187,8 +187,8 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     functionFragment: "priceOracle",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "quote", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "salvage", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "service", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setSlippageTolerance",
     data: BytesLike
@@ -233,6 +233,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     "GovernanceTransited(address,address)": EventFragment;
     "Invest(address,address,uint256)": EventFragment;
     "PendingGovernanceTransition(address,address)": EventFragment;
+    "Service(address,address)": EventFragment;
     "SlippageToleranceUpdated(uint256,uint256)": EventFragment;
     "Swap(address,address,address,uint256,uint256)": EventFragment;
     "SwapDeadlineUpdated(uint256,uint256)": EventFragment;
@@ -248,6 +249,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
   getEvent(
     nameOrSignatureOrTopic: "PendingGovernanceTransition"
   ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Service"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "SlippageToleranceUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Swap"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "SwapDeadlineUpdated"): EventFragment;
@@ -306,6 +308,13 @@ export type PendingGovernanceTransitionEvent = TypedEvent<
 
 export type PendingGovernanceTransitionEventFilter =
   TypedEventFilter<PendingGovernanceTransitionEvent>;
+
+export type ServiceEvent = TypedEvent<
+  [string, string],
+  { account: string; token: string }
+>;
+
+export type ServiceEventFilter = TypedEventFilter<ServiceEvent>;
 
 export type SlippageToleranceUpdatedEvent = TypedEvent<
   [BigNumber, BigNumber],
@@ -374,6 +383,8 @@ export interface ExchangeFund extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    core(overrides?: CallOverrides): Promise<[string]>;
+
     deposit(
       token: string,
       amount: BigNumberish,
@@ -405,6 +416,7 @@ export interface ExchangeFund extends BaseContract {
 
     initialize(
       _wrappedNativeCurrency: string,
+      _core: string,
       _stablecoin: string,
       _priceOracle: string,
       _uniswapV2Router: string,
@@ -435,13 +447,12 @@ export interface ExchangeFund extends BaseContract {
 
     priceOracle(overrides?: CallOverrides): Promise<[string]>;
 
-    quote(
-      token: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { stablecoinAmount: BigNumber }>;
-
     salvage(
+      token: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    service(
       token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -496,6 +507,8 @@ export interface ExchangeFund extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  core(overrides?: CallOverrides): Promise<string>;
+
   deposit(
     token: string,
     amount: BigNumberish,
@@ -522,6 +535,7 @@ export interface ExchangeFund extends BaseContract {
 
   initialize(
     _wrappedNativeCurrency: string,
+    _core: string,
     _stablecoin: string,
     _priceOracle: string,
     _uniswapV2Router: string,
@@ -552,13 +566,12 @@ export interface ExchangeFund extends BaseContract {
 
   priceOracle(overrides?: CallOverrides): Promise<string>;
 
-  quote(
-    token: string,
-    amount: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   salvage(
+    token: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  service(
     token: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -611,6 +624,8 @@ export interface ExchangeFund extends BaseContract {
   callStatic: {
     acceptGovernance(overrides?: CallOverrides): Promise<void>;
 
+    core(overrides?: CallOverrides): Promise<string>;
+
     deposit(
       token: string,
       amount: BigNumberish,
@@ -640,6 +655,7 @@ export interface ExchangeFund extends BaseContract {
 
     initialize(
       _wrappedNativeCurrency: string,
+      _core: string,
       _stablecoin: string,
       _priceOracle: string,
       _uniswapV2Router: string,
@@ -670,13 +686,9 @@ export interface ExchangeFund extends BaseContract {
 
     priceOracle(overrides?: CallOverrides): Promise<string>;
 
-    quote(
-      token: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     salvage(token: string, overrides?: CallOverrides): Promise<void>;
+
+    service(token: string, overrides?: CallOverrides): Promise<void>;
 
     setSlippageTolerance(
       newSlippageTolerance: BigNumberish,
@@ -792,6 +804,12 @@ export interface ExchangeFund extends BaseContract {
       newGovernor?: string | null
     ): PendingGovernanceTransitionEventFilter;
 
+    "Service(address,address)"(
+      account?: string | null,
+      token?: string | null
+    ): ServiceEventFilter;
+    Service(account?: string | null, token?: string | null): ServiceEventFilter;
+
     "SlippageToleranceUpdated(uint256,uint256)"(
       slippageTolerance?: null,
       newSlippageTolerance?: null
@@ -842,6 +860,8 @@ export interface ExchangeFund extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    core(overrides?: CallOverrides): Promise<BigNumber>;
+
     deposit(
       token: string,
       amount: BigNumberish,
@@ -871,6 +891,7 @@ export interface ExchangeFund extends BaseContract {
 
     initialize(
       _wrappedNativeCurrency: string,
+      _core: string,
       _stablecoin: string,
       _priceOracle: string,
       _uniswapV2Router: string,
@@ -901,13 +922,12 @@ export interface ExchangeFund extends BaseContract {
 
     priceOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
-    quote(
+    salvage(
       token: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    salvage(
+    service(
       token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -963,6 +983,8 @@ export interface ExchangeFund extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    core(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     deposit(
       token: string,
       amount: BigNumberish,
@@ -994,6 +1016,7 @@ export interface ExchangeFund extends BaseContract {
 
     initialize(
       _wrappedNativeCurrency: string,
+      _core: string,
       _stablecoin: string,
       _priceOracle: string,
       _uniswapV2Router: string,
@@ -1024,13 +1047,12 @@ export interface ExchangeFund extends BaseContract {
 
     priceOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    quote(
+    salvage(
       token: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    salvage(
+    service(
       token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
