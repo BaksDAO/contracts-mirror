@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import { version as VERSION } from "../package.json";
 import { COL, INITIAL_USER_COL_BALANCE } from "./shared/constants";
 import { Environment, setupEnvironment } from "./shared/environment";
 
@@ -28,11 +27,6 @@ describe("Base Token", () => {
     it("returns the correct number of decimals", async () => {
       const decimals = await env.collateralToken.decimals();
       expect(decimals).to.equal(COL.DECIMALS);
-    });
-
-    it("returns the correct version", async () => {
-      const version = await env.collateralToken.version();
-      expect(version).to.equal(VERSION);
     });
   });
 

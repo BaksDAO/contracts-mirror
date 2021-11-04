@@ -7,7 +7,8 @@ import "./libraries/FixedPointMath.sol";
 import "./libraries/ReentrancyGuard.sol";
 import "./libraries/SafeERC20.sol";
 import {Governed} from "./Governance.sol";
-import {IERC20} from "./interfaces/IERC20.sol";
+import {Initializable} from "./libraries/Upgradability.sol";
+import {IERC20} from "./interfaces/ERC20.sol";
 import {IPriceOracle} from "./interfaces/IPriceOracle.sol";
 import {IUniswapV2Factory, IUniswapV2Router, IUniswapV2Pair} from "./interfaces/UniswapV2.sol";
 
@@ -49,7 +50,7 @@ error ExchangeFundSameTokenSwap(IERC20 token);
 /// @param token The address of the token contract.
 error ExchangeFundTokenNotAllowedToBeSwapped(IERC20 token);
 
-contract ExchangeFund is Governed, ReentrancyGuard {
+contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
     using AmountNormalization for IERC20;
     using EnumerableAddressSet for EnumerableAddressSet.Set;
     using FixedPointMath for uint256;
@@ -58,16 +59,16 @@ contract ExchangeFund is Governed, ReentrancyGuard {
     uint256 internal constant ONE = 100e16;
     uint8 internal constant DECIMALS = 18;
 
-    IERC20 public immutable wrappedNativeCurrency;
+    IERC20 public wrappedNativeCurrency;
 
-    IERC20 public immutable stablecoin;
-    IPriceOracle public immutable priceOracle;
-    IUniswapV2Router public immutable uniswapV2Router;
+    IERC20 public stablecoin;
+    IPriceOracle public priceOracle;
+    IUniswapV2Router public uniswapV2Router;
 
-    address public immutable operator;
+    address public operator;
 
-    uint256 public slippageTolerance = 5e15; // 0.5 %
-    uint256 public swapDeadline = 20 minutes;
+    uint256 public slippageTolerance;
+    uint256 public swapDeadline;
 
     mapping(address => mapping(IERC20 => uint256)) public deposits;
     mapping(address => mapping(IERC20 => uint256)) public liquidity;
@@ -101,19 +102,24 @@ contract ExchangeFund is Governed, ReentrancyGuard {
         _;
     }
 
-    constructor(
+    function initialize(
         IERC20 _wrappedNativeCurrency,
         IERC20 _stablecoin,
         IPriceOracle _priceOracle,
         IUniswapV2Router _uniswapV2Router,
         address _operator
-    ) {
+    ) external initializer {
+        setGovernor(msg.sender);
+
         wrappedNativeCurrency = _wrappedNativeCurrency;
 
         stablecoin = _stablecoin;
         priceOracle = _priceOracle;
         uniswapV2Router = _uniswapV2Router;
         operator = _operator;
+
+        slippageTolerance = 5e15; // 0.5 %
+        swapDeadline = 20 minutes;
 
         _stablecoin.approve(address(_uniswapV2Router), type(uint256).max);
     }
@@ -142,11 +148,11 @@ contract ExchangeFund is Governed, ReentrancyGuard {
             revert ExchangeFundSameTokenSwap(tokenA);
         }
 
-        address[] memory path = new address[](useWrappedNativeCurrencyAsIntermediateToken ? 3 : 2);
-        path[0] = address(tokenA);
-        path[1] = useWrappedNativeCurrencyAsIntermediateToken ? address(wrappedNativeCurrency) : address(tokenB);
+        IERC20[] memory path = new IERC20[](useWrappedNativeCurrencyAsIntermediateToken ? 3 : 2);
+        path[0] = tokenA;
+        path[1] = useWrappedNativeCurrencyAsIntermediateToken ? wrappedNativeCurrency : tokenB;
         if (useWrappedNativeCurrencyAsIntermediateToken) {
-            path[2] = address(tokenB);
+            path[2] = tokenB;
         }
 
         uint256[] memory amounts = uniswapV2Router.getAmountsOut(amount, path);

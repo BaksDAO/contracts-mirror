@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./FixedPointMath.sol";
 import "./Loan.sol";
-import {IERC20} from "./../interfaces/IERC20.sol";
+import {IERC20} from "./../interfaces/ERC20.sol";
 import {IPriceOracle} from "./../interfaces/IPriceOracle.sol";
 
 library CollateralToken {
@@ -25,7 +25,7 @@ library CollateralToken {
     uint256 internal constant ONE = 100e16;
 
     function calculateLoanByPrincipalAmount(Data memory self, uint256 principalAmount)
-        public
+        internal
         view
         returns (Loan.Data memory)
     {
@@ -61,7 +61,7 @@ library CollateralToken {
     }
 
     function calculateLoanByCollateralAmount(Data memory self, uint256 collateralAmount)
-        public
+        internal
         view
         returns (Loan.Data memory)
     {
@@ -97,7 +97,7 @@ library CollateralToken {
     }
 
     function calculateLoanBySecurityAmount(Data memory self, uint256 securityAmount)
-        public
+        internal
         view
         returns (Loan.Data memory)
     {

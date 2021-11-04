@@ -2,7 +2,7 @@
 pragma solidity 0.8.9;
 
 import "./FixedPointMath.sol";
-import {IERC20} from "./../interfaces/IERC20.sol";
+import {IERC20} from "./../interfaces/ERC20.sol";
 import {IPriceOracle} from "./../interfaces/IPriceOracle.sol";
 
 library Loan {

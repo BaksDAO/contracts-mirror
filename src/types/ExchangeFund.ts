@@ -33,6 +33,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     "divest(address,uint256)": FunctionFragment;
     "getDepositableTokens()": FunctionFragment;
     "governor()": FunctionFragment;
+    "initialize(address,address,address,address,address)": FunctionFragment;
     "invest(address,uint256)": FunctionFragment;
     "liquidity(address,address)": FunctionFragment;
     "listDepositableToken(address)": FunctionFragment;
@@ -47,7 +48,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     "stablecoin()": FunctionFragment;
     "swap(address,address,uint256,bool)": FunctionFragment;
     "swapDeadline()": FunctionFragment;
-    "transitGovernance(address)": FunctionFragment;
+    "transitGovernance(address,bool)": FunctionFragment;
     "uniswapV2Router()": FunctionFragment;
     "unlistDepositableToken(address)": FunctionFragment;
     "withdraw(address,uint256)": FunctionFragment;
@@ -79,6 +80,10 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string, string, string, string]
+  ): string;
   encodeFunctionData(
     functionFragment: "invest",
     values: [string, BigNumberish]
@@ -131,7 +136,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "transitGovernance",
-    values: [string]
+    values: [string, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "uniswapV2Router",
@@ -166,6 +171,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "governor", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "invest", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "liquidity", data: BytesLike): Result;
   decodeFunctionResult(
@@ -397,6 +403,15 @@ export interface ExchangeFund extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<[string]>;
 
+    initialize(
+      _wrappedNativeCurrency: string,
+      _stablecoin: string,
+      _priceOracle: string,
+      _uniswapV2Router: string,
+      _operator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     invest(
       token: string,
       amount: BigNumberish,
@@ -457,6 +472,7 @@ export interface ExchangeFund extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -503,6 +519,15 @@ export interface ExchangeFund extends BaseContract {
   getDepositableTokens(overrides?: CallOverrides): Promise<string[]>;
 
   governor(overrides?: CallOverrides): Promise<string>;
+
+  initialize(
+    _wrappedNativeCurrency: string,
+    _stablecoin: string,
+    _priceOracle: string,
+    _uniswapV2Router: string,
+    _operator: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   invest(
     token: string,
@@ -564,6 +589,7 @@ export interface ExchangeFund extends BaseContract {
 
   transitGovernance(
     newGovernor: string,
+    force: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -611,6 +637,15 @@ export interface ExchangeFund extends BaseContract {
     getDepositableTokens(overrides?: CallOverrides): Promise<string[]>;
 
     governor(overrides?: CallOverrides): Promise<string>;
+
+    initialize(
+      _wrappedNativeCurrency: string,
+      _stablecoin: string,
+      _priceOracle: string,
+      _uniswapV2Router: string,
+      _operator: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     invest(
       token: string,
@@ -669,6 +704,7 @@ export interface ExchangeFund extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -833,6 +869,15 @@ export interface ExchangeFund extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initialize(
+      _wrappedNativeCurrency: string,
+      _stablecoin: string,
+      _priceOracle: string,
+      _uniswapV2Router: string,
+      _operator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     invest(
       token: string,
       amount: BigNumberish,
@@ -893,6 +938,7 @@ export interface ExchangeFund extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -945,6 +991,15 @@ export interface ExchangeFund extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     governor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    initialize(
+      _wrappedNativeCurrency: string,
+      _stablecoin: string,
+      _priceOracle: string,
+      _uniswapV2Router: string,
+      _operator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     invest(
       token: string,
@@ -1006,6 +1061,7 @@ export interface ExchangeFund extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

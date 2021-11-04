@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-import "./../interfaces/IERC20.sol";
+import {IERC20} from "./../interfaces/ERC20.sol";
 import "./Address.sol";
 
 error SafeERC20NoReturnData();

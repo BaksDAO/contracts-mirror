@@ -6,6 +6,14 @@ const deploy: DeployFunction = async function ({ deployments, ethers }) {
 
   await deploy("DevelopmentFund", {
     from: deployer!.address,
+    proxy: {
+      execute: {
+        init: {
+          methodName: "initialize",
+          args: [],
+        },
+      },
+    },
     log: true,
   });
 };

@@ -20,16 +20,18 @@ cache/
 src/types/*
 !src/types/common.ts
 !src/types/Baks.ts
-!src/types/BaksDAO.ts
+!src/types/Bank.ts
 !src/types/ChainlinkPriceOracle.ts
+!src/types/Core.ts
 !src/types/DevelopmentFund.ts
 !src/types/ExchangeFund.ts
 
 !src/types/factories
 src/types/factories/*
 !src/types/factories/Baks__factory.ts
-!src/types/factories/BaksDAO__factory.ts
+!src/types/factories/Bank__factory.ts
 !src/types/factories/ChainlinkPriceOracle__factory.ts
+!src/types/Core__factory.ts
 !src/types/factories/DevelopmentFund__factory.ts
 !src/types/factories/ExchangeFund__factory.ts
 

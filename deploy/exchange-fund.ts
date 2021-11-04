@@ -13,38 +13,27 @@ const deploy: DeployFunction = async function ({
   const priceOracle = network.tags.staging
     ? await deployments.get("DummyPriceOracle")
     : await deployments.get("ChainlinkPriceOracle");
-  // const priceOracle = await deployments.get("ChainlinkPriceOracle");
-  const amountNormalization = await deployments.get("AmountNormalization");
-  const enumerableAddressSet = await deployments.get("EnumerableAddressSet");
-  const fixedPointMath = await deployments.get("FixedPointMath");
-  const safeERC20 = await deployments.get("SafeERC20");
 
   await deploy("ExchangeFund", {
     from: deployer!.address,
-    args: [
-      wrappedNativeToken!.address,
-      $.address,
-      priceOracle.address,
-      uniswapV2Router!.address,
-      operator!.address,
-    ],
-    libraries: {
-      AmountNormalization: amountNormalization.address,
-      EnumerableAddressSet: enumerableAddressSet.address,
-      FixedPointMath: fixedPointMath.address,
-      SafeERC20: safeERC20.address,
+    proxy: {
+      execute: {
+        init: {
+          methodName: "initialize",
+          args: [
+            wrappedNativeToken!.address,
+            $.address,
+            priceOracle.address,
+            uniswapV2Router!.address,
+            operator!.address,
+          ],
+        },
+      },
     },
     log: true,
   });
 };
-deploy.dependencies = [
-  "$",
-  "AmountNormalization",
-  "EnumerableAddressSet",
-  "FixedPointMath",
-  "PriceOracle",
-  "SafeERC20",
-];
+deploy.dependencies = ["$", "PriceOracle"];
 deploy.tags = ["ExchangeFund"];
 
 export default deploy;

@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity 0.8.9;
 
-import {IERC20} from "./IERC20.sol";
-
-interface IUniswapV2Factory {
-    function createPair(IERC20 tokenA, IERC20 tokenB) external returns (IUniswapV2Pair pair);
-
-    function getPair(IERC20 tokenA, IERC20 tokenB) external view returns (IUniswapV2Pair pair);
-}
+import {IERC20} from "./ERC20.sol";
 
 interface IUniswapV2Pair is IERC20 {
     function token0() external view returns (IERC20);
@@ -22,6 +16,12 @@ interface IUniswapV2Pair is IERC20 {
             uint112 reserve1,
             uint32 blockTimestampLast
         );
+}
+
+interface IUniswapV2Factory {
+    function createPair(IERC20 tokenA, IERC20 tokenB) external returns (IUniswapV2Pair pair);
+
+    function getPair(IERC20 tokenA, IERC20 tokenB) external view returns (IUniswapV2Pair pair);
 }
 
 interface IUniswapV2Router {
@@ -55,12 +55,12 @@ interface IUniswapV2Router {
     function swapExactTokensForTokens(
         uint256 amountIn,
         uint256 amountOutMin,
-        address[] calldata path,
+        IERC20[] calldata path,
         address to,
         uint256 deadline
     ) external returns (uint256[] memory amounts);
 
-    function getAmountsOut(uint256 amountIn, address[] calldata path) external view returns (uint256[] memory amounts);
+    function getAmountsOut(uint256 amountIn, IERC20[] calldata path) external view returns (uint256[] memory amounts);
 
     function factory() external view returns (IUniswapV2Factory);
 

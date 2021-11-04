@@ -34,6 +34,7 @@ export interface BaksInterface extends ethers.utils.Interface {
     "burn(address,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "governor()": FunctionFragment;
+    "initialize(string,string,uint8,address)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "minter()": FunctionFragment;
     "name()": FunctionFragment;
@@ -45,7 +46,7 @@ export interface BaksInterface extends ethers.utils.Interface {
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transitGovernance(address)": FunctionFragment;
+    "transitGovernance(address,bool)": FunctionFragment;
     "version()": FunctionFragment;
   };
 
@@ -72,6 +73,10 @@ export interface BaksInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string, BigNumberish, string]
+  ): string;
   encodeFunctionData(
     functionFragment: "mint",
     values: [string, BigNumberish]
@@ -111,7 +116,7 @@ export interface BaksInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "transitGovernance",
-    values: [string]
+    values: [string, boolean]
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
@@ -129,6 +134,7 @@ export interface BaksInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "governor", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "minter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
@@ -266,6 +272,14 @@ export interface Baks extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<[string]>;
 
+    initialize(
+      _name: string,
+      _symbol: string,
+      _decimals: BigNumberish,
+      _minter: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     mint(
       to: string,
       amount: BigNumberish,
@@ -315,6 +329,7 @@ export interface Baks extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -350,6 +365,14 @@ export interface Baks extends BaseContract {
   decimals(overrides?: CallOverrides): Promise<number>;
 
   governor(overrides?: CallOverrides): Promise<string>;
+
+  initialize(
+    _name: string,
+    _symbol: string,
+    _decimals: BigNumberish,
+    _minter: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   mint(
     to: string,
@@ -400,6 +423,7 @@ export interface Baks extends BaseContract {
 
   transitGovernance(
     newGovernor: string,
+    force: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -433,6 +457,14 @@ export interface Baks extends BaseContract {
     decimals(overrides?: CallOverrides): Promise<number>;
 
     governor(overrides?: CallOverrides): Promise<string>;
+
+    initialize(
+      _name: string,
+      _symbol: string,
+      _decimals: BigNumberish,
+      _minter: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     mint(
       to: string,
@@ -480,6 +512,7 @@ export interface Baks extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -568,6 +601,14 @@ export interface Baks extends BaseContract {
 
     governor(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initialize(
+      _name: string,
+      _symbol: string,
+      _decimals: BigNumberish,
+      _minter: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     mint(
       to: string,
       amount: BigNumberish,
@@ -617,6 +658,7 @@ export interface Baks extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -656,6 +698,14 @@ export interface Baks extends BaseContract {
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     governor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    initialize(
+      _name: string,
+      _symbol: string,
+      _decimals: BigNumberish,
+      _minter: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     mint(
       to: string,
@@ -709,6 +759,7 @@ export interface Baks extends BaseContract {
 
     transitGovernance(
       newGovernor: string,
+      force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
