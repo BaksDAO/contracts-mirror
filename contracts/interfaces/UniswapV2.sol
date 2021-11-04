@@ -60,6 +60,14 @@ interface IUniswapV2Router {
         uint256 deadline
     ) external returns (uint256[] memory amounts);
 
+    function swapTokensForExactTokens(
+        uint256 amountOut,
+        uint256 amountInMax,
+        IERC20[] calldata path,
+        address to,
+        uint256 deadline
+    ) external returns (uint256[] memory amounts);
+
     function getAmountsOut(uint256 amountIn, IERC20[] calldata path) external view returns (uint256[] memory amounts);
 
     function factory() external view returns (IUniswapV2Factory);

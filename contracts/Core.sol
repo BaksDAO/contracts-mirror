@@ -28,6 +28,9 @@ interface ICore {
         uint256 newLiquidationLoanToValueRatio
     );
 
+    event ServicingThresholdUpdated(uint256 servicingThreshold, uint256 newServicingThreshold);
+    event MinimumLiquidityUpdated(uint256 minimumLiquidity, uint256 newMinimumLiquidity);
+
     function minimumPrincipalAmount() external view returns (uint256);
 
     function stabilityFee() external view returns (uint256);
@@ -43,6 +46,10 @@ interface ICore {
     function liquidationLoanToValueRatio() external view returns (uint256);
 
     function rebalancingThreshold() external view returns (uint256);
+
+    function servicingThreshold() external view returns (uint256);
+
+    function minimumLiquidity() external view returns (uint256);
 }
 
 contract Core is Initializable, Governed, ICore {
@@ -57,6 +64,9 @@ contract Core is Initializable, Governed, ICore {
     uint256 public override liquidationLoanToValueRatio;
     uint256 public override rebalancingThreshold;
 
+    uint256 public override servicingThreshold;
+    uint256 public override minimumLiquidity;
+
     function initialize() external initializer {
         setGovernor(msg.sender);
 
@@ -68,6 +78,9 @@ contract Core is Initializable, Governed, ICore {
         marginCallLoanToValueRatio = 75e16; // 75 %
         liquidationLoanToValueRatio = 83e16; // 83 %
         rebalancingThreshold = 1e16; // 1 %
+
+        servicingThreshold = 1e16; // 1%
+        minimumLiquidity = 50000e18; // 50000 BAKS
     }
 
     function setMinimumPrincipalAmount(uint256 newMinimumPrincipalAmount) external onlyGovernor {
@@ -114,5 +127,15 @@ contract Core is Initializable, Governed, ICore {
     function setRebalancingThreshold(uint256 newRebalancingThreshold) external onlyGovernor {
         emit RebalancingThresholdUpdated(rebalancingThreshold, newRebalancingThreshold);
         rebalancingThreshold = newRebalancingThreshold;
+    }
+
+    function setServicingThreshold(uint256 newServicingThreshold) external onlyGovernor {
+        emit ServicingThresholdUpdated(servicingThreshold, newServicingThreshold);
+        servicingThreshold = newServicingThreshold;
+    }
+
+    function setMinimumLiquidity(uint256 newMinimumLiquidity) external onlyGovernor {
+        emit MinimumLiquidityUpdated(minimumLiquidity, newMinimumLiquidity);
+        minimumLiquidity = newMinimumLiquidity;
     }
 }

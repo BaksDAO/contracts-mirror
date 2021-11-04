@@ -6,7 +6,9 @@ import "./libraries/EnumerableAddressSet.sol";
 import "./libraries/FixedPointMath.sol";
 import "./libraries/ReentrancyGuard.sol";
 import "./libraries/SafeERC20.sol";
+import "./libraries/Math.sol";
 import {Governed} from "./Governance.sol";
+import {ICore} from "./Core.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
 import {IERC20} from "./interfaces/ERC20.sol";
 import {IPriceOracle} from "./interfaces/IPriceOracle.sol";
@@ -50,6 +52,11 @@ error ExchangeFundSameTokenSwap(IERC20 token);
 /// @param token The address of the token contract.
 error ExchangeFundTokenNotAllowedToBeSwapped(IERC20 token);
 
+/// @dev Thrown when there's no need to service the `token`/stablecoin pair cause the difference between target and
+/// pair price does not exceed servicing threshold.
+/// @param token The address of the token contract.
+error ExchangeFundNoNeedToService(IERC20 token);
+
 contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
     using AmountNormalization for IERC20;
     using EnumerableAddressSet for EnumerableAddressSet.Set;
@@ -60,7 +67,7 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
     uint8 internal constant DECIMALS = 18;
 
     IERC20 public wrappedNativeCurrency;
-
+    ICore public core;
     IERC20 public stablecoin;
     IPriceOracle public priceOracle;
     IUniswapV2Router public uniswapV2Router;
@@ -87,6 +94,7 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
     event Invest(address indexed account, IERC20 indexed token, uint256 amount);
     event Divest(address indexed account, IERC20 indexed token, uint256 amount);
     event Withdrawal(address indexed account, IERC20 indexed token, uint256 amount);
+    event Service(address indexed account, IERC20 indexed token);
 
     modifier tokenAllowedToBeDeposited(IERC20 token) {
         if (!depositableTokensSet.contains(address(token))) {
@@ -104,6 +112,7 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
 
     function initialize(
         IERC20 _wrappedNativeCurrency,
+        ICore _core,
         IERC20 _stablecoin,
         IPriceOracle _priceOracle,
         IUniswapV2Router _uniswapV2Router,
@@ -113,6 +122,7 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
 
         wrappedNativeCurrency = _wrappedNativeCurrency;
 
+        core = _core;
         stablecoin = _stablecoin;
         priceOracle = _priceOracle;
         uniswapV2Router = _uniswapV2Router;
@@ -301,6 +311,46 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
         token.safeTransfer(operator, token.balanceOf(address(this)));
     }
 
+    function service(IERC20 token) external {
+        (uint256 stablecoinReserve, uint256 tokenReserve) = getReserves(token);
+        tokenReserve = token.normalizeAmount(tokenReserve);
+
+        uint256 targetPrice = priceOracle.getNormalizedPrice(token);
+        uint256 price = stablecoinReserve.div(tokenReserve);
+        int256 delta = int256(price.div(targetPrice)) - int256(ONE);
+        if (Math.abs(delta) < core.servicingThreshold()) {
+            revert ExchangeFundNoNeedToService(token);
+        }
+
+        int256 amountOut;
+        IERC20[] memory path = new IERC20[](2);
+        if (price > targetPrice) {
+            amountOut =
+                int256(Math.fpsqrt(stablecoinReserve.mul(tokenReserve).mul(targetPrice))) -
+                int256(stablecoinReserve);
+            path[0] = token;
+            path[1] = stablecoin;
+        } else {
+            amountOut = int256(Math.fpsqrt(stablecoinReserve.mulDiv(tokenReserve, targetPrice))) - int256(tokenReserve);
+            path[0] = stablecoin;
+            path[1] = token;
+        }
+
+        // NOTE: using this instead of `swapExactTokensForTokens` to shift responsibility for calculating fees to  *swap
+        // itself.
+        uniswapV2Router.swapTokensForExactTokens(
+            Math.abs(amountOut),
+            type(uint256).max,
+            path,
+            address(this),
+            block.timestamp + swapDeadline
+        );
+
+        topUpLiquidity(token);
+
+        emit Service(msg.sender, token);
+    }
+
     function getDepositableTokens() external view returns (IERC20[] memory tokens) {
         uint256 length = depositableTokensSet.elements.length;
         tokens = new IERC20[](length);
@@ -310,7 +360,27 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
         }
     }
 
-    function quote(IERC20 token, uint256 amount) public view returns (uint256 stablecoinAmount) {
+    function topUpLiquidity(IERC20 token) internal {
+        (uint256 stablecoinReserve, uint256 tokenReserve) = getReserves(token);
+        tokenReserve = token.normalizeAmount(tokenReserve);
+
+        if (core.minimumLiquidity() > stablecoinReserve) {
+            uint256 amountADesired = core.minimumLiquidity() - stablecoinReserve;
+            uint256 amountBDesired = token.denormalizeAmount(amountADesired.div(stablecoinReserve.div(tokenReserve)));
+            uniswapV2Router.addLiquidity(
+                stablecoin,
+                token,
+                amountADesired,
+                amountBDesired,
+                amountADesired.mul(ONE - slippageTolerance),
+                token.denormalizeAmount(amountBDesired.mul(ONE - slippageTolerance)),
+                address(this),
+                block.timestamp + swapDeadline
+            );
+        }
+    }
+
+    function quote(IERC20 token, uint256 amount) internal view returns (uint256 stablecoinAmount) {
         IUniswapV2Pair uniswapV2Pair = uniswapV2Router.factory().getPair(stablecoin, token);
 
         (uint256 reserveA, uint256 reserveB, ) = uniswapV2Pair.getReserves();
@@ -322,5 +392,18 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
         stablecoinAmount = address(stablecoin) < address(token)
             ? uniswapV2Router.quote(amount, reserveB, reserveA)
             : uniswapV2Router.quote(amount, reserveA, reserveB);
+    }
+
+    function getReserves(IERC20 token) internal view returns (uint256 stablecoinReserve, uint256 tokenReserve) {
+        IUniswapV2Pair uniswapV2Pair = uniswapV2Router.factory().getPair(stablecoin, token);
+
+        (uint256 reserveA, uint256 reserveB, ) = uniswapV2Pair.getReserves();
+        if (address(stablecoin) < address(token)) {
+            stablecoinReserve = reserveA;
+            tokenReserve = reserveB;
+        } else {
+            tokenReserve = reserveA;
+            stablecoinReserve = reserveB;
+        }
     }
 }
