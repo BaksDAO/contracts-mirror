@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.10;
 
 interface IEIP173 {
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);

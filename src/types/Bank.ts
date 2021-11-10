@@ -74,9 +74,22 @@ export type DataStructOutput = [
   lastRepaymentAt: BigNumber;
 };
 
+export type MagisterStruct = {
+  isActive: boolean;
+  createdAt: BigNumberish;
+  addr: string;
+};
+
+export type MagisterStructOutput = [boolean, BigNumber, string] & {
+  isActive: boolean;
+  createdAt: BigNumber;
+  addr: string;
+};
+
 export interface BankInterface extends ethers.utils.Interface {
   functions: {
     "acceptGovernance()": FunctionFragment;
+    "addMagister(address)": FunctionFragment;
     "borrow(address,uint256)": FunctionFragment;
     "borrowInNativeCurrency(uint256)": FunctionFragment;
     "calculateLoanByCollateralAmount(address,uint256)": FunctionFragment;
@@ -89,6 +102,7 @@ export interface BankInterface extends ethers.utils.Interface {
     "depositInNativeCurrency(uint256)": FunctionFragment;
     "developmentFund()": FunctionFragment;
     "exchangeFund()": FunctionFragment;
+    "getActiveMagisters()": FunctionFragment;
     "getAllowedCollateralTokens()": FunctionFragment;
     "getLoanToValueRatio(uint256)": FunctionFragment;
     "getLoans(address)": FunctionFragment;
@@ -104,6 +118,7 @@ export interface BankInterface extends ethers.utils.Interface {
     "pendingGovernor()": FunctionFragment;
     "priceOracle()": FunctionFragment;
     "rebalance()": FunctionFragment;
+    "removeMagister(address)": FunctionFragment;
     "repay(uint256,uint256)": FunctionFragment;
     "salvage(address)": FunctionFragment;
     "setInitialLoanToValueRatio(address,uint256)": FunctionFragment;
@@ -117,6 +132,7 @@ export interface BankInterface extends ethers.utils.Interface {
     functionFragment: "acceptGovernance",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "addMagister", values: [string]): string;
   encodeFunctionData(
     functionFragment: "borrow",
     values: [string, BigNumberish]
@@ -160,6 +176,10 @@ export interface BankInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "exchangeFund",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getActiveMagisters",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -208,6 +228,10 @@ export interface BankInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "rebalance", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "removeMagister",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "repay",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -235,6 +259,10 @@ export interface BankInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "acceptGovernance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addMagister",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "borrow", data: BytesLike): Result;
@@ -277,6 +305,10 @@ export interface BankInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getActiveMagisters",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getAllowedCollateralTokens",
     data: BytesLike
   ): Result;
@@ -309,6 +341,10 @@ export interface BankInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "rebalance", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeMagister",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "repay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "salvage", data: BytesLike): Result;
   decodeFunctionResult(
@@ -337,6 +373,8 @@ export interface BankInterface extends ethers.utils.Interface {
     "GovernanceTransited(address,address)": EventFragment;
     "InitialLoanToValueRatioUpdated(address,uint256,uint256)": EventFragment;
     "Liquidated(uint256)": EventFragment;
+    "MagisterAdded(address)": EventFragment;
+    "MagisterRemoved(address)": EventFragment;
     "PendingGovernanceTransition(address,address)": EventFragment;
     "Rebalance(int256)": EventFragment;
     "Repaid(uint256)": EventFragment;
@@ -352,6 +390,8 @@ export interface BankInterface extends ethers.utils.Interface {
     nameOrSignatureOrTopic: "InitialLoanToValueRatioUpdated"
   ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Liquidated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MagisterAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MagisterRemoved"): EventFragment;
   getEvent(
     nameOrSignatureOrTopic: "PendingGovernanceTransition"
   ): EventFragment;
@@ -421,6 +461,14 @@ export type LiquidatedEvent = TypedEvent<[BigNumber], { id: BigNumber }>;
 
 export type LiquidatedEventFilter = TypedEventFilter<LiquidatedEvent>;
 
+export type MagisterAddedEvent = TypedEvent<[string], { magister: string }>;
+
+export type MagisterAddedEventFilter = TypedEventFilter<MagisterAddedEvent>;
+
+export type MagisterRemovedEvent = TypedEvent<[string], { magister: string }>;
+
+export type MagisterRemovedEventFilter = TypedEventFilter<MagisterRemovedEvent>;
+
 export type PendingGovernanceTransitionEvent = TypedEvent<
   [string, string],
   { governor: string; newGovernor: string }
@@ -472,6 +520,11 @@ export interface Bank extends BaseContract {
 
   functions: {
     acceptGovernance(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    addMagister(
+      magister: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -554,6 +607,12 @@ export interface Bank extends BaseContract {
     developmentFund(overrides?: CallOverrides): Promise<[string]>;
 
     exchangeFund(overrides?: CallOverrides): Promise<[string]>;
+
+    getActiveMagisters(
+      overrides?: CallOverrides
+    ): Promise<
+      [MagisterStructOutput[]] & { activeMagisters: MagisterStructOutput[] }
+    >;
 
     getAllowedCollateralTokens(
       overrides?: CallOverrides
@@ -655,6 +714,11 @@ export interface Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    removeMagister(
+      magister: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     repay(
       loanId: BigNumberish,
       amount: BigNumberish,
@@ -689,6 +753,11 @@ export interface Bank extends BaseContract {
   };
 
   acceptGovernance(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  addMagister(
+    magister: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -768,6 +837,10 @@ export interface Bank extends BaseContract {
   developmentFund(overrides?: CallOverrides): Promise<string>;
 
   exchangeFund(overrides?: CallOverrides): Promise<string>;
+
+  getActiveMagisters(
+    overrides?: CallOverrides
+  ): Promise<MagisterStructOutput[]>;
 
   getAllowedCollateralTokens(
     overrides?: CallOverrides
@@ -865,6 +938,11 @@ export interface Bank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  removeMagister(
+    magister: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   repay(
     loanId: BigNumberish,
     amount: BigNumberish,
@@ -899,6 +977,8 @@ export interface Bank extends BaseContract {
 
   callStatic: {
     acceptGovernance(overrides?: CallOverrides): Promise<void>;
+
+    addMagister(magister: string, overrides?: CallOverrides): Promise<void>;
 
     borrow(
       collateralToken: string,
@@ -979,6 +1059,10 @@ export interface Bank extends BaseContract {
     developmentFund(overrides?: CallOverrides): Promise<string>;
 
     exchangeFund(overrides?: CallOverrides): Promise<string>;
+
+    getActiveMagisters(
+      overrides?: CallOverrides
+    ): Promise<MagisterStructOutput[]>;
 
     getAllowedCollateralTokens(
       overrides?: CallOverrides
@@ -1070,6 +1154,8 @@ export interface Bank extends BaseContract {
     priceOracle(overrides?: CallOverrides): Promise<string>;
 
     rebalance(overrides?: CallOverrides): Promise<void>;
+
+    removeMagister(magister: string, overrides?: CallOverrides): Promise<void>;
 
     repay(
       loanId: BigNumberish,
@@ -1165,6 +1251,16 @@ export interface Bank extends BaseContract {
     "Liquidated(uint256)"(id?: BigNumberish | null): LiquidatedEventFilter;
     Liquidated(id?: BigNumberish | null): LiquidatedEventFilter;
 
+    "MagisterAdded(address)"(
+      magister?: string | null
+    ): MagisterAddedEventFilter;
+    MagisterAdded(magister?: string | null): MagisterAddedEventFilter;
+
+    "MagisterRemoved(address)"(
+      magister?: string | null
+    ): MagisterRemovedEventFilter;
+    MagisterRemoved(magister?: string | null): MagisterRemovedEventFilter;
+
     "PendingGovernanceTransition(address,address)"(
       governor?: string | null,
       newGovernor?: string | null
@@ -1189,6 +1285,11 @@ export interface Bank extends BaseContract {
 
   estimateGas: {
     acceptGovernance(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    addMagister(
+      magister: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1248,6 +1349,8 @@ export interface Bank extends BaseContract {
 
     exchangeFund(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getActiveMagisters(overrides?: CallOverrides): Promise<BigNumber>;
+
     getAllowedCollateralTokens(overrides?: CallOverrides): Promise<BigNumber>;
 
     getLoanToValueRatio(
@@ -1304,6 +1407,11 @@ export interface Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    removeMagister(
+      magister: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     repay(
       loanId: BigNumberish,
       amount: BigNumberish,
@@ -1339,6 +1447,11 @@ export interface Bank extends BaseContract {
 
   populateTransaction: {
     acceptGovernance(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addMagister(
+      magister: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1397,6 +1510,10 @@ export interface Bank extends BaseContract {
     developmentFund(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     exchangeFund(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getActiveMagisters(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getAllowedCollateralTokens(
       overrides?: CallOverrides
@@ -1461,6 +1578,11 @@ export interface Bank extends BaseContract {
     priceOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     rebalance(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    removeMagister(
+      magister: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

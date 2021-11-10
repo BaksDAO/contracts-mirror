@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.10;
 
 import {IERC20} from "./ERC20.sol";
 import "./../libraries/FixedPointMath.sol";

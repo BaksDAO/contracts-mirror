@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.10;
 
 error FixedPointMathMulDivOverflow(uint256 prod1, uint256 denominator);
 
