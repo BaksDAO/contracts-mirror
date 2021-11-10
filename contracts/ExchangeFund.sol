@@ -360,6 +360,20 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
         }
     }
 
+    function quote(IERC20 token, uint256 amount) public view returns (uint256 stablecoinAmount) {
+        IUniswapV2Pair uniswapV2Pair = uniswapV2Router.factory().getPair(stablecoin, token);
+
+        (uint256 reserveA, uint256 reserveB, ) = uniswapV2Pair.getReserves();
+        if (reserveA == 0 || reserveB == 0) {
+            stablecoinAmount = token.normalizeAmount(amount).mul(priceOracle.getNormalizedPrice(token));
+            return stablecoinAmount;
+        }
+
+        stablecoinAmount = address(stablecoin) < address(token)
+            ? uniswapV2Router.quote(amount, reserveB, reserveA)
+            : uniswapV2Router.quote(amount, reserveA, reserveB);
+    }
+
     function topUpLiquidity(IERC20 token) internal {
         (uint256 stablecoinReserve, uint256 tokenReserve) = getReserves(token);
         tokenReserve = token.normalizeAmount(tokenReserve);
@@ -378,20 +392,6 @@ contract ExchangeFund is Initializable, Governed, ReentrancyGuard {
                 block.timestamp + swapDeadline
             );
         }
-    }
-
-    function quote(IERC20 token, uint256 amount) internal view returns (uint256 stablecoinAmount) {
-        IUniswapV2Pair uniswapV2Pair = uniswapV2Router.factory().getPair(stablecoin, token);
-
-        (uint256 reserveA, uint256 reserveB, ) = uniswapV2Pair.getReserves();
-        if (reserveA == 0 || reserveB == 0) {
-            stablecoinAmount = token.normalizeAmount(amount).mul(priceOracle.getNormalizedPrice(token));
-            return stablecoinAmount;
-        }
-
-        stablecoinAmount = address(stablecoin) < address(token)
-            ? uniswapV2Router.quote(amount, reserveB, reserveA)
-            : uniswapV2Router.quote(amount, reserveA, reserveB);
     }
 
     function getReserves(IERC20 token) internal view returns (uint256 stablecoinReserve, uint256 tokenReserve) {
