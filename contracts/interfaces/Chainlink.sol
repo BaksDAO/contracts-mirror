@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.10;
 
 interface IChainlinkAggregator {
     function decimals() external view returns (uint8);

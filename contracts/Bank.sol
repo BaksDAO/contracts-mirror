@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: BUSL-1.1
-pragma solidity 0.8.9;
+pragma solidity 0.8.10;
 
 import "./interfaces/IWrappedNativeCurrency.sol";
 import "./libraries/AmountNormalization.sol";
@@ -86,6 +86,10 @@ error BaksDAOPlainNativeCurrencyTransferNotAllowed();
 
 error BaksDAOInsufficientSecurityAmount(uint256 minimumRequiredSecurityAmount);
 
+error BaksDAOOnlyMagisterAllowed();
+error BaksDAOMagisterAlreadyAdded(address magister);
+error BaksDAOMagisterDontAdded(address magister);
+
 /// @title Core smart contract of BaksDAO platform
 /// @author Andrey Gulitsky
 /// @notice You should use this contract to interact with the BaksDAO platform.
@@ -107,6 +111,12 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         Liquidation
     }
 
+    struct Magister {
+        bool isActive;
+        uint256 createdAt;
+        address addr;
+    }
+
     uint256 internal constant ONE = 100e16;
     uint8 internal constant DECIMALS = 18;
 
@@ -125,6 +135,9 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
 
     mapping(IERC20 => CollateralToken.Data) public collateralTokens;
     EnumerableAddressSet.Set internal collateralTokensSet;
+
+    mapping(address => Magister) internal magisters;
+    EnumerableAddressSet.Set internal magistersSet;
 
     event CollateralTokenListed(IERC20 indexed token);
     event CollateralTokenUnlisted(IERC20 indexed token);
@@ -151,6 +164,9 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
 
     event Rebalance(int256 delta);
 
+    event MagisterAdded(address indexed magister);
+    event MagisterRemoved(address indexed magister);
+
     modifier tokenAllowedAsCollateral(IERC20 token) {
         if (!collateralTokensSet.contains(address(token))) {
             revert BaksDAOTokenNotAllowedAsCollateral(token);
@@ -175,6 +191,13 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
     modifier onSubjectToLiquidation(uint256 loanId) {
         if (checkHealth(loanId) != Health.Liquidation) {
             revert BaksDAOLoanNotSubjectToLiquidation(loanId);
+        }
+        _;
+    }
+
+    modifier onlyMagister() {
+        if (!magisters[msg.sender].isActive) {
+            revert BaksDAOOnlyMagisterAllowed();
         }
         _;
     }
@@ -412,6 +435,34 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         }
     }
 
+    function addMagister(address magister) external onlyGovernor {
+        if (magistersSet.contains(magister)) {
+            revert BaksDAOMagisterAlreadyAdded(magister);
+        }
+
+        if (magistersSet.add(magister)) {
+            Magister storage m = magisters[magister];
+            m.addr = magister;
+            if (m.createdAt == 0) {
+                m.createdAt = block.timestamp;
+            }
+            m.isActive = true;
+
+            emit MagisterAdded(magister);
+        }
+    }
+
+    function removeMagister(address magister) external onlyGovernor {
+        if (!magistersSet.contains(magister)) {
+            revert BaksDAOMagisterAlreadyAdded(magister);
+        }
+
+        if (magistersSet.remove(magister)) {
+            magisters[magister].isActive = false;
+            emit MagisterRemoved(magister);
+        }
+    }
+
     function setInitialLoanToValueRatio(IERC20 token, uint256 newInitialLoanToValueRatio) external onlyGovernor {
         if (!collateralTokensSet.contains(address(token))) {
             revert BaksDAOCollateralTokenNotListed(token);
@@ -455,6 +506,15 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
 
         for (uint256 i = 0; i < length; i++) {
             allowedCollateralTokens[i] = collateralTokens[IERC20(collateralTokensSet.elements[i])];
+        }
+    }
+
+    function getActiveMagisters() external view returns (Magister[] memory activeMagisters) {
+        uint256 length = magistersSet.elements.length;
+        activeMagisters = new Magister[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            activeMagisters[i] = magisters[magistersSet.elements[i]];
         }
     }
 
