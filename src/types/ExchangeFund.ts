@@ -41,6 +41,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     "operator()": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
     "priceOracle()": FunctionFragment;
+    "quote(address,uint256)": FunctionFragment;
     "salvage(address)": FunctionFragment;
     "service(address)": FunctionFragment;
     "setSlippageTolerance(uint256)": FunctionFragment;
@@ -106,6 +107,10 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "priceOracle",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "quote",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "salvage", values: [string]): string;
   encodeFunctionData(functionFragment: "service", values: [string]): string;
@@ -187,6 +192,7 @@ export interface ExchangeFundInterface extends ethers.utils.Interface {
     functionFragment: "priceOracle",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "quote", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "salvage", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "service", data: BytesLike): Result;
   decodeFunctionResult(
@@ -447,6 +453,12 @@ export interface ExchangeFund extends BaseContract {
 
     priceOracle(overrides?: CallOverrides): Promise<[string]>;
 
+    quote(
+      token: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { stablecoinAmount: BigNumber }>;
+
     salvage(
       token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -565,6 +577,12 @@ export interface ExchangeFund extends BaseContract {
   pendingGovernor(overrides?: CallOverrides): Promise<string>;
 
   priceOracle(overrides?: CallOverrides): Promise<string>;
+
+  quote(
+    token: string,
+    amount: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   salvage(
     token: string,
@@ -685,6 +703,12 @@ export interface ExchangeFund extends BaseContract {
     pendingGovernor(overrides?: CallOverrides): Promise<string>;
 
     priceOracle(overrides?: CallOverrides): Promise<string>;
+
+    quote(
+      token: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     salvage(token: string, overrides?: CallOverrides): Promise<void>;
 
@@ -922,6 +946,12 @@ export interface ExchangeFund extends BaseContract {
 
     priceOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
+    quote(
+      token: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     salvage(
       token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1046,6 +1076,12 @@ export interface ExchangeFund extends BaseContract {
     pendingGovernor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     priceOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    quote(
+      token: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     salvage(
       token: string,
