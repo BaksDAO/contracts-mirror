@@ -1,41 +1,34 @@
 import { DeployFunction } from "hardhat-deploy/types";
 
-const deploy: DeployFunction = async function ({
-  deployments,
-  ethers,
-  network,
-}) {
-  const { deploy } = deployments;
-  const { deployer, uniswapV2Router, operator, wrappedNativeToken } =
-    await ethers.getNamedSigners();
+const deploy: DeployFunction = async function ({ deployments, ethers }) {
+  const { deploy, execute } = deployments;
+  const { deployer } = await ethers.getNamedSigners();
 
-  const $ = await deployments.get("Baks");
   const core = await deployments.get("Core");
-  const priceOracle = network.tags.staging
-    ? await deployments.get("DummyPriceOracle")
-    : await deployments.get("ChainlinkPriceOracle");
 
-  await deploy("ExchangeFund", {
+  const exchangeFund = await deploy("ExchangeFund", {
     from: deployer!.address,
     proxy: {
       execute: {
         init: {
           methodName: "initialize",
-          args: [
-            wrappedNativeToken!.address,
-            core.address,
-            $.address,
-            priceOracle.address,
-            uniswapV2Router!.address,
-            operator!.address,
-          ],
+          args: [core.address],
         },
       },
     },
     log: true,
   });
+
+  if (exchangeFund.newlyDeployed) {
+    await execute(
+      "Core",
+      { from: deployer!.address, log: true },
+      "setExchangeFund",
+      exchangeFund.address,
+    );
+  }
 };
-deploy.dependencies = ["$", "PriceOracle"];
+deploy.dependencies = ["Core"];
 deploy.tags = ["ExchangeFund"];
 
 export default deploy;

@@ -4,27 +4,25 @@ pragma solidity 0.8.10;
 import "./interfaces/Chainlink.sol";
 import "./interfaces/IPriceOracle.sol";
 import "./libraries/FixedPointMath.sol";
+import {CoreInside, ICore} from "./Core.sol";
 import {Governed} from "./Governance.sol";
 import {IERC20} from "./interfaces/ERC20.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
 
-contract ChainlinkPriceOracle is Initializable, Governed, IPriceOracle {
+contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOracle {
     using FixedPointMath for uint256;
 
     uint256 internal constant DIRECT_CONVERSION_PATH_SCALE = 1e10;
     uint256 internal constant INTERMEDIATE_CONVERSION_PATH_SCALE = 1e8;
-
-    IERC20 public wrappedNativeCurrency;
 
     mapping(IERC20 => IChainlinkAggregator) public nativeAggregators;
     mapping(IERC20 => IChainlinkAggregator) public usdAggregators;
 
     event AggregatorSet(IERC20 token, IChainlinkAggregator aggregator, bool isQuoteNative);
 
-    function initialize(IERC20 _wrappedNativeCurrency) external initializer {
+    function initialize(ICore _core) external initializer {
+        initializeCoreInside(_core);
         setGovernor(msg.sender);
-
-        wrappedNativeCurrency = _wrappedNativeCurrency;
     }
 
     function setAggregator(
@@ -62,6 +60,7 @@ contract ChainlinkPriceOracle is Initializable, Governed, IPriceOracle {
     }
 
     function getNativeCurrencyToUsdPrice() internal view returns (uint256 price) {
+        IERC20 wrappedNativeCurrency = IERC20(core.wrappedNativeCurrency());
         IChainlinkAggregator aggregator = usdAggregators[wrappedNativeCurrency];
         if (address(aggregator) == address(0)) {
             revert PriceOracleTokenUnknown(wrappedNativeCurrency);

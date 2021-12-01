@@ -21,7 +21,7 @@ abstract contract ReentrancyGuard {
         status = NOT_ENTERED;
     }
 
-    constructor() {
+    function initializeReentrancyGuard() internal {
         status = NOT_ENTERED;
     }
 }

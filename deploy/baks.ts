@@ -1,22 +1,34 @@
 import { DeployFunction } from "hardhat-deploy/types";
 
 const deploy: DeployFunction = async function ({ deployments, ethers }) {
-  const { deploy } = deployments;
-  const { deployer, minter } = await ethers.getNamedSigners();
+  const { deploy, execute } = deployments;
+  const { deployer } = await ethers.getNamedSigners();
 
-  await deploy("Baks", {
+  const bank = await deployments.get("Bank");
+
+  const baks = await deploy("Baks", {
     from: deployer!.address,
-    proxy: {
-      execute: {
-        init: {
-          methodName: "initialize",
-          args: ["Baks", "BAKS", 18, minter!.address],
-        },
-      },
-    },
+    args: [bank.address],
     log: true,
   });
+
+  if (baks.newlyDeployed) {
+    await execute(
+      "Core",
+      { from: deployer!.address, log: true },
+      "setBaks",
+      baks.address,
+    );
+  }
+
+  await execute(
+    "Baks",
+    { from: deployer!.address, log: true },
+    "setMinter",
+    bank.address,
+  );
 };
-deploy.tags = ["$"];
+deploy.tags = ["Baks"];
+deploy.dependencies = ["Bank", "Core"];
 
 export default deploy;
