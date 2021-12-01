@@ -2,7 +2,13 @@ import { DeployFunction } from "hardhat-deploy/types";
 
 const deploy: DeployFunction = async function ({ deployments, ethers }) {
   const { deploy } = deployments;
-  const { deployer } = await ethers.getNamedSigners();
+  const {
+    deployer,
+    uniswapV2Router,
+    wrappedNativeToken,
+    operator,
+    liquidator,
+  } = await ethers.getNamedSigners();
 
   await deploy("Core", {
     from: deployer!.address,
@@ -10,7 +16,12 @@ const deploy: DeployFunction = async function ({ deployments, ethers }) {
       execute: {
         init: {
           methodName: "initialize",
-          args: [],
+          args: [
+            wrappedNativeToken.address,
+            uniswapV2Router.address,
+            operator.address,
+            liquidator.address,
+          ],
         },
       },
     },

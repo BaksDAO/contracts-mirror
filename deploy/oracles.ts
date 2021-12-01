@@ -2,37 +2,50 @@ import { ethers } from "hardhat";
 import { DeployFunction } from "hardhat-deploy/types";
 
 const deploy: DeployFunction = async function ({ deployments, network }) {
-  const { deploy } = deployments;
-  const { deployer, wrappedNativeToken } = await ethers.getNamedSigners();
+  const { deploy, execute } = deployments;
+  const { deployer } = await ethers.getNamedSigners();
 
+  const core = await deployments.get("Core");
+
+  let priceOracle;
   if (network.tags.staging) {
-    await deploy("DummyPriceOracle", {
+    priceOracle = await deploy("DummyPriceOracle", {
       from: deployer!.address,
       proxy: {
         execute: {
           init: {
             methodName: "initialize",
-            args: [wrappedNativeToken!.address],
+            args: [core.address],
           },
         },
       },
       log: true,
     });
   } else {
-    await deploy("ChainlinkPriceOracle", {
+    priceOracle = await deploy("ChainlinkPriceOracle", {
       from: deployer!.address,
       proxy: {
         execute: {
           init: {
             methodName: "initialize",
-            args: [wrappedNativeToken!.address],
+            args: [core.address],
           },
         },
       },
       log: true,
     });
   }
+
+  if (priceOracle.newlyDeployed) {
+    await execute(
+      "Core",
+      { from: deployer!.address, log: true },
+      "setPriceOracle",
+      priceOracle.address,
+    );
+  }
 };
 deploy.tags = ["PriceOracle"];
+deploy.dependencies = ["Core"];
 
 export default deploy;

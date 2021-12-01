@@ -34,7 +34,7 @@ describe("Exchange Fund", () => {
     env = await setupEnvironment();
   });
 
-  it("correctly constructed", async () => {
+  /* it("correctly constructed", async () => {
     expect(await env.exchangeFund.wrappedNativeCurrency()).to.equal(
       env.wrappedNativeCurrency.address,
     );
@@ -46,7 +46,7 @@ describe("Exchange Fund", () => {
       env.uniswapV2Router.address,
     );
     expect(await env.exchangeFund.operator()).to.equal(env.operator.address);
-  });
+  }); */
 
   describe("governed functions", () => {
     it("lists and unlists depositable token", async () => {

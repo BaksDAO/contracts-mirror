@@ -100,14 +100,7 @@ export const setupEnvironment = deployments.createFixture(async () => {
 
   const { address: colAddress } = await deploy("BaseToken", {
     from: deployer!.address,
-    proxy: {
-      execute: {
-        init: {
-          methodName: "initialize",
-          args: [COL.NAME, COL.SYMBOL, COL.DECIMALS, minter!.address],
-        },
-      },
-    },
+    args: [COL.NAME, COL.SYMBOL, COL.DECIMALS, minter!.address],
   });
   let collateralToken = (await ethers.getContractAt(
     "BaseToken",

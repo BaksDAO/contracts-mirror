@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.10;
 
+import "./interfaces/IBank.sol";
 import "./interfaces/IWrappedNativeCurrency.sol";
 import "./libraries/AmountNormalization.sol";
 import "./libraries/CollateralToken.sol";
@@ -10,11 +11,11 @@ import "./libraries/Loan.sol";
 import "./libraries/Math.sol";
 import "./libraries/ReentrancyGuard.sol";
 import "./libraries/SafeERC20.sol";
+import {CoreInside, ICore} from "./Core.sol";
 import {Governed} from "./Governance.sol";
-import {ICore} from "./Core.sol";
+import {IDepositary} from "./Depositary.sol";
 import {IERC20, IMintableAndBurnableERC20} from "./interfaces/ERC20.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
-import {IPriceOracle} from "./interfaces/IPriceOracle.sol";
 
 /// @dev Thrown when trying to list collateral token that has zero decimals.
 /// @param token The address of the collateral token contract.
@@ -48,6 +49,7 @@ error BaksDAOInactiveLoan(uint256 id);
 /// @dev Thrown when trying to liquidate healthy loan with `id` id.
 /// @param id The loan id.
 error BaksDAOLoanNotSubjectToLiquidation(uint256 id);
+
 /// @dev Thrown when trying to interact with loan with `id` id that is subject to liquidation.
 /// @param id The loan id.
 error BaksDAOLoanIsSubjectToLiquidation(uint256 id);
@@ -86,24 +88,20 @@ error BaksDAOPlainNativeCurrencyTransferNotAllowed();
 
 error BaksDAOInsufficientSecurityAmount(uint256 minimumRequiredSecurityAmount);
 
-error BaksDAOOnlyMagisterAllowed();
-error BaksDAOMagisterAlreadyAdded(address magister);
-error BaksDAOMagisterDontAdded(address magister);
-
 /// @title Core smart contract of BaksDAO platform
-/// @author Andrey Gulitsky
+/// @author BaksDAO
 /// @notice You should use this contract to interact with the BaksDAO platform.
-/// @notice Only this contract can issue stablecoins.
-contract Bank is Initializable, Governed, ReentrancyGuard {
+/// @notice Only this contract can issue BAKS and BDV tokens.
+contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
     using AmountNormalization for IERC20;
     using AmountNormalization for IWrappedNativeCurrency;
     using CollateralToken for CollateralToken.Data;
     using EnumerableAddressSet for EnumerableAddressSet.Set;
     using FixedPointMath for uint256;
     using Loan for Loan.Data;
-    using SafeERC20 for IWrappedNativeCurrency;
     using SafeERC20 for IERC20;
     using SafeERC20 for IMintableAndBurnableERC20;
+    using SafeERC20 for IWrappedNativeCurrency;
 
     enum Health {
         Ok,
@@ -111,33 +109,14 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         Liquidation
     }
 
-    struct Magister {
-        bool isActive;
-        uint256 createdAt;
-        address addr;
-    }
-
     uint256 internal constant ONE = 100e16;
     uint8 internal constant DECIMALS = 18;
-
-    IWrappedNativeCurrency public wrappedNativeCurrency;
-    ICore public core;
-    IMintableAndBurnableERC20 public stablecoin;
-    IPriceOracle public priceOracle;
-
-    address public operator;
-    address public liquidator;
-    address public exchangeFund;
-    address public developmentFund;
 
     Loan.Data[] public loans;
     mapping(address => uint256[]) public loanIds;
 
     mapping(IERC20 => CollateralToken.Data) public collateralTokens;
     EnumerableAddressSet.Set internal collateralTokensSet;
-
-    mapping(address => Magister) internal magisters;
-    EnumerableAddressSet.Set internal magistersSet;
 
     event CollateralTokenListed(IERC20 indexed token);
     event CollateralTokenUnlisted(IERC20 indexed token);
@@ -162,10 +141,7 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
 
     event Liquidated(uint256 indexed id);
 
-    event Rebalance(int256 delta);
-
-    event MagisterAdded(address indexed magister);
-    event MagisterRemoved(address indexed magister);
+    event Rebalance(int256 delta, uint256 voiceMinted);
 
     modifier tokenAllowedAsCollateral(IERC20 token) {
         if (!collateralTokensSet.contains(address(token))) {
@@ -195,39 +171,16 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         _;
     }
 
-    modifier onlyMagister() {
-        if (!magisters[msg.sender].isActive) {
-            revert BaksDAOOnlyMagisterAllowed();
-        }
-        _;
-    }
-
     receive() external payable {
-        if (msg.sender != address(wrappedNativeCurrency)) {
+        if (msg.sender != core.wrappedNativeCurrency()) {
             revert BaksDAOPlainNativeCurrencyTransferNotAllowed();
         }
     }
 
-    function initialize(
-        IWrappedNativeCurrency _wrappedNativeCurrency,
-        ICore _core,
-        IMintableAndBurnableERC20 _stablecoin,
-        IPriceOracle _priceOracle,
-        address _operator,
-        address _liquidator,
-        address _exchangeFund,
-        address _developmentFund
-    ) external initializer {
+    function initialize(ICore _core) external initializer {
+        initializeReentrancyGuard();
+        initializeCoreInside(_core);
         setGovernor(msg.sender);
-
-        wrappedNativeCurrency = _wrappedNativeCurrency;
-        core = _core;
-        stablecoin = _stablecoin;
-        priceOracle = _priceOracle;
-        operator = _operator;
-        liquidator = _liquidator;
-        exchangeFund = _exchangeFund;
-        developmentFund = _developmentFund;
     }
 
     /// @notice Increases loan's principal on `collateralToken` collateral token and mints `amount` of stablecoin.
@@ -237,34 +190,45 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
     /// @param amount The amount of stablecoin to borrow and issue.
     function borrow(IERC20 collateralToken, uint256 amount)
         external
-        nonReentrant
         tokenAllowedAsCollateral(collateralToken)
         returns (Loan.Data memory)
     {
-        Loan.Data memory loan = calculateLoanByPrincipalAmount(collateralToken, amount);
+        (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        ) = calculateLoanByPrincipalAmount(collateralToken, amount);
 
-        collateralToken.safeTransferFrom(msg.sender, operator, collateralToken.denormalizeAmount(loan.stabilityFee));
+        collateralToken.safeTransferFrom(msg.sender, core.operator(), collateralToken.denormalizeAmount(stabilityFee));
         collateralToken.safeTransferFrom(
             msg.sender,
             address(this),
             collateralToken.denormalizeAmount(loan.collateralAmount)
         );
 
-        return _createLoan(loan);
+        return _createLoan(loan, exchangeFee, developmentFee);
     }
 
     /// @notice Increases loan's principal on wrapped native currency token and mints stablecoin.
     function borrowInNativeCurrency(uint256 amount) external payable nonReentrant returns (Loan.Data memory) {
-        Loan.Data memory loan = calculateLoanByPrincipalAmount(wrappedNativeCurrency, amount);
+        IWrappedNativeCurrency wrappedNativeCurrency = IWrappedNativeCurrency(core.wrappedNativeCurrency());
+
+        (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        ) = calculateLoanByPrincipalAmount(wrappedNativeCurrency, amount);
         loan.isNativeCurrency = true;
 
-        uint256 securityAmount = loan.collateralAmount + loan.stabilityFee;
+        uint256 securityAmount = loan.collateralAmount + stabilityFee;
         if (msg.value < securityAmount) {
             revert BaksDAOInsufficientSecurityAmount(securityAmount);
         }
 
         wrappedNativeCurrency.deposit{value: securityAmount}();
-        wrappedNativeCurrency.safeTransfer(operator, wrappedNativeCurrency.denormalizeAmount(loan.stabilityFee));
+        wrappedNativeCurrency.safeTransfer(core.operator(), wrappedNativeCurrency.denormalizeAmount(stabilityFee));
 
         uint256 change;
         unchecked {
@@ -277,19 +241,14 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
             }
         }
 
-        return _createLoan(loan);
+        return _createLoan(loan, exchangeFee, developmentFee);
     }
 
     /// @notice Deposits `amount` of collateral token to loan with `id` id.
     /// @dev The caller must have allowed this contract to spend `amount` of collateral tokens.
     /// @param loanId The loan id.
     /// @param amount The amount of collateral token to deposit.
-    function deposit(uint256 loanId, uint256 amount)
-        external
-        nonReentrant
-        onActiveLoan(loanId)
-        notOnSubjectToLiquidation(loanId)
-    {
+    function deposit(uint256 loanId, uint256 amount) external onActiveLoan(loanId) notOnSubjectToLiquidation(loanId) {
         loans[loanId].collateralToken.safeTransferFrom(msg.sender, address(this), amount);
         _deposit(loanId, amount);
     }
@@ -302,6 +261,7 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         onActiveLoan(loanId)
         notOnSubjectToLiquidation(loanId)
     {
+        IWrappedNativeCurrency wrappedNativeCurrency = IWrappedNativeCurrency(core.wrappedNativeCurrency());
         if (loans[loanId].collateralToken != wrappedNativeCurrency) {
             revert BaksDAONativeCurrencyCollateralNotAllowed(loanId);
         }
@@ -322,10 +282,20 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
             revert BaksDAORepayZeroAmount();
         }
         Loan.Data storage loan = loans[loanId];
-        loan.principalAmount -= amount;
+        loan.accrueInterest();
 
-        stablecoin.burn(msg.sender, amount);
-        loan.lastRepaymentAt = block.timestamp;
+        amount = Math.min(loan.principalAmount + loan.interestAmount, amount);
+        if (loan.interestAmount < amount) {
+            loan.principalAmount -= amount - loan.interestAmount;
+            loan.interestAmount = 0;
+        } else {
+            loan.interestAmount -= amount;
+        }
+
+        IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
+
+        baks.burn(msg.sender, amount);
+        loan.lastInteractionAt = block.timestamp;
         if (loan.principalAmount > 0) {
             emit Repay(loanId, amount);
         } else {
@@ -334,7 +304,7 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
 
             loan.collateralAmount = 0;
 
-            stablecoin.burn(address(this), loan.stabilizationFee);
+            baks.burn(address(this), loan.stabilizationFee);
 
             loan.isActive = false;
             emit Repaid(loanId);
@@ -342,7 +312,7 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
             if (!loan.isNativeCurrency) {
                 loan.collateralToken.safeTransfer(loan.borrower, denormalizedCollateralAmount);
             } else {
-                wrappedNativeCurrency.withdraw(denormalizedCollateralAmount);
+                IWrappedNativeCurrency(core.wrappedNativeCurrency()).withdraw(denormalizedCollateralAmount);
                 (bool success, ) = msg.sender.call{value: denormalizedCollateralAmount}("");
                 if (!success) {
                     revert BaksDAONativeCurrencyTransferFailed();
@@ -351,23 +321,29 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         }
     }
 
-    function liquidate(uint256 loanId) external nonReentrant onActiveLoan(loanId) onSubjectToLiquidation(loanId) {
+    function liquidate(uint256 loanId) external onActiveLoan(loanId) onSubjectToLiquidation(loanId) {
         Loan.Data storage loan = loans[loanId];
 
         collateralTokens[loan.collateralToken].collateralAmount -= loan.collateralAmount;
-        loan.collateralToken.safeTransfer(liquidator, loan.collateralToken.denormalizeAmount(loan.collateralAmount));
+        loan.collateralToken.safeTransfer(
+            core.liquidator(),
+            loan.collateralToken.denormalizeAmount(loan.collateralAmount)
+        );
 
+        IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
         uint256 collateralValue = loan.getCollateralValue();
-        stablecoin.burn(liquidator, loan.principalAmount);
-        stablecoin.burn(address(this), collateralValue - loan.principalAmount);
+        baks.burn(core.liquidator(), loan.principalAmount);
+        baks.burn(address(this), collateralValue - loan.principalAmount);
 
         loan.isActive = false;
         emit Liquidated(loanId);
     }
 
-    function rebalance() external nonReentrant {
+    function rebalance() external {
+        IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
+
         uint256 totalValueLocked = getTotalValueLocked();
-        uint256 totalSupply = stablecoin.totalSupply();
+        uint256 totalSupply = baks.totalSupply();
 
         int256 delta = int256(totalSupply) - int256(totalValueLocked);
         uint256 absoluteDelta = Math.abs(delta);
@@ -377,15 +353,28 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         }
 
         if (delta > 0) {
-            try stablecoin.burn(address(this), absoluteDelta) {} catch {
-                uint256 balance = stablecoin.balanceOf(address(this));
+            try baks.burn(address(this), absoluteDelta) {} catch {
+                uint256 balance = baks.balanceOf(address(this));
                 revert BaksDAOStabilizationFundOutOfFunds(absoluteDelta - balance);
             }
         } else {
-            stablecoin.mint(address(this), absoluteDelta);
+            baks.mint(address(this), absoluteDelta);
         }
 
-        emit Rebalance(delta);
+        emit Rebalance(delta, 0);
+    }
+
+    function onNewDeposit(IERC20 token, uint256 amount) external onlyDepositary {
+        IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
+        if (token == baks) {
+            return;
+        }
+
+        amount = amount.mul(IPriceOracle(core.priceOracle()).getNormalizedPrice(token));
+
+        baks.mint(address(this), amount.mul(core.stabilizationFee()));
+        baks.mint(core.exchangeFund(), amount.mul(core.exchangeFee()));
+        baks.mint(core.developmentFund(), amount.mul(core.developmentFee()));
     }
 
     function listCollateralToken(IERC20 token, uint256 initialLoanToValueRatio) external onlyGovernor {
@@ -408,7 +397,7 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         if (collateralTokensSet.add(address(token))) {
             collateralTokens[token] = CollateralToken.Data({
                 collateralToken: token,
-                priceOracle: priceOracle,
+                priceOracle: IPriceOracle(core.priceOracle()),
                 stabilityFee: core.stabilityFee(),
                 stabilizationFee: core.stabilizationFee(),
                 exchangeFee: core.exchangeFee(),
@@ -435,34 +424,6 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         }
     }
 
-    function addMagister(address magister) external onlyGovernor {
-        if (magistersSet.contains(magister)) {
-            revert BaksDAOMagisterAlreadyAdded(magister);
-        }
-
-        if (magistersSet.add(magister)) {
-            Magister storage m = magisters[magister];
-            m.addr = magister;
-            if (m.createdAt == 0) {
-                m.createdAt = block.timestamp;
-            }
-            m.isActive = true;
-
-            emit MagisterAdded(magister);
-        }
-    }
-
-    function removeMagister(address magister) external onlyGovernor {
-        if (!magistersSet.contains(magister)) {
-            revert BaksDAOMagisterAlreadyAdded(magister);
-        }
-
-        if (magistersSet.remove(magister)) {
-            magisters[magister].isActive = false;
-            emit MagisterRemoved(magister);
-        }
-    }
-
     function setInitialLoanToValueRatio(IERC20 token, uint256 newInitialLoanToValueRatio) external onlyGovernor {
         if (!collateralTokensSet.contains(address(token))) {
             revert BaksDAOCollateralTokenNotListed(token);
@@ -481,10 +442,10 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
 
     function salvage(IERC20 token) external onlyGovernor {
         address tokenAddress = address(token);
-        if (tokenAddress == address(stablecoin) || collateralTokensSet.contains(tokenAddress)) {
+        if (tokenAddress == core.baks() || collateralTokensSet.contains(tokenAddress)) {
             revert BaksDAOTokenNotAllowedToBeSalvaged(token);
         }
-        token.safeTransfer(operator, token.balanceOf(address(this)));
+        token.safeTransfer(core.operator(), token.balanceOf(address(this)));
     }
 
     function getLoans(address borrower) external view returns (Loan.Data[] memory _loans) {
@@ -509,43 +470,50 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         }
     }
 
-    function getActiveMagisters() external view returns (Magister[] memory activeMagisters) {
-        uint256 length = magistersSet.elements.length;
-        activeMagisters = new Magister[](length);
-
-        for (uint256 i = 0; i < length; i++) {
-            activeMagisters[i] = magisters[magistersSet.elements[i]];
-        }
-    }
-
     function calculateLoanByPrincipalAmount(IERC20 collateralToken, uint256 principalAmount)
         public
         view
-        returns (Loan.Data memory loan)
+        returns (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        )
     {
-        loan = collateralTokens[collateralToken].calculateLoanByPrincipalAmount(principalAmount);
+        return collateralTokens[collateralToken].calculateLoanByPrincipalAmount(principalAmount);
     }
 
     function calculateLoanByCollateralAmount(IERC20 collateralToken, uint256 collateralAmount)
         public
         view
-        returns (Loan.Data memory loan)
+        returns (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        )
     {
-        loan = collateralTokens[collateralToken].calculateLoanByCollateralAmount(collateralAmount);
+        return collateralTokens[collateralToken].calculateLoanByCollateralAmount(collateralAmount);
     }
 
     function calculateLoanBySecurityAmount(IERC20 collateralToken, uint256 securityAmount)
         public
         view
-        returns (Loan.Data memory loan)
+        returns (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        )
     {
-        loan = collateralTokens[collateralToken].calculateLoanBySecurityAmount(securityAmount);
+        return collateralTokens[collateralToken].calculateLoanBySecurityAmount(securityAmount);
     }
 
     function getTotalValueLocked() public view returns (uint256 totalValueLocked) {
         for (uint256 i = 0; i < collateralTokensSet.elements.length; i++) {
             totalValueLocked += collateralTokens[IERC20(collateralTokensSet.elements[i])].getCollateralValue();
         }
+        totalValueLocked += IDepositary(core.depositary()).getTotalValueLocked();
     }
 
     function getLoanToValueRatio(uint256 loanId) public view returns (uint256 loanToValueRatio) {
@@ -562,7 +530,11 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
             : Health.Ok;
     }
 
-    function _createLoan(Loan.Data memory loan) internal returns (Loan.Data memory) {
+    function _createLoan(
+        Loan.Data memory loan,
+        uint256 exchangeFee,
+        uint256 developmentFee
+    ) internal returns (Loan.Data memory) {
         if (loan.principalAmount == 0) {
             revert BaksDAOBorrowZeroAmount();
         }
@@ -570,13 +542,15 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
             revert BaksDAOBorrowBelowMinimumPrincipalAmount();
         }
 
-        stablecoin.mint(address(this), loan.stabilizationFee);
-        stablecoin.mint(exchangeFund, loan.exchangeFee);
-        stablecoin.mint(developmentFund, loan.developmentFee);
-        stablecoin.mint(loan.borrower, loan.principalAmount);
+        IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
+        baks.mint(address(this), loan.stabilizationFee);
+        baks.mint(core.exchangeFund(), exchangeFee);
+        baks.mint(core.developmentFund(), developmentFee);
+        baks.mint(loan.borrower, loan.principalAmount);
 
         uint256 id = loans.length;
         loan.id = id;
+        loan.interest = core.interest();
 
         loans.push(loan);
         loanIds[loan.borrower].push(id);
@@ -601,10 +575,11 @@ contract Bank is Initializable, Governed, ReentrancyGuard {
         }
 
         Loan.Data storage loan = loans[loanId];
+        loan.accrueInterest();
 
         uint256 normalizedCollateralAmount = loan.collateralToken.normalizeAmount(amount);
         loan.collateralAmount += normalizedCollateralAmount;
-        loan.lastDepositAt = block.timestamp;
+        loan.lastInteractionAt = block.timestamp;
         collateralTokens[loan.collateralToken].collateralAmount += normalizedCollateralAmount;
 
         emit Deposit(loanId, normalizedCollateralAmount);

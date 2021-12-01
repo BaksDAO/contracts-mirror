@@ -7,6 +7,8 @@ import "./../interfaces/IWrappedNativeCurrency.sol";
 error WrappedNativeCurrencyLowLevelCallFailed();
 
 contract WrappedNativeCurrency is BaseToken, IWrappedNativeCurrency {
+    constructor(address minter) BaseToken("Baks", "BAKS", 18, minter) {}
+
     function deposit() external payable override {
         _mint(msg.sender, msg.value);
     }

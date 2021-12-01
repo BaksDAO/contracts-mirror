@@ -23,15 +23,17 @@ src/types/*
 !src/types/Bank.ts
 !src/types/ChainlinkPriceOracle.ts
 !src/types/Core.ts
+!src/types/Depositary.ts
 !src/types/DevelopmentFund.ts
 !src/types/ExchangeFund.ts
 
 !src/types/factories
 src/types/factories/*
+!src/types/factories/Core__factory.ts
 !src/types/factories/Baks__factory.ts
 !src/types/factories/Bank__factory.ts
 !src/types/factories/ChainlinkPriceOracle__factory.ts
-!src/types/Core__factory.ts
+!src/types/factories/Depositary__factory.ts
 !src/types/factories/DevelopmentFund__factory.ts
 !src/types/factories/ExchangeFund__factory.ts
 

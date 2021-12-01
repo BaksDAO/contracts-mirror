@@ -27,7 +27,12 @@ library CollateralToken {
     function calculateLoanByPrincipalAmount(Data memory self, uint256 principalAmount)
         internal
         view
-        returns (Loan.Data memory)
+        returns (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        )
     {
         uint256 collateralTokenPrice = self.priceOracle.getNormalizedPrice(self.collateralToken);
 
@@ -35,35 +40,37 @@ library CollateralToken {
             self.initialLoanToValueRatio
         );
         uint256 stabilizationFee = restOfIssuance.mul(self.stabilizationFee);
-        uint256 exchangeFee = restOfIssuance.mul(self.exchangeFee);
-        uint256 developmentFee = restOfIssuance.mul(self.developmentFee);
+        exchangeFee = restOfIssuance.mul(self.exchangeFee);
+        developmentFee = restOfIssuance.mul(self.developmentFee);
 
         uint256 collateralAmount = principalAmount.div(self.initialLoanToValueRatio.mul(collateralTokenPrice));
-        uint256 stabilityFee = self.stabilityFee.mul(principalAmount).div(collateralTokenPrice);
+        stabilityFee = self.stabilityFee.mul(principalAmount).div(collateralTokenPrice);
 
-        return
-            Loan.Data({
-                id: 0,
-                isActive: true,
-                borrower: msg.sender,
-                collateralToken: self.collateralToken,
-                isNativeCurrency: false,
-                priceOracle: self.priceOracle,
-                stabilityFee: stabilityFee,
-                stabilizationFee: stabilizationFee,
-                exchangeFee: exchangeFee,
-                developmentFee: developmentFee,
-                principalAmount: principalAmount,
-                collateralAmount: collateralAmount,
-                lastDepositAt: block.timestamp,
-                lastRepaymentAt: block.timestamp
-            });
+        loan = Loan.Data({
+            id: 0,
+            isActive: true,
+            borrower: msg.sender,
+            collateralToken: self.collateralToken,
+            isNativeCurrency: false,
+            priceOracle: self.priceOracle,
+            interest: 0,
+            stabilizationFee: stabilizationFee,
+            principalAmount: principalAmount,
+            interestAmount: 0,
+            collateralAmount: collateralAmount,
+            lastInteractionAt: block.timestamp
+        });
     }
 
     function calculateLoanByCollateralAmount(Data memory self, uint256 collateralAmount)
         internal
         view
-        returns (Loan.Data memory)
+        returns (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        )
     {
         uint256 collateralTokenPrice = self.priceOracle.getNormalizedPrice(self.collateralToken);
         uint256 principalAmount = collateralAmount.mul(self.initialLoanToValueRatio).mul(collateralTokenPrice);
@@ -72,34 +79,36 @@ library CollateralToken {
             self.initialLoanToValueRatio
         );
         uint256 stabilizationFee = restOfIssuance.mul(self.stabilizationFee);
-        uint256 exchangeFee = restOfIssuance.mul(self.exchangeFee);
-        uint256 developmentFee = restOfIssuance.mul(self.developmentFee);
+        exchangeFee = restOfIssuance.mul(self.exchangeFee);
+        developmentFee = restOfIssuance.mul(self.developmentFee);
 
-        uint256 stabilityFee = self.stabilityFee.mul(principalAmount).div(collateralTokenPrice);
+        stabilityFee = self.stabilityFee.mul(principalAmount).div(collateralTokenPrice);
 
-        return
-            Loan.Data({
-                id: 0,
-                isActive: true,
-                borrower: msg.sender,
-                collateralToken: self.collateralToken,
-                isNativeCurrency: false,
-                priceOracle: self.priceOracle,
-                stabilityFee: stabilityFee,
-                stabilizationFee: stabilizationFee,
-                exchangeFee: exchangeFee,
-                developmentFee: developmentFee,
-                principalAmount: principalAmount,
-                collateralAmount: collateralAmount,
-                lastDepositAt: block.timestamp,
-                lastRepaymentAt: block.timestamp
-            });
+        loan = Loan.Data({
+            id: 0,
+            isActive: true,
+            borrower: msg.sender,
+            collateralToken: self.collateralToken,
+            isNativeCurrency: false,
+            priceOracle: self.priceOracle,
+            stabilizationFee: stabilizationFee,
+            interest: 0,
+            principalAmount: principalAmount,
+            interestAmount: 0,
+            collateralAmount: collateralAmount,
+            lastInteractionAt: block.timestamp
+        });
     }
 
     function calculateLoanBySecurityAmount(Data memory self, uint256 securityAmount)
         internal
         view
-        returns (Loan.Data memory)
+        returns (
+            Loan.Data memory loan,
+            uint256 exchangeFee,
+            uint256 developmentFee,
+            uint256 stabilityFee
+        )
     {
         uint256 collateralTokenPrice = self.priceOracle.getNormalizedPrice(self.collateralToken);
         uint256 c = self.stabilityFee.mul(self.initialLoanToValueRatio);
@@ -110,6 +119,10 @@ library CollateralToken {
     }
 
     function getCollateralValue(Data memory self) internal view returns (uint256 collateralValue) {
+        if (self.collateralAmount == 0) {
+            return 0;
+        }
+
         uint256 collateralTokenPrice = self.priceOracle.getNormalizedPrice(self.collateralToken);
         collateralValue = self.collateralAmount.mul(collateralTokenPrice);
     }

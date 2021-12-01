@@ -11,8 +11,17 @@ library Deposit {
     struct Data {
         uint256 id;
         bool isActive;
-        address magister;
         address depositor;
-        IERC20 depositedToken;
+        address magister;
+        uint256 poolId;
+        uint256 principal;
+        uint256 depositorTotalAccruedRewards;
+        uint256 depositorWithdrawnRewards;
+        uint256 magisterTotalAccruedRewards;
+        uint256 magisterWithdrawnRewards;
+        uint256 createdAt;
+        uint256 lastDepositAt;
+        uint256 lastInteractionAt;
+        uint256 closedAt;
     }
 }

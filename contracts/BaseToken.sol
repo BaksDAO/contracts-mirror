@@ -4,7 +4,6 @@ pragma solidity 0.8.10;
 import "./interfaces/IEIP2612.sol";
 import {Governed} from "./Governance.sol";
 import {IMintableAndBurnableERC20} from "./interfaces/ERC20.sol";
-import {Initializable} from "./libraries/Upgradability.sol";
 
 error ApproveFromZeroAddress(address spender, uint256 amount);
 error ApproveToZeroAddress(address owner, uint256 amount);
@@ -19,13 +18,13 @@ error TransferToZeroAddress(address from, uint256 amount);
 error TransferAmountExceedsAllowance(address from, address to, uint256 amount, uint256 allowance);
 error TransferAmountExceedsBalance(address from, address to, uint256 amount, uint256 balance);
 
-error MinterZeroAddress();
-error OnlyMinterAllowed();
-
 error EIP2612PermissionExpired(uint256 deadline);
 error EIP2612InvalidSignature(address owner, address signer);
 
-contract BaseToken is Initializable, Governed, IMintableAndBurnableERC20, IEIP2612 {
+error MinterZeroAddress();
+error OnlyMinterAllowed();
+
+contract BaseToken is Governed, IEIP2612, IMintableAndBurnableERC20 {
     bytes32 private constant EIP_712_DOMAIN_TYPE_HASH =
         keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
     bytes32 private constant PERMIT_TYPE_HASH =
@@ -55,12 +54,12 @@ contract BaseToken is Initializable, Governed, IMintableAndBurnableERC20, IEIP26
         _;
     }
 
-    function initialize(
+    constructor(
         string memory _name,
         string memory _symbol,
         uint8 _decimals,
         address _minter
-    ) external initializer {
+    ) {
         setGovernor(msg.sender);
 
         if (_minter == address(0)) {

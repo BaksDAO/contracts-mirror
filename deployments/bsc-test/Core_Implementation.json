@@ -1,5 +1,5 @@
 {
-  "address": "0x6c4696A3dEF3D67378E885fD5bb223534B7e8695",
+  "address": "0xF179B1F7B9A27e5AF4a4bC572d8186B99c66577F",
   "abi": [
     {
       "inputs": [
@@ -46,6 +46,82 @@
       "inputs": [],
       "name": "GovernedOnlyPendingGovernorAllowedToCall",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "bank",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newBank",
+          "type": "address"
+        }
+      ],
+      "name": "BankUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "depositary",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newDepositary",
+          "type": "address"
+        }
+      ],
+      "name": "DepositaryUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "developmentFund",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newDevelopmentFund",
+          "type": "address"
+        }
+      ],
+      "name": "DevelopmentFundUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "exchangeFund",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newExchangeFund",
+          "type": "address"
+        }
+      ],
+      "name": "ExchangeFundUpdated",
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -209,6 +285,25 @@
       "inputs": [
         {
           "indexed": false,
+          "internalType": "address",
+          "name": "priceOracle",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newPriceOracle",
+          "type": "address"
+        }
+      ],
+      "name": "PriceOracleUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
           "internalType": "uint256",
           "name": "rebalancingThreshold",
           "type": "uint256"
@@ -270,6 +365,32 @@
     },
     {
       "inputs": [],
+      "name": "bank",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "depositary",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "developmentFee",
       "outputs": [
         {
@@ -283,12 +404,38 @@
     },
     {
       "inputs": [],
+      "name": "developmentFund",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "exchangeFee",
       "outputs": [
         {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "exchangeFund",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -381,6 +528,19 @@
     },
     {
       "inputs": [],
+      "name": "priceOracle",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "rebalancingThreshold",
       "outputs": [
         {
@@ -403,6 +563,19 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newBank",
+          "type": "address"
+        }
+      ],
+      "name": "setBank",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -564,27 +737,27 @@
       "type": "function"
     }
   ],
-  "transactionHash": "0xd1c27ca942cd42a322833a3df9a89c9134b2d3f055a8d77eb4c8483cbb1081a8",
+  "transactionHash": "0x44ca67ad1affb086cc46fb31915d10b8bd1a37a0ccf7792f5cc54297727bf38d",
   "receipt": {
     "to": null,
     "from": "0x21309DA9AD64eA82431758B27cbD63E5d53A556c",
-    "contractAddress": "0x6c4696A3dEF3D67378E885fD5bb223534B7e8695",
-    "transactionIndex": 4,
-    "gasUsed": "643557",
+    "contractAddress": "0xF179B1F7B9A27e5AF4a4bC572d8186B99c66577F",
+    "transactionIndex": 2,
+    "gasUsed": "726793",
     "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-    "blockHash": "0x7cc38cb6e516e8934e0ba490198427579f0786917dc20d2e841b5f1c68ad15f2",
-    "transactionHash": "0xd1c27ca942cd42a322833a3df9a89c9134b2d3f055a8d77eb4c8483cbb1081a8",
+    "blockHash": "0xb3e85e58ec11f9817b59122473985343f89d87fccad4d9612807a0b056112341",
+    "transactionHash": "0x44ca67ad1affb086cc46fb31915d10b8bd1a37a0ccf7792f5cc54297727bf38d",
     "logs": [],
-    "blockNumber": 13984541,
-    "cumulativeGasUsed": "1009165",
+    "blockNumber": 14440859,
+    "cumulativeGasUsed": "1010736",
     "status": 1,
     "byzantium": true
   },
   "args": [],
-  "solcInputHash": "67e2ed7d7f2989be5bf2e0d809ee7ccc",
-  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"stabilizationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"exchangeFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"developmentFee\",\"type\":\"uint256\"}],\"name\":\"BaksDAOPlatformFeesDontSumUpToOne\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ContractAlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedCantGoverItself\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedGovernorZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyGovernorAllowedToCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyPendingGovernorAllowedToCall\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"liqudationLoanToValueRatio\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newLiquidationLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"LiquidationLoanToValueRatioUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"marginCallLoanToValueRatio\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newMarginCallLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"MarginCallLoanToValueRatioUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"minimumLiquidity\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newMinimumLiquidity\",\"type\":\"uint256\"}],\"name\":\"MinimumLiquidityUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"minimumPrincipalAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newMinimumPrincipalAmount\",\"type\":\"uint256\"}],\"name\":\"MinimumPrincipalAmountUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"PendingGovernanceTransition\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"stabilizationFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newStabilizationFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"exchangeFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newExchangeFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"developmentFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newDevelopmentFee\",\"type\":\"uint256\"}],\"name\":\"PlatformFeesUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"rebalancingThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newRebalancingThreshold\",\"type\":\"uint256\"}],\"name\":\"RebalancingThresholdUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"servicingThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newServicingThreshold\",\"type\":\"uint256\"}],\"name\":\"ServicingThresholdUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"stabilityFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newStabilityFee\",\"type\":\"uint256\"}],\"name\":\"StabilityFeeUpdated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"developmentFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"exchangeFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"liquidationLoanToValueRatio\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"marginCallLoanToValueRatio\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"minimumLiquidity\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"minimumPrincipalAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"rebalancingThreshold\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"servicingThreshold\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newLiquidationLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"setLiquidationLoanToValueRatio\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newMarginCallLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"setMarginCallLoanToValueRatio\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newMinimumLiquidity\",\"type\":\"uint256\"}],\"name\":\"setMinimumLiquidity\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newMinimumPrincipalAmount\",\"type\":\"uint256\"}],\"name\":\"setMinimumPrincipalAmount\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newStabilizationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"newExchangeFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"newDevelopmentFee\",\"type\":\"uint256\"}],\"name\":\"setPlatformFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newRebalancingThreshold\",\"type\":\"uint256\"}],\"name\":\"setRebalancingThreshold\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newServicingThreshold\",\"type\":\"uint256\"}],\"name\":\"setServicingThreshold\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newStabilityFee\",\"type\":\"uint256\"}],\"name\":\"setStabilityFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"stabilityFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"stabilizationFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"force\",\"type\":\"bool\"}],\"name\":\"transitGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"BaksDAOPlatformFeesDontSumUpToOne(uint256,uint256,uint256)\":[{\"details\":\"Thrown when trying to set platform fees that don't sum up to one.\",\"params\":{\"developmentFee\":\"The stabilization fee that was tried to set.\",\"exchangeFee\":\"The stabilization fee that was tried to set.\",\"stabilizationFee\":\"The stabilization fee that was tried to set.\"}}]},\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Core.sol\":\"Core\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/Core.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\nimport {Governed} from \\\"./Governance.sol\\\";\\n\\n/// @dev Thrown when trying to set platform fees that don't sum up to one.\\n/// @param stabilizationFee The stabilization fee that was tried to set.\\n/// @param exchangeFee The stabilization fee that was tried to set.\\n/// @param developmentFee The stabilization fee that was tried to set.\\nerror BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);\\n\\ninterface ICore {\\n    event MinimumPrincipalAmountUpdated(uint256 minimumPrincipalAmount, uint256 newMinimumPrincipalAmount);\\n    event StabilityFeeUpdated(uint256 stabilityFee, uint256 newStabilityFee);\\n    event RebalancingThresholdUpdated(uint256 rebalancingThreshold, uint256 newRebalancingThreshold);\\n    event PlatformFeesUpdated(\\n        uint256 stabilizationFee,\\n        uint256 newStabilizationFee,\\n        uint256 exchangeFee,\\n        uint256 newExchangeFee,\\n        uint256 developmentFee,\\n        uint256 newDevelopmentFee\\n    );\\n    event MarginCallLoanToValueRatioUpdated(uint256 marginCallLoanToValueRatio, uint256 newMarginCallLoanToValueRatio);\\n    event LiquidationLoanToValueRatioUpdated(\\n        uint256 liqudationLoanToValueRatio,\\n        uint256 newLiquidationLoanToValueRatio\\n    );\\n\\n    event ServicingThresholdUpdated(uint256 servicingThreshold, uint256 newServicingThreshold);\\n    event MinimumLiquidityUpdated(uint256 minimumLiquidity, uint256 newMinimumLiquidity);\\n\\n    function minimumPrincipalAmount() external view returns (uint256);\\n\\n    function stabilityFee() external view returns (uint256);\\n\\n    function stabilizationFee() external view returns (uint256);\\n\\n    function exchangeFee() external view returns (uint256);\\n\\n    function developmentFee() external view returns (uint256);\\n\\n    function marginCallLoanToValueRatio() external view returns (uint256);\\n\\n    function liquidationLoanToValueRatio() external view returns (uint256);\\n\\n    function rebalancingThreshold() external view returns (uint256);\\n\\n    function servicingThreshold() external view returns (uint256);\\n\\n    function minimumLiquidity() external view returns (uint256);\\n}\\n\\ncontract Core is Initializable, Governed, ICore {\\n    uint256 internal constant ONE = 100e16;\\n\\n    uint256 public override minimumPrincipalAmount;\\n    uint256 public override stabilityFee;\\n    uint256 public override stabilizationFee;\\n    uint256 public override exchangeFee;\\n    uint256 public override developmentFee;\\n    uint256 public override marginCallLoanToValueRatio;\\n    uint256 public override liquidationLoanToValueRatio;\\n    uint256 public override rebalancingThreshold;\\n\\n    uint256 public override servicingThreshold;\\n    uint256 public override minimumLiquidity;\\n\\n    function initialize() external initializer {\\n        setGovernor(msg.sender);\\n\\n        minimumPrincipalAmount = 50e18; // 50 BAKS\\n        stabilityFee = 3e16; // 3 %\\n        stabilizationFee = 85e16; // 85 %\\n        exchangeFee = 15e16; // 15 %\\n        developmentFee = 0;\\n        marginCallLoanToValueRatio = 75e16; // 75 %\\n        liquidationLoanToValueRatio = 83e16; // 83 %\\n        rebalancingThreshold = 1e16; // 1 %\\n\\n        servicingThreshold = 1e16; // 1%\\n        minimumLiquidity = 50000e18; // 50000 BAKS\\n    }\\n\\n    function setMinimumPrincipalAmount(uint256 newMinimumPrincipalAmount) external onlyGovernor {\\n        emit StabilityFeeUpdated(minimumPrincipalAmount, newMinimumPrincipalAmount);\\n        minimumPrincipalAmount = newMinimumPrincipalAmount;\\n    }\\n\\n    function setStabilityFee(uint256 newStabilityFee) external onlyGovernor {\\n        emit StabilityFeeUpdated(stabilityFee, newStabilityFee);\\n        stabilityFee = newStabilityFee;\\n    }\\n\\n    function setPlatformFees(\\n        uint256 newStabilizationFee,\\n        uint256 newExchangeFee,\\n        uint256 newDevelopmentFee\\n    ) external onlyGovernor {\\n        if (newStabilizationFee + newExchangeFee + newDevelopmentFee != ONE) {\\n            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);\\n        }\\n        emit PlatformFeesUpdated(\\n            stabilizationFee,\\n            newStabilizationFee,\\n            exchangeFee,\\n            newExchangeFee,\\n            developmentFee,\\n            newDevelopmentFee\\n        );\\n        stabilizationFee = newStabilizationFee;\\n        exchangeFee = newExchangeFee;\\n        developmentFee = newDevelopmentFee;\\n    }\\n\\n    function setMarginCallLoanToValueRatio(uint256 newMarginCallLoanToValueRatio) external onlyGovernor {\\n        emit MarginCallLoanToValueRatioUpdated(marginCallLoanToValueRatio, newMarginCallLoanToValueRatio);\\n        marginCallLoanToValueRatio = newMarginCallLoanToValueRatio;\\n    }\\n\\n    function setLiquidationLoanToValueRatio(uint256 newLiquidationLoanToValueRatio) external onlyGovernor {\\n        emit LiquidationLoanToValueRatioUpdated(liquidationLoanToValueRatio, newLiquidationLoanToValueRatio);\\n        liquidationLoanToValueRatio = newLiquidationLoanToValueRatio;\\n    }\\n\\n    function setRebalancingThreshold(uint256 newRebalancingThreshold) external onlyGovernor {\\n        emit RebalancingThresholdUpdated(rebalancingThreshold, newRebalancingThreshold);\\n        rebalancingThreshold = newRebalancingThreshold;\\n    }\\n\\n    function setServicingThreshold(uint256 newServicingThreshold) external onlyGovernor {\\n        emit ServicingThresholdUpdated(servicingThreshold, newServicingThreshold);\\n        servicingThreshold = newServicingThreshold;\\n    }\\n\\n    function setMinimumLiquidity(uint256 newMinimumLiquidity) external onlyGovernor {\\n        emit MinimumLiquidityUpdated(minimumLiquidity, newMinimumLiquidity);\\n        minimumLiquidity = newMinimumLiquidity;\\n    }\\n}\\n\",\"keccak256\":\"0xbb9cdcaaf10204943ae5e47f4f8f75ab733b5180017782157bb9b88d9171d57a\",\"license\":\"BUSL-1.1\"},\"contracts/Governance.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nerror GovernedOnlyGovernorAllowedToCall();\\nerror GovernedOnlyPendingGovernorAllowedToCall();\\nerror GovernedGovernorZeroAddress();\\nerror GovernedCantGoverItself();\\n\\nabstract contract Governed {\\n    address public governor;\\n    address public pendingGovernor;\\n\\n    event PendingGovernanceTransition(address indexed governor, address indexed newGovernor);\\n    event GovernanceTransited(address indexed governor, address indexed newGovernor);\\n\\n    modifier onlyGovernor() {\\n        if (msg.sender != governor) {\\n            revert GovernedOnlyGovernorAllowedToCall();\\n        }\\n        _;\\n    }\\n\\n    function transitGovernance(address newGovernor, bool force) external onlyGovernor {\\n        if (newGovernor == address(0)) {\\n            revert GovernedGovernorZeroAddress();\\n        }\\n        if (newGovernor == address(this)) {\\n            revert GovernedCantGoverItself();\\n        }\\n\\n        pendingGovernor = newGovernor;\\n        if (!force) {\\n            emit PendingGovernanceTransition(governor, newGovernor);\\n        } else {\\n            setGovernor(newGovernor);\\n        }\\n    }\\n\\n    function acceptGovernance() external {\\n        if (msg.sender != pendingGovernor) {\\n            revert GovernedOnlyPendingGovernorAllowedToCall();\\n        }\\n\\n        governor = pendingGovernor;\\n        emit GovernanceTransited(governor, pendingGovernor);\\n    }\\n\\n    function setGovernor(address newGovernor) internal {\\n        governor = newGovernor;\\n        emit GovernanceTransited(governor, newGovernor);\\n    }\\n}\\n\",\"keccak256\":\"0x39eb94fcb72876408caf31d462e821259a1a35a48f56fafb09b442283432dd71\",\"license\":\"BUSL-1.1\"},\"contracts/libraries/Address.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nerror CallToNonContract(address target);\\n\\nlibrary Address {\\n    function functionCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.call(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function delegateCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.delegatecall(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function isContract(address account) internal view returns (bool) {\\n        uint256 codeSize;\\n        assembly {\\n            codeSize := extcodesize(account)\\n        }\\n\\n        return codeSize > 0;\\n    }\\n\\n    function verifyCallResult(\\n        bool success,\\n        bytes memory returnData,\\n        string memory errorMessage\\n    ) internal pure returns (bytes memory) {\\n        if (success) {\\n            return returnData;\\n        } else {\\n            if (returnData.length > 0) {\\n                assembly {\\n                    let returnDataSize := mload(returnData)\\n                    revert(add(returnData, 32), returnDataSize)\\n                }\\n            } else {\\n                revert(errorMessage);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xba7550b67e8e597fcbc05c61eb85d739d80547eb243b78dd1bfa933e8a3490f1\",\"license\":\"MIT\"},\"contracts/libraries/Upgradability.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nimport \\\"./Address.sol\\\";\\n\\nerror EIP1967ImplementationIsNotContract(address implementation);\\nerror ContractAlreadyInitialized();\\nerror OnlyProxyCallAllowed();\\nerror OnlyCurrentImplementationAllowed();\\n\\nlibrary EIP1967 {\\n    using Address for address;\\n\\n    bytes32 internal constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;\\n\\n    event Upgraded(address indexed newImplementation);\\n\\n    function upgradeTo(address newImplementation) internal {\\n        if (!newImplementation.isContract()) {\\n            revert EIP1967ImplementationIsNotContract(newImplementation);\\n        }\\n\\n        assembly {\\n            sstore(IMPLEMENTATION_SLOT, newImplementation)\\n        }\\n\\n        emit Upgraded(newImplementation);\\n    }\\n\\n    function getImplementation() internal view returns (address implementation) {\\n        assembly {\\n            implementation := sload(IMPLEMENTATION_SLOT)\\n        }\\n    }\\n}\\n\\ncontract Proxy {\\n    using Address for address;\\n\\n    constructor(address implementation, bytes memory data) {\\n        EIP1967.upgradeTo(implementation);\\n        implementation.delegateCall(data, \\\"Proxy: construction failed\\\");\\n    }\\n\\n    receive() external payable {\\n        delegateCall();\\n    }\\n\\n    fallback() external payable {\\n        delegateCall();\\n    }\\n\\n    function delegateCall() internal {\\n        address implementation = EIP1967.getImplementation();\\n\\n        assembly {\\n            calldatacopy(0, 0, calldatasize())\\n\\n            let result := delegatecall(gas(), implementation, 0, calldatasize(), 0, 0)\\n\\n            returndatacopy(0, 0, returndatasize())\\n\\n            switch result\\n            case 0 {\\n                revert(0, returndatasize())\\n            }\\n            default {\\n                return(0, returndatasize())\\n            }\\n        }\\n    }\\n}\\n\\nabstract contract Upgradeable {\\n    address private immutable self = address(this);\\n\\n    modifier onlyProxy() {\\n        if (address(this) == self) {\\n            revert OnlyProxyCallAllowed();\\n        }\\n        if (EIP1967.getImplementation() != self) {\\n            revert OnlyCurrentImplementationAllowed();\\n        }\\n        _;\\n    }\\n\\n    function upgradeTo(address newImplementation) public virtual onlyProxy {\\n        EIP1967.upgradeTo(newImplementation);\\n    }\\n}\\n\\nabstract contract Initializable {\\n    bool private initializing;\\n    bool private initialized;\\n\\n    modifier initializer() {\\n        if (!initializing && initialized) {\\n            revert ContractAlreadyInitialized();\\n        }\\n\\n        bool isTopLevelCall = !initializing;\\n        if (isTopLevelCall) {\\n            initializing = true;\\n            initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc3091e63c4fcc7642bcc850ec9c37030b6b7c0c210dcace49f8ba2b930211f88\",\"license\":\"MIT\"}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610ab0806100206000396000f3fe608060405234801561001057600080fd5b506004361061018d5760003560e01c8063736e1c26116100e3578063d876d98e1161008c578063e3056a3411610066578063e3056a34146102d1578063ee0e54cb146102e4578063fb4ca35b146102ed57600080fd5b8063d876d98e146102a2578063ddc12526146102ab578063e16da9f8146102be57600080fd5b8063a5f3d003116100bd578063a5f3d0031461027d578063af76a7ef14610286578063b56cf0111461029957600080fd5b8063736e1c261461024f57806377c4572d146102625780638129fc1c1461027557600080fd5b80632ecd3be41161014557806342580dbe1161011f57806342580dbe146102345780634433c5e81461023d578063453844b61461024657600080fd5b80632ecd3be41461020f578063361416e1146102185780633f8189ea1461022157600080fd5b8063238efcbc11610176578063238efcbc146101df578063282567b4146101e95780632b3c3892146101fc57600080fd5b80630b68a580146101925780630c340a24146101ae575b600080fd5b61019b60025481565b6040519081526020015b60405180910390f35b6000546101c7906201000090046001600160a01b031681565b6040516001600160a01b0390911681526020016101a5565b6101e7610300565b005b6101e76101f73660046109ee565b610395565b6101e761020a3660046109ee565b610407565b61019b60055481565b61019b60035481565b6101e761022f3660046109ee565b610479565b61019b60045481565b61019b60085481565b61019b600a5481565b6101e761025d3660046109ee565b6104eb565b6101e76102703660046109ee565b61055d565b6101e76105cf565b61019b60065481565b6101e76102943660046109ee565b6106ac565b61019b600b5481565b61019b60075481565b6101e76102b9366004610a07565b61071e565b6101e76102cc366004610a51565b610828565b6001546101c7906001600160a01b031681565b61019b60095481565b6101e76102fb3660046109ee565b610915565b6001546001600160a01b0316331461032b5760405163aec80d4b60e01b815260040160405180910390fd5b60015460008054620100006001600160a01b0393841681810275ffffffffffffffffffffffffffffffffffffffff00001990931692909217808455604051929491900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b6000546201000090046001600160a01b031633146103c6576040516305e7700560e51b815260040160405180910390fd5b600b5460408051918252602082018390527fd18c85fe8a5776467c327fa33312c6113129233ddb47deabaa91b8396b815879910160405180910390a1600b55565b6000546201000090046001600160a01b03163314610438576040516305e7700560e51b815260040160405180910390fd5b60025460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600255565b6000546201000090046001600160a01b031633146104aa576040516305e7700560e51b815260040160405180910390fd5b60085460408051918252602082018390527fa466548b1a7b7c581a6b5b6e38ebed0f41846451118fb8582b71f8605b960cd8910160405180910390a1600855565b6000546201000090046001600160a01b0316331461051c576040516305e7700560e51b815260040160405180910390fd5b600a5460408051918252602082018390527f157d4d2c2eb9bbd85c7f6da0c13113a3799cc3df5c817cba85d84832176459bc910160405180910390a1600a55565b6000546201000090046001600160a01b0316331461058e576040516305e7700560e51b815260040160405180910390fd5b60075460408051918252602082018390527fd2a3e4f854a80a895407f8743c1363ac14b698c432d22d8c65519e13a9e4983d910160405180910390a1600755565b60005460ff161580156105e95750600054610100900460ff165b1561060757604051631ee1e30360e21b815260040160405180910390fd5b60005460ff16158015610624576000805461ffff19166101011790555b61062d33610987565b6802b5e3af16b1880000600255666a94d74f430000600355670bcbce7f1b150000600455670214e8348c4f00006005556000600655670a688906bd8b0000600755670b84c09a3b930000600855662386f26fc100006009819055600a55690a968163f0a57b400000600b5580156106a9576000805460ff191690555b50565b6000546201000090046001600160a01b031633146106dd576040516305e7700560e51b815260040160405180910390fd5b60095460408051918252602082018390527f5eb53b71d73d0607121e658859e0125d7bbbf83c4288d44c18438d4fe94d1e07910160405180910390a1600955565b6000546201000090046001600160a01b0316331461074f576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166107765760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156107a0576040516306b3e95d60e21b815260040160405180910390fd5b600180547fffffffffffffffffffffffff0000000000000000000000000000000000000000166001600160a01b0384161790558061081b57600080546040516001600160a01b03808616936201000090930416917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb191a35050565b61082482610987565b5050565b6000546201000090046001600160a01b03163314610859576040516305e7700560e51b815260040160405180910390fd5b670de0b6b3a76400008161086d8486610a7d565b6108779190610a7d565b146108aa5760405163245c170760e21b815260048101849052602481018390526044810182905260640160405180910390fd5b600454600554600654604080519384526020840187905283019190915260608201849052608082015260a081018290527f1f7068a9be898db6fcd350ac2ff32fc5f1e6fc46c8e6cc973cde53793ff3ab5e9060c00160405180910390a1600492909255600555600655565b6000546201000090046001600160a01b03163314610946576040516305e7700560e51b815260040160405180910390fd5b60035460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600355565b6000805475ffffffffffffffffffffffffffffffffffffffff00001916620100006001600160a01b0384811682810293909317808555604051939492900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e9190a350565b600060208284031215610a0057600080fd5b5035919050565b60008060408385031215610a1a57600080fd5b82356001600160a01b0381168114610a3157600080fd5b915060208301358015158114610a4657600080fd5b809150509250929050565b600080600060608486031215610a6657600080fd5b505081359360208301359350604090920135919050565b60008219821115610a9e57634e487b7160e01b600052601160045260246000fd5b50019056fea164736f6c634300080a000a",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061018d5760003560e01c8063736e1c26116100e3578063d876d98e1161008c578063e3056a3411610066578063e3056a34146102d1578063ee0e54cb146102e4578063fb4ca35b146102ed57600080fd5b8063d876d98e146102a2578063ddc12526146102ab578063e16da9f8146102be57600080fd5b8063a5f3d003116100bd578063a5f3d0031461027d578063af76a7ef14610286578063b56cf0111461029957600080fd5b8063736e1c261461024f57806377c4572d146102625780638129fc1c1461027557600080fd5b80632ecd3be41161014557806342580dbe1161011f57806342580dbe146102345780634433c5e81461023d578063453844b61461024657600080fd5b80632ecd3be41461020f578063361416e1146102185780633f8189ea1461022157600080fd5b8063238efcbc11610176578063238efcbc146101df578063282567b4146101e95780632b3c3892146101fc57600080fd5b80630b68a580146101925780630c340a24146101ae575b600080fd5b61019b60025481565b6040519081526020015b60405180910390f35b6000546101c7906201000090046001600160a01b031681565b6040516001600160a01b0390911681526020016101a5565b6101e7610300565b005b6101e76101f73660046109ee565b610395565b6101e761020a3660046109ee565b610407565b61019b60055481565b61019b60035481565b6101e761022f3660046109ee565b610479565b61019b60045481565b61019b60085481565b61019b600a5481565b6101e761025d3660046109ee565b6104eb565b6101e76102703660046109ee565b61055d565b6101e76105cf565b61019b60065481565b6101e76102943660046109ee565b6106ac565b61019b600b5481565b61019b60075481565b6101e76102b9366004610a07565b61071e565b6101e76102cc366004610a51565b610828565b6001546101c7906001600160a01b031681565b61019b60095481565b6101e76102fb3660046109ee565b610915565b6001546001600160a01b0316331461032b5760405163aec80d4b60e01b815260040160405180910390fd5b60015460008054620100006001600160a01b0393841681810275ffffffffffffffffffffffffffffffffffffffff00001990931692909217808455604051929491900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b6000546201000090046001600160a01b031633146103c6576040516305e7700560e51b815260040160405180910390fd5b600b5460408051918252602082018390527fd18c85fe8a5776467c327fa33312c6113129233ddb47deabaa91b8396b815879910160405180910390a1600b55565b6000546201000090046001600160a01b03163314610438576040516305e7700560e51b815260040160405180910390fd5b60025460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600255565b6000546201000090046001600160a01b031633146104aa576040516305e7700560e51b815260040160405180910390fd5b60085460408051918252602082018390527fa466548b1a7b7c581a6b5b6e38ebed0f41846451118fb8582b71f8605b960cd8910160405180910390a1600855565b6000546201000090046001600160a01b0316331461051c576040516305e7700560e51b815260040160405180910390fd5b600a5460408051918252602082018390527f157d4d2c2eb9bbd85c7f6da0c13113a3799cc3df5c817cba85d84832176459bc910160405180910390a1600a55565b6000546201000090046001600160a01b0316331461058e576040516305e7700560e51b815260040160405180910390fd5b60075460408051918252602082018390527fd2a3e4f854a80a895407f8743c1363ac14b698c432d22d8c65519e13a9e4983d910160405180910390a1600755565b60005460ff161580156105e95750600054610100900460ff165b1561060757604051631ee1e30360e21b815260040160405180910390fd5b60005460ff16158015610624576000805461ffff19166101011790555b61062d33610987565b6802b5e3af16b1880000600255666a94d74f430000600355670bcbce7f1b150000600455670214e8348c4f00006005556000600655670a688906bd8b0000600755670b84c09a3b930000600855662386f26fc100006009819055600a55690a968163f0a57b400000600b5580156106a9576000805460ff191690555b50565b6000546201000090046001600160a01b031633146106dd576040516305e7700560e51b815260040160405180910390fd5b60095460408051918252602082018390527f5eb53b71d73d0607121e658859e0125d7bbbf83c4288d44c18438d4fe94d1e07910160405180910390a1600955565b6000546201000090046001600160a01b0316331461074f576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166107765760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156107a0576040516306b3e95d60e21b815260040160405180910390fd5b600180547fffffffffffffffffffffffff0000000000000000000000000000000000000000166001600160a01b0384161790558061081b57600080546040516001600160a01b03808616936201000090930416917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb191a35050565b61082482610987565b5050565b6000546201000090046001600160a01b03163314610859576040516305e7700560e51b815260040160405180910390fd5b670de0b6b3a76400008161086d8486610a7d565b6108779190610a7d565b146108aa5760405163245c170760e21b815260048101849052602481018390526044810182905260640160405180910390fd5b600454600554600654604080519384526020840187905283019190915260608201849052608082015260a081018290527f1f7068a9be898db6fcd350ac2ff32fc5f1e6fc46c8e6cc973cde53793ff3ab5e9060c00160405180910390a1600492909255600555600655565b6000546201000090046001600160a01b03163314610946576040516305e7700560e51b815260040160405180910390fd5b60035460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600355565b6000805475ffffffffffffffffffffffffffffffffffffffff00001916620100006001600160a01b0384811682810293909317808555604051939492900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e9190a350565b600060208284031215610a0057600080fd5b5035919050565b60008060408385031215610a1a57600080fd5b82356001600160a01b0381168114610a3157600080fd5b915060208301358015158114610a4657600080fd5b809150509250929050565b600080600060608486031215610a6657600080fd5b505081359360208301359350604090920135919050565b60008219821115610a9e57634e487b7160e01b600052601160045260246000fd5b50019056fea164736f6c634300080a000a",
+  "solcInputHash": "d70e0a1a4ce6895a490d16c22c98594c",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"stabilizationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"exchangeFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"developmentFee\",\"type\":\"uint256\"}],\"name\":\"BaksDAOPlatformFeesDontSumUpToOne\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ContractAlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedCantGoverItself\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedGovernorZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyGovernorAllowedToCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyPendingGovernorAllowedToCall\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bank\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newBank\",\"type\":\"address\"}],\"name\":\"BankUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"depositary\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newDepositary\",\"type\":\"address\"}],\"name\":\"DepositaryUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"developmentFund\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newDevelopmentFund\",\"type\":\"address\"}],\"name\":\"DevelopmentFundUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"exchangeFund\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newExchangeFund\",\"type\":\"address\"}],\"name\":\"ExchangeFundUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"liqudationLoanToValueRatio\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newLiquidationLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"LiquidationLoanToValueRatioUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"marginCallLoanToValueRatio\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newMarginCallLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"MarginCallLoanToValueRatioUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"minimumLiquidity\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newMinimumLiquidity\",\"type\":\"uint256\"}],\"name\":\"MinimumLiquidityUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"minimumPrincipalAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newMinimumPrincipalAmount\",\"type\":\"uint256\"}],\"name\":\"MinimumPrincipalAmountUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"PendingGovernanceTransition\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"stabilizationFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newStabilizationFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"exchangeFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newExchangeFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"developmentFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newDevelopmentFee\",\"type\":\"uint256\"}],\"name\":\"PlatformFeesUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"priceOracle\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newPriceOracle\",\"type\":\"address\"}],\"name\":\"PriceOracleUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"rebalancingThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newRebalancingThreshold\",\"type\":\"uint256\"}],\"name\":\"RebalancingThresholdUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"servicingThreshold\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newServicingThreshold\",\"type\":\"uint256\"}],\"name\":\"ServicingThresholdUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"stabilityFee\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newStabilityFee\",\"type\":\"uint256\"}],\"name\":\"StabilityFeeUpdated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"bank\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"depositary\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"developmentFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"developmentFund\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"exchangeFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"exchangeFund\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"liquidationLoanToValueRatio\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"marginCallLoanToValueRatio\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"minimumLiquidity\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"minimumPrincipalAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"priceOracle\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"rebalancingThreshold\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"servicingThreshold\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newBank\",\"type\":\"address\"}],\"name\":\"setBank\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newLiquidationLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"setLiquidationLoanToValueRatio\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newMarginCallLoanToValueRatio\",\"type\":\"uint256\"}],\"name\":\"setMarginCallLoanToValueRatio\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newMinimumLiquidity\",\"type\":\"uint256\"}],\"name\":\"setMinimumLiquidity\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newMinimumPrincipalAmount\",\"type\":\"uint256\"}],\"name\":\"setMinimumPrincipalAmount\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newStabilizationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"newExchangeFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"newDevelopmentFee\",\"type\":\"uint256\"}],\"name\":\"setPlatformFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newRebalancingThreshold\",\"type\":\"uint256\"}],\"name\":\"setRebalancingThreshold\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newServicingThreshold\",\"type\":\"uint256\"}],\"name\":\"setServicingThreshold\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newStabilityFee\",\"type\":\"uint256\"}],\"name\":\"setStabilityFee\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"stabilityFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"stabilizationFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"force\",\"type\":\"bool\"}],\"name\":\"transitGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"BaksDAOPlatformFeesDontSumUpToOne(uint256,uint256,uint256)\":[{\"details\":\"Thrown when trying to set platform fees that don't sum up to one.\",\"params\":{\"developmentFee\":\"The stabilization fee that was tried to set.\",\"exchangeFee\":\"The stabilization fee that was tried to set.\",\"stabilizationFee\":\"The stabilization fee that was tried to set.\"}}]},\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Core.sol\":\"Core\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/Core.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\nimport {Governed} from \\\"./Governance.sol\\\";\\n\\n/// @dev Thrown when trying to set platform fees that don't sum up to one.\\n/// @param stabilizationFee The stabilization fee that was tried to set.\\n/// @param exchangeFee The stabilization fee that was tried to set.\\n/// @param developmentFee The stabilization fee that was tried to set.\\nerror BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);\\n\\ninterface ICore {\\n    event MinimumPrincipalAmountUpdated(uint256 minimumPrincipalAmount, uint256 newMinimumPrincipalAmount);\\n    event StabilityFeeUpdated(uint256 stabilityFee, uint256 newStabilityFee);\\n    event RebalancingThresholdUpdated(uint256 rebalancingThreshold, uint256 newRebalancingThreshold);\\n    event PlatformFeesUpdated(\\n        uint256 stabilizationFee,\\n        uint256 newStabilizationFee,\\n        uint256 exchangeFee,\\n        uint256 newExchangeFee,\\n        uint256 developmentFee,\\n        uint256 newDevelopmentFee\\n    );\\n    event MarginCallLoanToValueRatioUpdated(uint256 marginCallLoanToValueRatio, uint256 newMarginCallLoanToValueRatio);\\n    event LiquidationLoanToValueRatioUpdated(\\n        uint256 liqudationLoanToValueRatio,\\n        uint256 newLiquidationLoanToValueRatio\\n    );\\n\\n    event ServicingThresholdUpdated(uint256 servicingThreshold, uint256 newServicingThreshold);\\n    event MinimumLiquidityUpdated(uint256 minimumLiquidity, uint256 newMinimumLiquidity);\\n\\n    event PriceOracleUpdated(address priceOracle, address newPriceOracle);\\n    event BankUpdated(address bank, address newBank);\\n    event DepositaryUpdated(address depositary, address newDepositary);\\n    event ExchangeFundUpdated(address exchangeFund, address newExchangeFund);\\n    event DevelopmentFundUpdated(address developmentFund, address newDevelopmentFund);\\n\\n    function minimumPrincipalAmount() external view returns (uint256);\\n\\n    function stabilityFee() external view returns (uint256);\\n\\n    function stabilizationFee() external view returns (uint256);\\n\\n    function exchangeFee() external view returns (uint256);\\n\\n    function developmentFee() external view returns (uint256);\\n\\n    function marginCallLoanToValueRatio() external view returns (uint256);\\n\\n    function liquidationLoanToValueRatio() external view returns (uint256);\\n\\n    function rebalancingThreshold() external view returns (uint256);\\n\\n    function servicingThreshold() external view returns (uint256);\\n\\n    function minimumLiquidity() external view returns (uint256);\\n\\n    function priceOracle() external view returns (address);\\n\\n    function bank() external view returns (address);\\n\\n    function depositary() external view returns (address);\\n\\n    function exchangeFund() external view returns (address);\\n\\n    function developmentFund() external view returns (address);\\n}\\n\\ncontract Core is Initializable, Governed, ICore {\\n    uint256 internal constant ONE = 100e16;\\n\\n    uint256 public override minimumPrincipalAmount;\\n    uint256 public override stabilityFee;\\n    uint256 public override stabilizationFee;\\n    uint256 public override exchangeFee;\\n    uint256 public override developmentFee;\\n    uint256 public override marginCallLoanToValueRatio;\\n    uint256 public override liquidationLoanToValueRatio;\\n    uint256 public override rebalancingThreshold;\\n\\n    uint256 public override servicingThreshold;\\n    uint256 public override minimumLiquidity;\\n\\n    address public override priceOracle;\\n    address public override bank;\\n    address public override depositary;\\n    address public override exchangeFund;\\n    address public override developmentFund;\\n\\n    function initialize() external initializer {\\n        setGovernor(msg.sender);\\n\\n        minimumPrincipalAmount = 50e18; // 50 BAKS\\n        stabilityFee = 3e16; // 3 %\\n        stabilizationFee = 85e16; // 85 %\\n        exchangeFee = 15e16; // 15 %\\n        developmentFee = 0;\\n        marginCallLoanToValueRatio = 75e16; // 75 %\\n        liquidationLoanToValueRatio = 83e16; // 83 %\\n        rebalancingThreshold = 1e16; // 1 %\\n\\n        servicingThreshold = 1e16; // 1%\\n        minimumLiquidity = 50000e18; // 50000 BAKS\\n    }\\n\\n    function setMinimumPrincipalAmount(uint256 newMinimumPrincipalAmount) external onlyGovernor {\\n        emit StabilityFeeUpdated(minimumPrincipalAmount, newMinimumPrincipalAmount);\\n        minimumPrincipalAmount = newMinimumPrincipalAmount;\\n    }\\n\\n    function setStabilityFee(uint256 newStabilityFee) external onlyGovernor {\\n        emit StabilityFeeUpdated(stabilityFee, newStabilityFee);\\n        stabilityFee = newStabilityFee;\\n    }\\n\\n    function setPlatformFees(\\n        uint256 newStabilizationFee,\\n        uint256 newExchangeFee,\\n        uint256 newDevelopmentFee\\n    ) external onlyGovernor {\\n        if (newStabilizationFee + newExchangeFee + newDevelopmentFee != ONE) {\\n            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);\\n        }\\n        emit PlatformFeesUpdated(\\n            stabilizationFee,\\n            newStabilizationFee,\\n            exchangeFee,\\n            newExchangeFee,\\n            developmentFee,\\n            newDevelopmentFee\\n        );\\n        stabilizationFee = newStabilizationFee;\\n        exchangeFee = newExchangeFee;\\n        developmentFee = newDevelopmentFee;\\n    }\\n\\n    function setMarginCallLoanToValueRatio(uint256 newMarginCallLoanToValueRatio) external onlyGovernor {\\n        emit MarginCallLoanToValueRatioUpdated(marginCallLoanToValueRatio, newMarginCallLoanToValueRatio);\\n        marginCallLoanToValueRatio = newMarginCallLoanToValueRatio;\\n    }\\n\\n    function setLiquidationLoanToValueRatio(uint256 newLiquidationLoanToValueRatio) external onlyGovernor {\\n        emit LiquidationLoanToValueRatioUpdated(liquidationLoanToValueRatio, newLiquidationLoanToValueRatio);\\n        liquidationLoanToValueRatio = newLiquidationLoanToValueRatio;\\n    }\\n\\n    function setRebalancingThreshold(uint256 newRebalancingThreshold) external onlyGovernor {\\n        emit RebalancingThresholdUpdated(rebalancingThreshold, newRebalancingThreshold);\\n        rebalancingThreshold = newRebalancingThreshold;\\n    }\\n\\n    function setServicingThreshold(uint256 newServicingThreshold) external onlyGovernor {\\n        emit ServicingThresholdUpdated(servicingThreshold, newServicingThreshold);\\n        servicingThreshold = newServicingThreshold;\\n    }\\n\\n    function setMinimumLiquidity(uint256 newMinimumLiquidity) external onlyGovernor {\\n        emit MinimumLiquidityUpdated(minimumLiquidity, newMinimumLiquidity);\\n        minimumLiquidity = newMinimumLiquidity;\\n    }\\n\\n    function setBank(address newBank) external onlyGovernor {\\n        emit BankUpdated(bank, newBank);\\n        bank = newBank;\\n    }\\n}\\n\",\"keccak256\":\"0x5cdff14c6984bcccd37739dd3e519590a98c4197218fb1e093e4a1049f5c92f0\",\"license\":\"BUSL-1.1\"},\"contracts/Governance.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nerror GovernedOnlyGovernorAllowedToCall();\\nerror GovernedOnlyPendingGovernorAllowedToCall();\\nerror GovernedGovernorZeroAddress();\\nerror GovernedCantGoverItself();\\n\\nabstract contract Governed {\\n    address public governor;\\n    address public pendingGovernor;\\n\\n    event PendingGovernanceTransition(address indexed governor, address indexed newGovernor);\\n    event GovernanceTransited(address indexed governor, address indexed newGovernor);\\n\\n    modifier onlyGovernor() {\\n        if (msg.sender != governor) {\\n            revert GovernedOnlyGovernorAllowedToCall();\\n        }\\n        _;\\n    }\\n\\n    function transitGovernance(address newGovernor, bool force) external onlyGovernor {\\n        if (newGovernor == address(0)) {\\n            revert GovernedGovernorZeroAddress();\\n        }\\n        if (newGovernor == address(this)) {\\n            revert GovernedCantGoverItself();\\n        }\\n\\n        pendingGovernor = newGovernor;\\n        if (!force) {\\n            emit PendingGovernanceTransition(governor, newGovernor);\\n        } else {\\n            setGovernor(newGovernor);\\n        }\\n    }\\n\\n    function acceptGovernance() external {\\n        if (msg.sender != pendingGovernor) {\\n            revert GovernedOnlyPendingGovernorAllowedToCall();\\n        }\\n\\n        governor = pendingGovernor;\\n        emit GovernanceTransited(governor, pendingGovernor);\\n    }\\n\\n    function setGovernor(address newGovernor) internal {\\n        governor = newGovernor;\\n        emit GovernanceTransited(governor, newGovernor);\\n    }\\n}\\n\",\"keccak256\":\"0x39eb94fcb72876408caf31d462e821259a1a35a48f56fafb09b442283432dd71\",\"license\":\"BUSL-1.1\"},\"contracts/libraries/Address.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nerror CallToNonContract(address target);\\n\\nlibrary Address {\\n    function functionCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.call(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function delegateCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.delegatecall(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function isContract(address account) internal view returns (bool) {\\n        uint256 codeSize;\\n        assembly {\\n            codeSize := extcodesize(account)\\n        }\\n\\n        return codeSize > 0;\\n    }\\n\\n    function verifyCallResult(\\n        bool success,\\n        bytes memory returnData,\\n        string memory errorMessage\\n    ) internal pure returns (bytes memory) {\\n        if (success) {\\n            return returnData;\\n        } else {\\n            if (returnData.length > 0) {\\n                assembly {\\n                    let returnDataSize := mload(returnData)\\n                    revert(add(returnData, 32), returnDataSize)\\n                }\\n            } else {\\n                revert(errorMessage);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xba7550b67e8e597fcbc05c61eb85d739d80547eb243b78dd1bfa933e8a3490f1\",\"license\":\"MIT\"},\"contracts/libraries/Upgradability.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nimport \\\"./Address.sol\\\";\\n\\nerror EIP1967ImplementationIsNotContract(address implementation);\\nerror ContractAlreadyInitialized();\\nerror OnlyProxyCallAllowed();\\nerror OnlyCurrentImplementationAllowed();\\n\\nlibrary EIP1967 {\\n    using Address for address;\\n\\n    bytes32 internal constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;\\n\\n    event Upgraded(address indexed newImplementation);\\n\\n    function upgradeTo(address newImplementation) internal {\\n        if (!newImplementation.isContract()) {\\n            revert EIP1967ImplementationIsNotContract(newImplementation);\\n        }\\n\\n        assembly {\\n            sstore(IMPLEMENTATION_SLOT, newImplementation)\\n        }\\n\\n        emit Upgraded(newImplementation);\\n    }\\n\\n    function getImplementation() internal view returns (address implementation) {\\n        assembly {\\n            implementation := sload(IMPLEMENTATION_SLOT)\\n        }\\n    }\\n}\\n\\ncontract Proxy {\\n    using Address for address;\\n\\n    constructor(address implementation, bytes memory data) {\\n        EIP1967.upgradeTo(implementation);\\n        implementation.delegateCall(data, \\\"Proxy: construction failed\\\");\\n    }\\n\\n    receive() external payable {\\n        delegateCall();\\n    }\\n\\n    fallback() external payable {\\n        delegateCall();\\n    }\\n\\n    function delegateCall() internal {\\n        address implementation = EIP1967.getImplementation();\\n\\n        assembly {\\n            calldatacopy(0, 0, calldatasize())\\n\\n            let result := delegatecall(gas(), implementation, 0, calldatasize(), 0, 0)\\n\\n            returndatacopy(0, 0, returndatasize())\\n\\n            switch result\\n            case 0 {\\n                revert(0, returndatasize())\\n            }\\n            default {\\n                return(0, returndatasize())\\n            }\\n        }\\n    }\\n}\\n\\nabstract contract Upgradeable {\\n    address private immutable self = address(this);\\n\\n    modifier onlyProxy() {\\n        if (address(this) == self) {\\n            revert OnlyProxyCallAllowed();\\n        }\\n        if (EIP1967.getImplementation() != self) {\\n            revert OnlyCurrentImplementationAllowed();\\n        }\\n        _;\\n    }\\n\\n    function upgradeTo(address newImplementation) public virtual onlyProxy {\\n        EIP1967.upgradeTo(newImplementation);\\n    }\\n}\\n\\nabstract contract Initializable {\\n    bool private initializing;\\n    bool private initialized;\\n\\n    modifier initializer() {\\n        if (!initializing && initialized) {\\n            revert ContractAlreadyInitialized();\\n        }\\n\\n        bool isTopLevelCall = !initializing;\\n        if (isTopLevelCall) {\\n            initializing = true;\\n            initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc3091e63c4fcc7642bcc850ec9c37030b6b7c0c210dcace49f8ba2b930211f88\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610c30806100206000396000f3fe608060405234801561001057600080fd5b50600436106101cf5760003560e01c80634c12d47111610104578063af76a7ef116100a2578063e16da9f811610071578063e16da9f814610372578063e3056a3414610385578063ee0e54cb14610398578063fb4ca35b146103a157600080fd5b8063af76a7ef1461033a578063b56cf0111461034d578063d876d98e14610356578063ddc125261461035f57600080fd5b806377c4572d116100de57806377c4572d146103035780638129fc1c146103165780638a2381d71461031e578063a5f3d0031461033157600080fd5b80634c12d471146102ca578063736e1c26146102dd57806376cdb03b146102f057600080fd5b80632b3c3892116101715780633f8189ea1161014b5780633f8189ea1461029c57806342580dbe146102af5780634433c5e8146102b8578063453844b6146102c157600080fd5b80632b3c3892146102775780632ecd3be41461028a578063361416e11461029357600080fd5b80630e060378116101ad5780630e06037814610236578063238efcbc146102495780632630c12f14610251578063282567b41461026457600080fd5b8063090d23b9146101d45780630b68a580146101e95780630c340a2414610205575b600080fd5b6101e76101e2366004610b5a565b6103b4565b005b6101f260025481565b6040519081526020015b60405180910390f35b60005461021e906201000090046001600160a01b031681565b6040516001600160a01b0390911681526020016101fc565b600e5461021e906001600160a01b031681565b6101e761045b565b600c5461021e906001600160a01b031681565b6101e7610272366004610b7c565b6104f0565b6101e7610285366004610b7c565b610562565b6101f260055481565b6101f260035481565b6101e76102aa366004610b7c565b6105d4565b6101f260045481565b6101f260085481565b6101f2600a5481565b600f5461021e906001600160a01b031681565b6101e76102eb366004610b7c565b610646565b600d5461021e906001600160a01b031681565b6101e7610311366004610b7c565b6106b8565b6101e761072a565b60105461021e906001600160a01b031681565b6101f260065481565b6101e7610348366004610b7c565b610807565b6101f2600b5481565b6101f260075481565b6101e761036d366004610b95565b610879565b6101e7610380366004610bd1565b610978565b60015461021e906001600160a01b031681565b6101f260095481565b6101e76103af366004610b7c565b610a65565b6000546201000090046001600160a01b031633146103e5576040516305e7700560e51b815260040160405180910390fd5b600d54604080516001600160a01b03928316815291831660208301527f6b13d0b6d0f96f25f42864a97c7a29b23b8b2ee5b36a253eabfb1eb7ffaae857910160405180910390a1600d805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0392909216919091179055565b6001546001600160a01b031633146104865760405163aec80d4b60e01b815260040160405180910390fd5b60015460008054620100006001600160a01b0393841681810275ffffffffffffffffffffffffffffffffffffffff00001990931692909217808455604051929491900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b6000546201000090046001600160a01b03163314610521576040516305e7700560e51b815260040160405180910390fd5b600b5460408051918252602082018390527fd18c85fe8a5776467c327fa33312c6113129233ddb47deabaa91b8396b815879910160405180910390a1600b55565b6000546201000090046001600160a01b03163314610593576040516305e7700560e51b815260040160405180910390fd5b60025460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600255565b6000546201000090046001600160a01b03163314610605576040516305e7700560e51b815260040160405180910390fd5b60085460408051918252602082018390527fa466548b1a7b7c581a6b5b6e38ebed0f41846451118fb8582b71f8605b960cd8910160405180910390a1600855565b6000546201000090046001600160a01b03163314610677576040516305e7700560e51b815260040160405180910390fd5b600a5460408051918252602082018390527f157d4d2c2eb9bbd85c7f6da0c13113a3799cc3df5c817cba85d84832176459bc910160405180910390a1600a55565b6000546201000090046001600160a01b031633146106e9576040516305e7700560e51b815260040160405180910390fd5b60075460408051918252602082018390527fd2a3e4f854a80a895407f8743c1363ac14b698c432d22d8c65519e13a9e4983d910160405180910390a1600755565b60005460ff161580156107445750600054610100900460ff165b1561076257604051631ee1e30360e21b815260040160405180910390fd5b60005460ff1615801561077f576000805461ffff19166101011790555b61078833610ad7565b6802b5e3af16b1880000600255666a94d74f430000600355670bcbce7f1b150000600455670214e8348c4f00006005556000600655670a688906bd8b0000600755670b84c09a3b930000600855662386f26fc100006009819055600a55690a968163f0a57b400000600b558015610804576000805460ff191690555b50565b6000546201000090046001600160a01b03163314610838576040516305e7700560e51b815260040160405180910390fd5b60095460408051918252602082018390527f5eb53b71d73d0607121e658859e0125d7bbbf83c4288d44c18438d4fe94d1e07910160405180910390a1600955565b6000546201000090046001600160a01b031633146108aa576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166108d15760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156108fb576040516306b3e95d60e21b815260040160405180910390fd5b6001805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0384161790558061096b57600080546040516001600160a01b03808616936201000090930416917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb191a35050565b61097482610ad7565b5050565b6000546201000090046001600160a01b031633146109a9576040516305e7700560e51b815260040160405180910390fd5b670de0b6b3a7640000816109bd8486610bfd565b6109c79190610bfd565b146109fa5760405163245c170760e21b815260048101849052602481018390526044810182905260640160405180910390fd5b600454600554600654604080519384526020840187905283019190915260608201849052608082015260a081018290527f1f7068a9be898db6fcd350ac2ff32fc5f1e6fc46c8e6cc973cde53793ff3ab5e9060c00160405180910390a1600492909255600555600655565b6000546201000090046001600160a01b03163314610a96576040516305e7700560e51b815260040160405180910390fd5b60035460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600355565b6000805475ffffffffffffffffffffffffffffffffffffffff00001916620100006001600160a01b0384811682810293909317808555604051939492900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e9190a350565b80356001600160a01b0381168114610b5557600080fd5b919050565b600060208284031215610b6c57600080fd5b610b7582610b3e565b9392505050565b600060208284031215610b8e57600080fd5b5035919050565b60008060408385031215610ba857600080fd5b610bb183610b3e565b915060208301358015158114610bc657600080fd5b809150509250929050565b600080600060608486031215610be657600080fd5b505081359360208301359350604090920135919050565b60008219821115610c1e57634e487b7160e01b600052601160045260246000fd5b50019056fea164736f6c634300080a000a",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106101cf5760003560e01c80634c12d47111610104578063af76a7ef116100a2578063e16da9f811610071578063e16da9f814610372578063e3056a3414610385578063ee0e54cb14610398578063fb4ca35b146103a157600080fd5b8063af76a7ef1461033a578063b56cf0111461034d578063d876d98e14610356578063ddc125261461035f57600080fd5b806377c4572d116100de57806377c4572d146103035780638129fc1c146103165780638a2381d71461031e578063a5f3d0031461033157600080fd5b80634c12d471146102ca578063736e1c26146102dd57806376cdb03b146102f057600080fd5b80632b3c3892116101715780633f8189ea1161014b5780633f8189ea1461029c57806342580dbe146102af5780634433c5e8146102b8578063453844b6146102c157600080fd5b80632b3c3892146102775780632ecd3be41461028a578063361416e11461029357600080fd5b80630e060378116101ad5780630e06037814610236578063238efcbc146102495780632630c12f14610251578063282567b41461026457600080fd5b8063090d23b9146101d45780630b68a580146101e95780630c340a2414610205575b600080fd5b6101e76101e2366004610b5a565b6103b4565b005b6101f260025481565b6040519081526020015b60405180910390f35b60005461021e906201000090046001600160a01b031681565b6040516001600160a01b0390911681526020016101fc565b600e5461021e906001600160a01b031681565b6101e761045b565b600c5461021e906001600160a01b031681565b6101e7610272366004610b7c565b6104f0565b6101e7610285366004610b7c565b610562565b6101f260055481565b6101f260035481565b6101e76102aa366004610b7c565b6105d4565b6101f260045481565b6101f260085481565b6101f2600a5481565b600f5461021e906001600160a01b031681565b6101e76102eb366004610b7c565b610646565b600d5461021e906001600160a01b031681565b6101e7610311366004610b7c565b6106b8565b6101e761072a565b60105461021e906001600160a01b031681565b6101f260065481565b6101e7610348366004610b7c565b610807565b6101f2600b5481565b6101f260075481565b6101e761036d366004610b95565b610879565b6101e7610380366004610bd1565b610978565b60015461021e906001600160a01b031681565b6101f260095481565b6101e76103af366004610b7c565b610a65565b6000546201000090046001600160a01b031633146103e5576040516305e7700560e51b815260040160405180910390fd5b600d54604080516001600160a01b03928316815291831660208301527f6b13d0b6d0f96f25f42864a97c7a29b23b8b2ee5b36a253eabfb1eb7ffaae857910160405180910390a1600d805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0392909216919091179055565b6001546001600160a01b031633146104865760405163aec80d4b60e01b815260040160405180910390fd5b60015460008054620100006001600160a01b0393841681810275ffffffffffffffffffffffffffffffffffffffff00001990931692909217808455604051929491900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e91a3565b6000546201000090046001600160a01b03163314610521576040516305e7700560e51b815260040160405180910390fd5b600b5460408051918252602082018390527fd18c85fe8a5776467c327fa33312c6113129233ddb47deabaa91b8396b815879910160405180910390a1600b55565b6000546201000090046001600160a01b03163314610593576040516305e7700560e51b815260040160405180910390fd5b60025460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600255565b6000546201000090046001600160a01b03163314610605576040516305e7700560e51b815260040160405180910390fd5b60085460408051918252602082018390527fa466548b1a7b7c581a6b5b6e38ebed0f41846451118fb8582b71f8605b960cd8910160405180910390a1600855565b6000546201000090046001600160a01b03163314610677576040516305e7700560e51b815260040160405180910390fd5b600a5460408051918252602082018390527f157d4d2c2eb9bbd85c7f6da0c13113a3799cc3df5c817cba85d84832176459bc910160405180910390a1600a55565b6000546201000090046001600160a01b031633146106e9576040516305e7700560e51b815260040160405180910390fd5b60075460408051918252602082018390527fd2a3e4f854a80a895407f8743c1363ac14b698c432d22d8c65519e13a9e4983d910160405180910390a1600755565b60005460ff161580156107445750600054610100900460ff165b1561076257604051631ee1e30360e21b815260040160405180910390fd5b60005460ff1615801561077f576000805461ffff19166101011790555b61078833610ad7565b6802b5e3af16b1880000600255666a94d74f430000600355670bcbce7f1b150000600455670214e8348c4f00006005556000600655670a688906bd8b0000600755670b84c09a3b930000600855662386f26fc100006009819055600a55690a968163f0a57b400000600b558015610804576000805460ff191690555b50565b6000546201000090046001600160a01b03163314610838576040516305e7700560e51b815260040160405180910390fd5b60095460408051918252602082018390527f5eb53b71d73d0607121e658859e0125d7bbbf83c4288d44c18438d4fe94d1e07910160405180910390a1600955565b6000546201000090046001600160a01b031633146108aa576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166108d15760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156108fb576040516306b3e95d60e21b815260040160405180910390fd5b6001805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0384161790558061096b57600080546040516001600160a01b03808616936201000090930416917fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb191a35050565b61097482610ad7565b5050565b6000546201000090046001600160a01b031633146109a9576040516305e7700560e51b815260040160405180910390fd5b670de0b6b3a7640000816109bd8486610bfd565b6109c79190610bfd565b146109fa5760405163245c170760e21b815260048101849052602481018390526044810182905260640160405180910390fd5b600454600554600654604080519384526020840187905283019190915260608201849052608082015260a081018290527f1f7068a9be898db6fcd350ac2ff32fc5f1e6fc46c8e6cc973cde53793ff3ab5e9060c00160405180910390a1600492909255600555600655565b6000546201000090046001600160a01b03163314610a96576040516305e7700560e51b815260040160405180910390fd5b60035460408051918252602082018390527fde9fa07b6ca9d540214c05366e57cb33adf8f132014d9d1b2802a5b89a99512a910160405180910390a1600355565b6000805475ffffffffffffffffffffffffffffffffffffffff00001916620100006001600160a01b0384811682810293909317808555604051939492900416917f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e9190a350565b80356001600160a01b0381168114610b5557600080fd5b919050565b600060208284031215610b6c57600080fd5b610b7582610b3e565b9392505050565b600060208284031215610b8e57600080fd5b5035919050565b60008060408385031215610ba857600080fd5b610bb183610b3e565b915060208301358015158114610bc657600080fd5b809150509250929050565b600080600060608486031215610be657600080fd5b505081359360208301359350604090920135919050565b60008219821115610c1e57634e487b7160e01b600052601160045260246000fd5b50019056fea164736f6c634300080a000a",
   "devdoc": {
     "errors": {
       "BaksDAOPlatformFeesDontSumUpToOne(uint256,uint256,uint256)": [
@@ -610,7 +783,7 @@
   "storageLayout": {
     "storage": [
       {
-        "astId": 6723,
+        "astId": 9692,
         "contract": "contracts/Core.sol:Core",
         "label": "initializing",
         "offset": 0,
@@ -618,7 +791,7 @@
         "type": "t_bool"
       },
       {
-        "astId": 6725,
+        "astId": 9694,
         "contract": "contracts/Core.sol:Core",
         "label": "initialized",
         "offset": 1,
@@ -626,7 +799,7 @@
         "type": "t_bool"
       },
       {
-        "astId": 4725,
+        "astId": 6306,
         "contract": "contracts/Core.sol:Core",
         "label": "governor",
         "offset": 2,
@@ -634,7 +807,7 @@
         "type": "t_address"
       },
       {
-        "astId": 4727,
+        "astId": 6308,
         "contract": "contracts/Core.sol:Core",
         "label": "pendingGovernor",
         "offset": 0,
@@ -642,7 +815,7 @@
         "type": "t_address"
       },
       {
-        "astId": 2871,
+        "astId": 2964,
         "contract": "contracts/Core.sol:Core",
         "label": "minimumPrincipalAmount",
         "offset": 0,
@@ -650,7 +823,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2874,
+        "astId": 2967,
         "contract": "contracts/Core.sol:Core",
         "label": "stabilityFee",
         "offset": 0,
@@ -658,7 +831,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2877,
+        "astId": 2970,
         "contract": "contracts/Core.sol:Core",
         "label": "stabilizationFee",
         "offset": 0,
@@ -666,7 +839,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2880,
+        "astId": 2973,
         "contract": "contracts/Core.sol:Core",
         "label": "exchangeFee",
         "offset": 0,
@@ -674,7 +847,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2883,
+        "astId": 2976,
         "contract": "contracts/Core.sol:Core",
         "label": "developmentFee",
         "offset": 0,
@@ -682,7 +855,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2886,
+        "astId": 2979,
         "contract": "contracts/Core.sol:Core",
         "label": "marginCallLoanToValueRatio",
         "offset": 0,
@@ -690,7 +863,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2889,
+        "astId": 2982,
         "contract": "contracts/Core.sol:Core",
         "label": "liquidationLoanToValueRatio",
         "offset": 0,
@@ -698,7 +871,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2892,
+        "astId": 2985,
         "contract": "contracts/Core.sol:Core",
         "label": "rebalancingThreshold",
         "offset": 0,
@@ -706,7 +879,7 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2895,
+        "astId": 2988,
         "contract": "contracts/Core.sol:Core",
         "label": "servicingThreshold",
         "offset": 0,
@@ -714,12 +887,52 @@
         "type": "t_uint256"
       },
       {
-        "astId": 2898,
+        "astId": 2991,
         "contract": "contracts/Core.sol:Core",
         "label": "minimumLiquidity",
         "offset": 0,
         "slot": "11",
         "type": "t_uint256"
+      },
+      {
+        "astId": 2994,
+        "contract": "contracts/Core.sol:Core",
+        "label": "priceOracle",
+        "offset": 0,
+        "slot": "12",
+        "type": "t_address"
+      },
+      {
+        "astId": 2997,
+        "contract": "contracts/Core.sol:Core",
+        "label": "bank",
+        "offset": 0,
+        "slot": "13",
+        "type": "t_address"
+      },
+      {
+        "astId": 3000,
+        "contract": "contracts/Core.sol:Core",
+        "label": "depositary",
+        "offset": 0,
+        "slot": "14",
+        "type": "t_address"
+      },
+      {
+        "astId": 3003,
+        "contract": "contracts/Core.sol:Core",
+        "label": "exchangeFund",
+        "offset": 0,
+        "slot": "15",
+        "type": "t_address"
+      },
+      {
+        "astId": 3006,
+        "contract": "contracts/Core.sol:Core",
+        "label": "developmentFund",
+        "offset": 0,
+        "slot": "16",
+        "type": "t_address"
       }
     ],
     "types": {

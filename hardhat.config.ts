@@ -163,8 +163,9 @@ const config: HardhatUserConfig = {
     contracts: [
       "Baks",
       "Bank",
-      "Core",
       "ChainlinkPriceOracle",
+      "Core",
+      "Depositary",
       "DevelopmentFund",
       "ExchangeFund",
     ],
