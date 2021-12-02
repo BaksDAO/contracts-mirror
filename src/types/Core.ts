@@ -36,6 +36,7 @@ export interface CoreInterface extends utils.Interface {
     "liquidator()": FunctionFragment;
     "marginCallLoanToValueRatio()": FunctionFragment;
     "minimumLiquidity()": FunctionFragment;
+    "minimumMagisterDepositAmount()": FunctionFragment;
     "minimumPrincipalAmount()": FunctionFragment;
     "operator()": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
@@ -54,6 +55,7 @@ export interface CoreInterface extends utils.Interface {
     "setLiquidator(address)": FunctionFragment;
     "setMarginCallLoanToValueRatio(uint256)": FunctionFragment;
     "setMinimumLiquidity(uint256)": FunctionFragment;
+    "setMinimumMagisterDepositAmount(uint256)": FunctionFragment;
     "setMinimumPrincipalAmount(uint256)": FunctionFragment;
     "setOperator(address)": FunctionFragment;
     "setPlatformFees(uint256,uint256,uint256)": FunctionFragment;
@@ -129,6 +131,10 @@ export interface CoreInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "minimumMagisterDepositAmount",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "minimumPrincipalAmount",
     values?: undefined
   ): string;
@@ -189,6 +195,10 @@ export interface CoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setMinimumLiquidity",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMinimumMagisterDepositAmount",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -292,6 +302,10 @@ export interface CoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "minimumMagisterDepositAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "minimumPrincipalAmount",
     data: BytesLike
   ): Result;
@@ -352,6 +366,10 @@ export interface CoreInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setMinimumLiquidity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumMagisterDepositAmount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -421,6 +439,7 @@ export interface CoreInterface extends utils.Interface {
     "LiquidatorUpdated(address,address)": EventFragment;
     "MarginCallLoanToValueRatioUpdated(uint256,uint256)": EventFragment;
     "MinimumLiquidityUpdated(uint256,uint256)": EventFragment;
+    "MinimumMagisterDepositAmountUpdated(uint256,uint256)": EventFragment;
     "MinimumPrincipalAmountUpdated(uint256,uint256)": EventFragment;
     "OperatorUpdated(address,address)": EventFragment;
     "PendingGovernanceTransition(address,address)": EventFragment;
@@ -452,6 +471,9 @@ export interface CoreInterface extends utils.Interface {
     nameOrSignatureOrTopic: "MarginCallLoanToValueRatioUpdated"
   ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "MinimumLiquidityUpdated"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "MinimumMagisterDepositAmountUpdated"
+  ): EventFragment;
   getEvent(
     nameOrSignatureOrTopic: "MinimumPrincipalAmountUpdated"
   ): EventFragment;
@@ -576,6 +598,17 @@ export type MinimumLiquidityUpdatedEvent = TypedEvent<
 
 export type MinimumLiquidityUpdatedEventFilter =
   TypedEventFilter<MinimumLiquidityUpdatedEvent>;
+
+export type MinimumMagisterDepositAmountUpdatedEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  {
+    minimumMagisterDepositAmount: BigNumber;
+    newMinimumMagisterDepositAmount: BigNumber;
+  }
+>;
+
+export type MinimumMagisterDepositAmountUpdatedEventFilter =
+  TypedEventFilter<MinimumMagisterDepositAmountUpdatedEvent>;
 
 export type MinimumPrincipalAmountUpdatedEvent = TypedEvent<
   [BigNumber, BigNumber],
@@ -732,6 +765,10 @@ export interface Core extends BaseContract {
 
     minimumLiquidity(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    minimumMagisterDepositAmount(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     minimumPrincipalAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     operator(overrides?: CallOverrides): Promise<[string]>;
@@ -801,6 +838,11 @@ export interface Core extends BaseContract {
 
     setMinimumLiquidity(
       newMinimumLiquidity: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setMinimumMagisterDepositAmount(
+      newMinimumMagisterDepositAmount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -912,6 +954,8 @@ export interface Core extends BaseContract {
 
   minimumLiquidity(overrides?: CallOverrides): Promise<BigNumber>;
 
+  minimumMagisterDepositAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
   minimumPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   operator(overrides?: CallOverrides): Promise<string>;
@@ -981,6 +1025,11 @@ export interface Core extends BaseContract {
 
   setMinimumLiquidity(
     newMinimumLiquidity: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setMinimumMagisterDepositAmount(
+    newMinimumMagisterDepositAmount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1090,6 +1139,8 @@ export interface Core extends BaseContract {
 
     minimumLiquidity(overrides?: CallOverrides): Promise<BigNumber>;
 
+    minimumMagisterDepositAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
     minimumPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     operator(overrides?: CallOverrides): Promise<string>;
@@ -1153,6 +1204,11 @@ export interface Core extends BaseContract {
 
     setMinimumLiquidity(
       newMinimumLiquidity: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMinimumMagisterDepositAmount(
+      newMinimumMagisterDepositAmount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1328,6 +1384,15 @@ export interface Core extends BaseContract {
       newMinimumLiquidity?: null
     ): MinimumLiquidityUpdatedEventFilter;
 
+    "MinimumMagisterDepositAmountUpdated(uint256,uint256)"(
+      minimumMagisterDepositAmount?: null,
+      newMinimumMagisterDepositAmount?: null
+    ): MinimumMagisterDepositAmountUpdatedEventFilter;
+    MinimumMagisterDepositAmountUpdated(
+      minimumMagisterDepositAmount?: null,
+      newMinimumMagisterDepositAmount?: null
+    ): MinimumMagisterDepositAmountUpdatedEventFilter;
+
     "MinimumPrincipalAmountUpdated(uint256,uint256)"(
       minimumPrincipalAmount?: null,
       newMinimumPrincipalAmount?: null
@@ -1467,6 +1532,8 @@ export interface Core extends BaseContract {
 
     minimumLiquidity(overrides?: CallOverrides): Promise<BigNumber>;
 
+    minimumMagisterDepositAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
     minimumPrincipalAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     operator(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1536,6 +1603,11 @@ export interface Core extends BaseContract {
 
     setMinimumLiquidity(
       newMinimumLiquidity: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setMinimumMagisterDepositAmount(
+      newMinimumMagisterDepositAmount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1656,6 +1728,10 @@ export interface Core extends BaseContract {
 
     minimumLiquidity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    minimumMagisterDepositAmount(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     minimumPrincipalAmount(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1731,6 +1807,11 @@ export interface Core extends BaseContract {
 
     setMinimumLiquidity(
       newMinimumLiquidity: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumMagisterDepositAmount(
+      newMinimumMagisterDepositAmount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

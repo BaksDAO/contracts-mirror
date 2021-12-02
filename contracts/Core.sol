@@ -42,6 +42,10 @@ interface ICore {
         uint256 newLiquidationLoanToValueRatio
     );
 
+    event MinimumMagisterDepositAmountUpdated(
+        uint256 minimumMagisterDepositAmount,
+        uint256 newMinimumMagisterDepositAmount
+    );
     event WorkFeeUpdated(uint256 workFee, uint256 newWorkFee);
     event EarlyWithdrawalPeriodUpdated(uint256 earlyWithdrawalPeriod, uint256 newEarlyWithdrawalPeriod);
     event EarlyWithdrawalFeeUpdated(uint256 earlyWithdrawalFee, uint256 newEarlyWithdrawalFee);
@@ -89,6 +93,8 @@ interface ICore {
 
     function rebalancingThreshold() external view returns (uint256);
 
+    function minimumMagisterDepositAmount() external view returns (uint256);
+
     function workFee() external view returns (uint256);
 
     function earlyWithdrawalPeriod() external view returns (uint256);
@@ -132,6 +138,7 @@ contract Core is Initializable, Governed, ICore {
     uint256 public override rebalancingThreshold;
 
     // Depositary parameters
+    uint256 public override minimumMagisterDepositAmount;
     uint256 public override workFee;
     uint256 public override earlyWithdrawalPeriod;
     uint256 public override earlyWithdrawalFee;
@@ -163,6 +170,7 @@ contract Core is Initializable, Governed, ICore {
         liquidationLoanToValueRatio = 83e16; // 83 %
         rebalancingThreshold = 1e16; // 1 %
 
+        minimumMagisterDepositAmount = 50000e18; // 50000 BAKS
         workFee = 2e16; // 2 %
         earlyWithdrawalPeriod = 72 hours;
         earlyWithdrawalFee = 1e15; // 0,1 %
@@ -265,6 +273,11 @@ contract Core is Initializable, Governed, ICore {
     function setRebalancingThreshold(uint256 newRebalancingThreshold) external onlyGovernor {
         emit RebalancingThresholdUpdated(rebalancingThreshold, newRebalancingThreshold);
         rebalancingThreshold = newRebalancingThreshold;
+    }
+
+    function setMinimumMagisterDepositAmount(uint256 newMinimumMagisterDepositAmount) external onlyGovernor {
+        emit MinimumMagisterDepositAmountUpdated(minimumMagisterDepositAmount, newMinimumMagisterDepositAmount);
+        minimumMagisterDepositAmount = newMinimumMagisterDepositAmount;
     }
 
     function setWorkFee(uint256 newWorkFee) external onlyGovernor {
