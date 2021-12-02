@@ -22,6 +22,7 @@ error BaksDAOMagisterBlacklisted(address magister);
 error BaksDAOOnlyDepositorOrMagisterAllowed();
 error BaksDAOWithdrawAmountExceedsPrincipal();
 error BaksDAOBelowMinimumMagisterDepositAmount();
+error BaksDAODepositZeroAmount();
 
 contract Depositary is CoreInside, Governed, IDepositary, Initializable {
     using AmountNormalization for IERC20;
@@ -269,6 +270,10 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         p.depositsAmount += normalizedAmount;
 
         if (currentDepositIds[poolId][msg.sender] == 0) {
+            if (amount == 0) {
+                revert BaksDAODepositZeroAmount();
+            }
+
             uint256 id = deposits.length;
             deposits.push(
                 Deposit.Data({
