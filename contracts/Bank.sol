@@ -285,18 +285,31 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         loan.accrueInterest();
 
         amount = Math.min(loan.principalAmount + loan.interestAmount, amount);
+        uint256 interestPayment;
+        uint256 principalPayment;
         if (loan.interestAmount < amount) {
-            loan.principalAmount -= amount - loan.interestAmount;
+            principalPayment = amount - loan.interestAmount;
+            interestPayment = loan.interestAmount;
+
+            loan.principalAmount -= principalPayment;
             loan.interestAmount = 0;
         } else {
-            loan.interestAmount -= amount;
+            interestPayment = amount;
+            loan.interestAmount -= interestPayment;
         }
 
         IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
 
-        baks.burn(msg.sender, amount);
         loan.lastInteractionAt = block.timestamp;
         if (loan.principalAmount > 0) {
+            if (interestPayment > 0) {
+                baks.safeTransferFrom(msg.sender, core.developmentFund(), interestPayment);
+            }
+
+            if (principalPayment > 0) {
+                baks.safeTransferFrom(msg.sender, address(this), principalPayment);
+            }
+
             emit Repay(loanId, amount);
         } else {
             uint256 denormalizedCollateralAmount = loan.collateralToken.denormalizeAmount(loan.collateralAmount);
@@ -304,7 +317,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
 
             loan.collateralAmount = 0;
 
-            baks.burn(address(this), loan.stabilizationFee);
+            baks.burn(address(this), amount + loan.stabilizationFee);
 
             loan.isActive = false;
             emit Repaid(loanId);
@@ -326,7 +339,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
 
         collateralTokens[loan.collateralToken].collateralAmount -= loan.collateralAmount;
         loan.collateralToken.safeTransfer(
-            core.liquidator(),
+            core.developmentFund(),
             loan.collateralToken.denormalizeAmount(loan.collateralAmount)
         );
 
