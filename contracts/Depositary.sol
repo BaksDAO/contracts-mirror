@@ -21,6 +21,7 @@ error BaksDAOMagisterAlreadyWhitelisted(address magister);
 error BaksDAOMagisterBlacklisted(address magister);
 error BaksDAOOnlyDepositorOrMagisterAllowed();
 error BaksDAOWithdrawAmountExceedsPrincipal();
+error BaksDAOBelowMinimumMagisterDepositAmount();
 error BaksDAODepositZeroAmount();
 
 contract Depositary is CoreInside, Governed, IDepositary, Initializable {
@@ -295,6 +296,11 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
             currentDepositIds[poolId][msg.sender] = id;
             if (magister != address(this)) {
+                uint256 depositTokenPrice = IPriceOracle(core.priceOracle()).getNormalizedPrice(p.depositToken);
+                if (normalizedAmount.mul(depositTokenPrice) < core.minimumMagisterDepositAmount()) {
+                    revert BaksDAOBelowMinimumMagisterDepositAmount();
+                }
+
                 magisters[magister].depositIds.push(id);
             }
             if (p.depositToken != IERC20(core.baks())) {
