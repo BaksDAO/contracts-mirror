@@ -155,7 +155,7 @@ contract Core is Initializable, Governed, ICore {
         liquidator = _liquidator;
 
         minimumPrincipalAmount = 50e18; // 50 BAKS
-        stabilityFee = 3e16; // 3 %
+        stabilityFee = 15e15; // 1,5 %
         stabilizationFee = 85e16; // 85 %
         exchangeFee = 15e16; // 15 %
         developmentFee = 0;
