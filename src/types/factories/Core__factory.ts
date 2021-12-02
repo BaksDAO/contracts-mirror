@@ -305,6 +305,25 @@ const _abi = [
       {
         indexed: false,
         internalType: "uint256",
+        name: "minimumMagisterDepositAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newMinimumMagisterDepositAmount",
+        type: "uint256",
+      },
+    ],
+    name: "MinimumMagisterDepositAmountUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
         name: "minimumPrincipalAmount",
         type: "uint256",
       },
@@ -745,6 +764,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "minimumMagisterDepositAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "minimumPrincipalAmount",
     outputs: [
       {
@@ -973,6 +1005,19 @@ const _abi = [
       },
     ],
     name: "setMinimumLiquidity",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinimumMagisterDepositAmount",
+        type: "uint256",
+      },
+    ],
+    name: "setMinimumMagisterDepositAmount",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
