@@ -300,16 +300,16 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
 
         IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
 
+        if (interestPayment > 0) {
+            baks.safeTransferFrom(msg.sender, core.developmentFund(), interestPayment);
+        }
+
+        if (principalPayment > 0) {
+            baks.safeTransferFrom(msg.sender, address(this), principalPayment);
+        }
+
         loan.lastInteractionAt = block.timestamp;
         if (loan.principalAmount > 0) {
-            if (interestPayment > 0) {
-                baks.safeTransferFrom(msg.sender, core.developmentFund(), interestPayment);
-            }
-
-            if (principalPayment > 0) {
-                baks.safeTransferFrom(msg.sender, address(this), principalPayment);
-            }
-
             emit Repay(loanId, amount);
         } else {
             uint256 denormalizedCollateralAmount = loan.collateralToken.denormalizeAmount(loan.collateralAmount);
@@ -532,6 +532,11 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
     function getLoanToValueRatio(uint256 loanId) public view returns (uint256 loanToValueRatio) {
         Loan.Data memory loan = loans[loanId];
         loanToValueRatio = loan.calculateLoanToValueRatio();
+    }
+
+    function getLoanAccruedInterest(uint256 loanId) public view returns (uint256 accruedInterest) {
+        Loan.Data memory loan = loans[loanId];
+        accruedInterest = loan.calculateInterest();
     }
 
     function checkHealth(uint256 loanId) public view returns (Health health) {

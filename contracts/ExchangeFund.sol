@@ -8,7 +8,6 @@ import "./libraries/Math.sol";
 import "./libraries/SafeERC20.sol";
 import {CoreInside, ICore} from "./Core.sol";
 import {Governed} from "./Governance.sol";
-import {ICore} from "./Core.sol";
 import {IERC20} from "./interfaces/ERC20.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
 import {IPriceOracle} from "./interfaces/IPriceOracle.sol";
@@ -109,7 +108,14 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         slippageTolerance = 5e15; // 0.5 %
         swapDeadline = 20 minutes;
 
-        IERC20(core.baks()).approve(core.uniswapV2Router(), type(uint256).max);
+        IERC20 baks = IERC20(core.baks());
+        IERC20 voice = IERC20(core.voice());
+
+        baks.approve(core.uniswapV2Router(), type(uint256).max);
+        baks.approve(core.depositary(), type(uint256).max);
+
+        voice.approve(core.uniswapV2Router(), type(uint256).max);
+        voice.approve(core.depositary(), type(uint256).max);
     }
 
     function deposit(IERC20 token, uint256 amount) external tokenAllowedToBeDeposited(token) {

@@ -42,7 +42,6 @@ library Pool {
         if (!self.isCompounding) {
             multiplier = totalApr.mul(timeDelta.mulDiv(ONE, SECONDS_PER_YEAR));
         } else {
-            // multiplier = FixedPointMath.exp(totalApr.mul(partOfYearDeposited)) - ONE;
             multiplier =
                 FixedPointMath.pow(ONE + (ONE - fee).mul(totalApr).div(SECONDS_PER_YEAR * ONE), timeDelta * ONE) -
                 ONE;
