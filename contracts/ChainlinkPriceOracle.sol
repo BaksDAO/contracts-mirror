@@ -12,6 +12,7 @@ import {Initializable} from "./libraries/Upgradability.sol";
 contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOracle {
     using FixedPointMath for uint256;
 
+    uint256 internal constant ONE = 100e16;
     uint256 internal constant DIRECT_CONVERSION_PATH_SCALE = 1e10;
     uint256 internal constant INTERMEDIATE_CONVERSION_PATH_SCALE = 1e8;
 
@@ -40,6 +41,10 @@ contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOrac
     }
 
     function getNormalizedPrice(IERC20 token) external view override returns (uint256 normalizedPrice) {
+        if (token == IERC20(core.baks())) {
+            return ONE;
+        }
+
         IChainlinkAggregator aggregator = usdAggregators[token];
         if (address(aggregator) == address(0)) {
             uint256 tokenToNativeCurrencyPrice = getTokenToNativeCurrencyPrice(token);

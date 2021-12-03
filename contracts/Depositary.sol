@@ -109,9 +109,9 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         ) = splitRewards(d.poolId, d.depositorTotalAccruedRewards - d.depositorWithdrawnRewards, magisterAmount);
 
         if (msg.sender == d.magister) {
-            IERC20(core.baks()).safeTransfer(d.magister, magisterReward);
+            IERC20(core.baks()).safeTransferFrom(core.exchangeFund(), d.magister, magisterReward);
             if (magisterBonusReward > 0) {
-                IERC20(core.voice()).safeTransfer(d.magister, magisterBonusReward);
+                IERC20(core.voice()).safeTransferFrom(core.exchangeFund(), d.magister, magisterBonusReward);
             }
 
             d.magisterWithdrawnRewards += magisterAmount;
@@ -131,15 +131,16 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
                 depositorReward = depositorReward.mul(ONE - fee);
             }
 
-            if (p.depositToken != IERC20(core.baks())) {
+            if (p.depositToken != IERC20(core.baks()) && p.depositToken != IERC20(core.voice())) {
                 p.depositToken.safeTransfer(d.depositor, normalizedAmount);
             }
-            IERC20(core.baks()).safeTransfer(
+            IERC20(core.baks()).safeTransferFrom(
+                core.exchangeFund(),
                 d.depositor,
                 p.depositToken == IERC20(core.baks()) ? normalizedAmount + depositorReward : depositorReward
             );
             if (depositorBonusReward > 0) {
-                IERC20(core.voice()).safeTransfer(d.depositor, depositorBonusReward);
+                IERC20(core.voice()).safeTransferFrom(core.exchangeFund(), d.depositor, depositorBonusReward);
             }
 
             p.depositsAmount -= normalizedAmount;
@@ -263,8 +264,15 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
             revert BaksDAOMagisterBlacklisted(magister);
         }
 
+        IERC20 baks = IERC20(core.baks());
+        IERC20 voice = IERC20(core.voice());
+
         Pool.Data storage p = pools[poolId];
-        p.depositToken.safeTransferFrom(msg.sender, address(this), amount);
+        p.depositToken.safeTransferFrom(
+            msg.sender,
+            (p.depositToken == baks || p.depositToken == voice) ? core.exchangeFund() : address(this),
+            amount
+        );
 
         uint256 normalizedAmount = p.depositToken.normalizeAmount(amount);
         p.depositsAmount += normalizedAmount;
@@ -303,7 +311,7 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
                 magisters[magister].depositIds.push(id);
             }
-            if (p.depositToken != IERC20(core.baks())) {
+            if (p.depositToken != baks) {
                 IBank(core.bank()).onNewDeposit(p.depositToken, normalizedAmount);
             }
         } else {
@@ -312,9 +320,9 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
             uint256 r = d.depositorTotalAccruedRewards - d.depositorWithdrawnRewards;
             (uint256 depositorRewards, uint256 depositorBonusRewards, , ) = splitRewards(d.poolId, r, 0);
-            IERC20(core.baks()).safeTransfer(d.depositor, depositorRewards);
+            baks.safeTransferFrom(core.exchangeFund(), d.depositor, depositorRewards);
             if (depositorBonusRewards > 0) {
-                IERC20(core.voice()).safeTransfer(d.depositor, depositorBonusRewards);
+                voice.safeTransferFrom(core.exchangeFund(), d.depositor, depositorBonusRewards);
             }
 
             d.principal += normalizedAmount;

@@ -101,6 +101,12 @@ const config: HardhatUserConfig = {
       accounts,
       tags: ["staging", "testnet"],
     },
+    "bsc-test-2": {
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+      chainId: 97,
+      accounts,
+      tags: ["testnet"],
+    },
     matic: {
       url: "https://rpc-mainnet.matic.network",
       chainId: 137,

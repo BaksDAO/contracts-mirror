@@ -75,6 +75,7 @@ export interface BankInterface extends utils.Interface {
     "deposit(uint256,uint256)": FunctionFragment;
     "depositInNativeCurrency(uint256)": FunctionFragment;
     "getAllowedCollateralTokens()": FunctionFragment;
+    "getLoanAccruedInterest(uint256)": FunctionFragment;
     "getLoanToValueRatio(uint256)": FunctionFragment;
     "getLoans(address)": FunctionFragment;
     "getTotalValueLocked()": FunctionFragment;
@@ -138,6 +139,10 @@ export interface BankInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getAllowedCollateralTokens",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getLoanAccruedInterest",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getLoanToValueRatio",
@@ -227,6 +232,10 @@ export interface BankInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getAllowedCollateralTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getLoanAccruedInterest",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -523,6 +532,11 @@ export interface Bank extends BaseContract {
       [DataStructOutput[]] & { allowedCollateralTokens: DataStructOutput[] }
     >;
 
+    getLoanAccruedInterest(
+      loanId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { accruedInterest: BigNumber }>;
+
     getLoanToValueRatio(
       loanId: BigNumberish,
       overrides?: CallOverrides
@@ -737,6 +751,11 @@ export interface Bank extends BaseContract {
     overrides?: CallOverrides
   ): Promise<DataStructOutput[]>;
 
+  getLoanAccruedInterest(
+    loanId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getLoanToValueRatio(
     loanId: BigNumberish,
     overrides?: CallOverrides
@@ -949,6 +968,11 @@ export interface Bank extends BaseContract {
     getAllowedCollateralTokens(
       overrides?: CallOverrides
     ): Promise<DataStructOutput[]>;
+
+    getLoanAccruedInterest(
+      loanId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getLoanToValueRatio(
       loanId: BigNumberish,
@@ -1197,6 +1221,11 @@ export interface Bank extends BaseContract {
 
     getAllowedCollateralTokens(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getLoanAccruedInterest(
+      loanId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getLoanToValueRatio(
       loanId: BigNumberish,
       overrides?: CallOverrides
@@ -1331,6 +1360,11 @@ export interface Bank extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getAllowedCollateralTokens(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getLoanAccruedInterest(
+      loanId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
