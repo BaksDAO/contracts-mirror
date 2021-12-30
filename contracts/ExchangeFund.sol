@@ -118,7 +118,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         voice.approve(core.depositary(), type(uint256).max);
     }
 
-    function deposit(IERC20 token, uint256 amount) external tokenAllowedToBeDeposited(token) {
+    function deposit(IERC20 token, uint256 amount) external tokenAllowedToBeDeposited(token) onlySuperUser {
         token.safeTransferFrom(msg.sender, address(this), amount);
 
         uint256 normalizedAmount = token.normalizeAmount(amount);
@@ -132,7 +132,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         IERC20 tokenB,
         uint256 amount,
         bool useWrappedNativeCurrencyAsIntermediateToken
-    ) external tokenAllowedToBeSwapped(tokenA) tokenAllowedToBeSwapped(tokenB) {
+    ) external tokenAllowedToBeSwapped(tokenA) tokenAllowedToBeSwapped(tokenB) onlySuperUser {
         uint256 normalizedAmount = tokenA.normalizeAmount(amount);
         if (normalizedAmount > deposits[msg.sender][tokenA]) {
             revert ExchangeFundInsufficientDeposits();
@@ -170,7 +170,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Swap(msg.sender, tokenA, tokenB, normalizedTokenAAmount, normalizedTokenBAmount);
     }
 
-    function invest(IERC20 token, uint256 amount) external {
+    function invest(IERC20 token, uint256 amount) external onlySuperUser {
         uint256 normalizedAmount = token.normalizeAmount(amount);
         if (normalizedAmount > deposits[msg.sender][token]) {
             revert ExchangeFundInsufficientDeposits();
@@ -194,7 +194,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Invest(msg.sender, token, normalizedAmount);
     }
 
-    function divest(IERC20 token, uint256 amount) external {
+    function divest(IERC20 token, uint256 amount) external onlySuperUser {
         if (amount > liquidity[msg.sender][token]) {
             revert ExchangeFundInsufficientLiquidity();
         }
@@ -215,7 +215,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Divest(msg.sender, token, amount);
     }
 
-    function withdraw(IERC20 token, uint256 amount) external {
+    function withdraw(IERC20 token, uint256 amount) external onlySuperUser {
         if (token == IERC20(core.baks())) {
             revert ExchangeFundTokenNotAllowedToBeWithdrawn(token);
         }
@@ -305,38 +305,46 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         (uint256 baksReserve, uint256 tokenReserve) = getReserves(token);
         tokenReserve = token.normalizeAmount(tokenReserve);
 
+        bool isService;
+
         uint256 targetPrice = IPriceOracle(core.priceOracle()).getNormalizedPrice(token);
         uint256 price = baksReserve.div(tokenReserve);
         int256 delta = int256(price.div(targetPrice)) - int256(ONE);
-        if (Math.abs(delta) < core.servicingThreshold()) {
+        if (Math.abs(delta) >= core.servicingThreshold()) {
+            int256 amountOut;
+            IERC20[] memory path = new IERC20[](2);
+            if (price > targetPrice) {
+                amountOut = int256(Math.fpsqrt(baksReserve.mul(tokenReserve).mul(targetPrice))) - int256(baksReserve);
+                path[0] = token;
+                path[1] = IERC20(core.baks());
+            } else {
+                amountOut = int256(Math.fpsqrt(baksReserve.mulDiv(tokenReserve, targetPrice))) - int256(tokenReserve);
+                path[0] = IERC20(core.baks());
+                path[1] = token;
+            }
+
+            // NOTE: using this instead of `swapExactTokensForTokens` to shift responsibility for calculating fees to
+            // *swap itself.
+            IUniswapV2Router(core.uniswapV2Router()).swapTokensForExactTokens(
+                Math.abs(amountOut),
+                type(uint256).max,
+                path,
+                address(this),
+                block.timestamp + swapDeadline
+            );
+
+            isService = true;
+        }
+
+        if (!(isService || topUpLiquidity(token))) {
             revert ExchangeFundNoNeedToService(token);
         }
 
-        int256 amountOut;
-        IERC20[] memory path = new IERC20[](2);
-        if (price > targetPrice) {
-            amountOut = int256(Math.fpsqrt(baksReserve.mul(tokenReserve).mul(targetPrice))) - int256(baksReserve);
-            path[0] = token;
-            path[1] = IERC20(core.baks());
-        } else {
-            amountOut = int256(Math.fpsqrt(baksReserve.mulDiv(tokenReserve, targetPrice))) - int256(tokenReserve);
-            path[0] = IERC20(core.baks());
-            path[1] = token;
-        }
-
-        // NOTE: using this instead of `swapExactTokensForTokens` to shift responsibility for calculating fees to  *swap
-        // itself.
-        IUniswapV2Router(core.uniswapV2Router()).swapTokensForExactTokens(
-            Math.abs(amountOut),
-            type(uint256).max,
-            path,
-            address(this),
-            block.timestamp + swapDeadline
-        );
-
-        topUpLiquidity(token);
-
         emit Service(msg.sender, token);
+    }
+
+    function transferBaksToBank(uint256 amount) external onlySuperUser {
+        IERC20(core.baks()).safeTransfer(core.bank(), amount);
     }
 
     function getDepositableTokens() external view returns (IERC20[] memory tokens) {
@@ -365,7 +373,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
             : uniswapV2Router.quote(amount, reserveA, reserveB);
     }
 
-    function topUpLiquidity(IERC20 token) internal {
+    function topUpLiquidity(IERC20 token) internal returns (bool isTopUpped) {
         (uint256 baksReserve, uint256 tokenReserve) = getReserves(token);
         tokenReserve = token.normalizeAmount(tokenReserve);
 
@@ -383,6 +391,8 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
                 address(this),
                 block.timestamp + swapDeadline
             );
+
+            isTopUpped = true;
         }
     }
 

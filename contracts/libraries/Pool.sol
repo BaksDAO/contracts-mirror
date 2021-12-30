@@ -22,7 +22,7 @@ library Pool {
     }
 
     uint256 internal constant ONE = 100e16;
-    uint256 internal constant SECONDS_PER_YEAR = 31557600;
+    uint256 internal constant SECONDS_PER_YEAR = 31536000;
 
     function getDepositsValue(Data memory self) internal view returns (uint256 depositsValue) {
         if (self.depositsAmount == 0) {
@@ -35,15 +35,15 @@ library Pool {
 
     function calculateMultiplier(
         Data memory self,
+        uint256 apr,
         uint256 fee,
         uint256 timeDelta
     ) internal pure returns (uint256 multiplier) {
-        uint256 totalApr = getTotalApr(self);
         if (!self.isCompounding) {
-            multiplier = totalApr.mul(timeDelta.mulDiv(ONE, SECONDS_PER_YEAR));
+            multiplier = apr.mul(timeDelta.mulDiv(ONE, SECONDS_PER_YEAR));
         } else {
             multiplier =
-                FixedPointMath.pow(ONE + (ONE - fee).mul(totalApr).div(SECONDS_PER_YEAR * ONE), timeDelta * ONE) -
+                FixedPointMath.pow(ONE + (ONE - fee).mul(apr).div(SECONDS_PER_YEAR * ONE), timeDelta * ONE) -
                 ONE;
         }
     }

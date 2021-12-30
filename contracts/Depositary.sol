@@ -122,13 +122,9 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
             uint256 fee;
             if (p.isCompounding) {
-                fee = core.workFee();
-
                 if (block.timestamp < d.lastDepositAt + core.earlyWithdrawalPeriod()) {
                     fee += core.earlyWithdrawalFee();
                 }
-
-                depositorReward = depositorReward.mul(ONE - fee);
             }
 
             if (p.depositToken != IERC20(core.baks()) && p.depositToken != IERC20(core.voice())) {
@@ -137,7 +133,9 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
             IERC20(core.baks()).safeTransferFrom(
                 core.exchangeFund(),
                 d.depositor,
-                p.depositToken == IERC20(core.baks()) ? normalizedAmount + depositorReward : depositorReward
+                p.depositToken == IERC20(core.baks())
+                    ? (normalizedAmount + depositorReward).mul(ONE - fee)
+                    : depositorReward
             );
             if (depositorBonusReward > 0) {
                 IERC20(core.voice()).safeTransferFrom(core.exchangeFund(), d.depositor, depositorBonusReward);
@@ -156,7 +154,7 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
-    function whitelistMagister(address magister) external onlyGovernor {
+    function whitelistMagister(address magister) external onlySuperUser {
         if (magistersSet.contains(magister)) {
             revert BaksDAOMagisterAlreadyWhitelisted(magister);
         }
@@ -173,7 +171,7 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
-    function blacklistMagister(address magister) external onlyGovernor {
+    function blacklistMagister(address magister) external onlySuperUser {
         if (!magistersSet.contains(magister)) {
             revert BaksDAOMagisterBlacklisted(magister);
         }
@@ -249,6 +247,14 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         return magisters[magister].depositIds;
     }
 
+    function getTotalValueLocked(IERC20 depositToken) external view returns (uint256 totalValueLocked) {
+        for (uint256 i = 0; i < pools.length; i++) {
+            if (pools[i].depositToken == depositToken) {
+                totalValueLocked += pools[i].getDepositsValue();
+            }
+        }
+    }
+
     function getTotalValueLocked() external view returns (uint256 totalValueLocked) {
         for (uint256 i = 0; i < pools.length; i++) {
             totalValueLocked += pools[i].getDepositsValue();
@@ -311,9 +317,6 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
                 magisters[magister].depositIds.push(id);
             }
-            if (p.depositToken != baks) {
-                IBank(core.bank()).onNewDeposit(p.depositToken, normalizedAmount);
-            }
         } else {
             Deposit.Data storage d = deposits[currentDepositIds[poolId][msg.sender]];
             accrueRewards(d.id);
@@ -329,6 +332,10 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
             d.depositorWithdrawnRewards += r;
             d.lastDepositAt = block.timestamp;
             d.lastInteractionAt = block.timestamp;
+        }
+
+        if (p.depositToken != baks) {
+            IBank(core.bank()).onNewDeposit(p.depositToken, normalizedAmount);
         }
     }
 
@@ -367,13 +374,12 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         Deposit.Data memory d = deposits[depositId];
         Pool.Data memory p = pools[d.poolId];
 
-        uint256 totalRewards = d.principal.mul(
-            p.calculateMultiplier(core.workFee(), block.timestamp - d.lastInteractionAt)
+        depositorRewards = d.principal.mul(
+            p.calculateMultiplier(p.getDepositorApr(), core.workFee(), block.timestamp - d.lastInteractionAt)
         );
-        uint256 totalApr = p.getTotalApr();
-
-        depositorRewards = totalRewards.mulDiv(p.getDepositorApr(), totalApr);
-        magisterRewards = totalRewards.mulDiv(p.getMagisterApr(), totalApr);
+        magisterRewards = d.principal.mul(
+            p.calculateMultiplier(p.getMagisterApr(), 0, block.timestamp - d.lastInteractionAt)
+        );
     }
 
     function splitRewards(

@@ -1,6 +1,6 @@
+import { BaseToken } from "!types/BaseToken";
 import "@nomiclabs/hardhat-ethers";
 import { task, types } from "hardhat/config";
-import { BaseToken } from "typechain/BaseToken";
 
 enum Token {
   WBNB = "0x2Cf210ad0a8f31D8A7b5742931B9C3ECb663cdB8",

@@ -74,11 +74,11 @@
   "license": "(BUSL-1.1 or GPL-3.0-or-later or MIT)",
   "main": "./dist/index.js",
   "name": "@baksdao/contracts",
-  "packageManager": "yarn@3.1.0",
+  "packageManager": "yarn@3.1.1",
   "publishConfig": {
     "access": "public"
   },
-  "repository": "github:gulitsky/solidity-starter",
+  "repository": "github:baksdao/contracts",
   "scripts": {
     "build": "hardhat compile",
     "clean": "shx rm -rf ./artifacts/ ./cache/ ./coverage/ ./dist/ ./coverage.json ./gasReporterOutput.json ./gas-profile-report.txt ./test-results.xml ./tsconfig.build.tsbuildinfo",

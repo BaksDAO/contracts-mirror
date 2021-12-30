@@ -25,7 +25,7 @@ library Loan {
     }
 
     uint256 internal constant ONE = 100e16;
-    uint256 internal constant SECONDS_PER_YEAR = 31557600;
+    uint256 internal constant SECONDS_PER_YEAR = 31536000;
 
     function accrueInterest(Data storage self) internal {
         self.interestAmount += calculateInterest(self);

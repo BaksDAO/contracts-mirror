@@ -5,7 +5,7 @@ export enum BaksDAOErrors {
   CollateralTokenNotListed = "BaksDAOCollateralTokenNotListed",
   TokenNotAllowedAsCollateral = "BaksDAOTokenNotAllowedAsCollateral",
   InitialLoanToValueRatioTooHigh = "BaksDAOInitialLoanToValueRatioTooHigh",
-  PlatformFeesDontSumUpToOne = "BaksDAOPlatformFeesDontSumUpToOne",
+  FeesDontSumUpToOne = "BaksDAOFeesDontSumUpToOne",
   InactiveLoan = "BaksDAOInactiveLoan",
   LoanNotSubjectToLiquidation = "BaksDAOLoanNotSubjectToLiquidation",
   LoanIsSubjectToLiquidation = "BaksDAOLoanIsSubjectToLiquidation",

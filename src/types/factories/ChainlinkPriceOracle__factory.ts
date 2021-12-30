@@ -16,6 +16,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "BaksDAOOnlySuperUserAllowed",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "ContractAlreadyInitialized",
     type: "error",
   },

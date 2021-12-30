@@ -54,7 +54,7 @@ export interface DepositaryInterface extends utils.Interface {
     "getPools()": FunctionFragment;
     "getPoolsCount()": FunctionFragment;
     "getRewards(uint256)": FunctionFragment;
-    "getTotalValueLocked()": FunctionFragment;
+    "getTotalValueLocked(address)": FunctionFragment;
     "governor()": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "magisters(address)": FunctionFragment;
@@ -121,7 +121,7 @@ export interface DepositaryInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getTotalValueLocked",
-    values?: undefined
+    values: [string]
   ): string;
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
   encodeFunctionData(functionFragment: "initialize", values: [string]): string;
@@ -390,7 +390,12 @@ export interface Depositary extends BaseContract {
       }
     >;
 
-    getTotalValueLocked(
+    "getTotalValueLocked(address)"(
+      depositToken: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { totalValueLocked: BigNumber }>;
+
+    "getTotalValueLocked()"(
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { totalValueLocked: BigNumber }>;
 
@@ -570,7 +575,12 @@ export interface Depositary extends BaseContract {
     }
   >;
 
-  getTotalValueLocked(overrides?: CallOverrides): Promise<BigNumber>;
+  "getTotalValueLocked(address)"(
+    depositToken: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "getTotalValueLocked()"(overrides?: CallOverrides): Promise<BigNumber>;
 
   governor(overrides?: CallOverrides): Promise<string>;
 
@@ -746,7 +756,12 @@ export interface Depositary extends BaseContract {
       }
     >;
 
-    getTotalValueLocked(overrides?: CallOverrides): Promise<BigNumber>;
+    "getTotalValueLocked(address)"(
+      depositToken: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getTotalValueLocked()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     governor(overrides?: CallOverrides): Promise<string>;
 
@@ -916,7 +931,12 @@ export interface Depositary extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getTotalValueLocked(overrides?: CallOverrides): Promise<BigNumber>;
+    "getTotalValueLocked(address)"(
+      depositToken: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getTotalValueLocked()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     governor(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1027,7 +1047,12 @@ export interface Depositary extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getTotalValueLocked(
+    "getTotalValueLocked(address)"(
+      depositToken: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getTotalValueLocked()"(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -4,11 +4,13 @@ pragma solidity 0.8.10;
 import "./interfaces/IBank.sol";
 import "./interfaces/IWrappedNativeCurrency.sol";
 import "./libraries/AmountNormalization.sol";
+import "./libraries/Beneficiary.sol";
 import "./libraries/CollateralToken.sol";
 import "./libraries/EnumerableAddressSet.sol";
 import "./libraries/FixedPointMath.sol";
 import "./libraries/Loan.sol";
 import "./libraries/Math.sol";
+import "./libraries/MintingStage.sol";
 import "./libraries/ReentrancyGuard.sol";
 import "./libraries/SafeERC20.sol";
 import {CoreInside, ICore} from "./Core.sol";
@@ -88,6 +90,12 @@ error BaksDAOPlainNativeCurrencyTransferNotAllowed();
 
 error BaksDAOInsufficientSecurityAmount(uint256 minimumRequiredSecurityAmount);
 
+error BaksDAOVoiceNothingToMint();
+
+error BaksDAOVoiceMintingEnded();
+
+error BaksDAONoNeedToMigrate();
+
 /// @title Core smart contract of BaksDAO platform
 /// @author BaksDAO
 /// @notice You should use this contract to interact with the BaksDAO platform.
@@ -99,6 +107,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
     using EnumerableAddressSet for EnumerableAddressSet.Set;
     using FixedPointMath for uint256;
     using Loan for Loan.Data;
+    using MintingStage for uint256;
     using SafeERC20 for IERC20;
     using SafeERC20 for IMintableAndBurnableERC20;
     using SafeERC20 for IWrappedNativeCurrency;
@@ -117,6 +126,8 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
 
     mapping(IERC20 => CollateralToken.Data) public collateralTokens;
     EnumerableAddressSet.Set internal collateralTokensSet;
+
+    uint256 public nextVoiceMintingStage;
 
     event CollateralTokenListed(IERC20 indexed token);
     event CollateralTokenUnlisted(IERC20 indexed token);
@@ -322,7 +333,9 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
             loan.isActive = false;
             emit Repaid(loanId);
 
-            if (!loan.isNativeCurrency) {
+            loan.collateralToken.safeTransfer(loan.borrower, denormalizedCollateralAmount);
+
+            /* if (!loan.isNativeCurrency) {
                 loan.collateralToken.safeTransfer(loan.borrower, denormalizedCollateralAmount);
             } else {
                 IWrappedNativeCurrency(core.wrappedNativeCurrency()).withdraw(denormalizedCollateralAmount);
@@ -330,7 +343,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
                 if (!success) {
                     revert BaksDAONativeCurrencyTransferFailed();
                 }
-            }
+            } */
         }
     }
 
@@ -377,6 +390,45 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         emit Rebalance(delta, 0);
     }
 
+    function mintVoice() external {
+        uint256[] memory voiceMintingSchedule = core.voiceMintingSchedule();
+        uint256 length = voiceMintingSchedule.length;
+
+        if (nextVoiceMintingStage >= length) {
+            revert BaksDAOVoiceMintingEnded();
+        }
+
+        uint256 totalValueLocked = getTotalValueLocked();
+        uint256 voiceToMint;
+
+        for (uint256 i = nextVoiceMintingStage; i < length; i++) {
+            (uint256 targetTotalValueLocked, uint256 amount) = voiceMintingSchedule[i].split();
+
+            if (totalValueLocked < targetTotalValueLocked) {
+                nextVoiceMintingStage = i;
+                break;
+            }
+
+            voiceToMint += amount;
+        }
+
+        if (voiceToMint == 0) {
+            revert BaksDAOVoiceNothingToMint();
+        }
+
+        IMintableAndBurnableERC20 voice = IMintableAndBurnableERC20(core.voice());
+        voice.mint(address(this), voiceToMint);
+
+        uint256 voiceTotalShares = core.voiceTotalShares();
+        uint256[] memory beneficiaries = core.voiceMintingBeneficiaries();
+        for (uint256 i = 0; i < beneficiaries.length; i++) {
+            (address beneficiary, uint256 share) = Beneficiary.split(beneficiaries[i]);
+            voice.safeTransfer(beneficiary, (voiceToMint * share) / voiceTotalShares);
+        }
+
+        emit Rebalance(0, voiceToMint);
+    }
+
     function onNewDeposit(IERC20 token, uint256 amount) external onlyDepositary {
         IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
         if (token == baks) {
@@ -385,9 +437,9 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
 
         amount = amount.mul(IPriceOracle(core.priceOracle()).getNormalizedPrice(token));
 
-        baks.mint(address(this), amount.mul(core.stabilizationFee()));
-        baks.mint(core.exchangeFund(), amount.mul(core.exchangeFee()));
-        baks.mint(core.developmentFund(), amount.mul(core.developmentFee()));
+        baks.mint(address(this), amount.mul(core.depositStabilizationFee()));
+        baks.mint(core.exchangeFund(), amount.mul(core.depositExchangeFee()));
+        baks.mint(core.developmentFund(), amount.mul(core.depositDevelopmentFee()));
     }
 
     function listCollateralToken(IERC20 token, uint256 initialLoanToValueRatio) external onlyGovernor {
@@ -453,12 +505,30 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         emit InitialLoanToValueRatioUpdated(token, initialLoanToValueRatio, newInitialLoanToValueRatio);
     }
 
-    function salvage(IERC20 token) external onlyGovernor {
+    /* function salvage(IERC20 token) external onlyGovernor {
         address tokenAddress = address(token);
         if (tokenAddress == core.baks() || collateralTokensSet.contains(tokenAddress)) {
             revert BaksDAOTokenNotAllowedToBeSalvaged(token);
         }
         token.safeTransfer(core.operator(), token.balanceOf(address(this)));
+    } */
+
+    function transferBaksToExchangeFund(uint256 amount) external onlySuperUser {
+        IERC20(core.baks()).safeTransfer(core.exchangeFund(), amount);
+    }
+
+    function migrate() external onlyGovernor {
+        if (core.bank() == address(this)) {
+            revert BaksDAONoNeedToMigrate();
+        }
+
+        IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
+
+        uint256 balance = baks.balanceOf(core.bank());
+        baks.burn(core.bank(), balance);
+        baks.mint(address(this), balance);
+
+        nextVoiceMintingStage = IBank(core.bank()).nextVoiceMintingStage();
     }
 
     function getLoans(address borrower) external view returns (Loan.Data[] memory _loans) {
@@ -527,6 +597,11 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
             totalValueLocked += collateralTokens[IERC20(collateralTokensSet.elements[i])].getCollateralValue();
         }
         totalValueLocked += IDepositary(core.depositary()).getTotalValueLocked();
+    }
+
+    function getTotalValueLocked(IERC20 token) public view returns (uint256 totalValueLocked) {
+        totalValueLocked = collateralTokens[token].getCollateralValue();
+        totalValueLocked += IDepositary(core.depositary()).getTotalValueLocked(token);
     }
 
     function getLoanToValueRatio(uint256 loanId) public view returns (uint256 loanToValueRatio) {

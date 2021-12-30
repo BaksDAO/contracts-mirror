@@ -1,0 +1,247 @@
+{
+  "address": "0xAB28A3Fb7D8efC1B05D8aD4C5f1eC83862bba26d",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "BaksDAOOnlyDepositaryAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "BaksDAOOnlySuperUserAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ContractAlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedCantGoverItself",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedGovernorZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyPendingGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "GovernanceTransited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "PendingGovernanceTransition",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "acceptGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "core",
+      "outputs": [
+        {
+          "internalType": "contract ICore",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "governor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ICore",
+          "name": "_core",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pendingGovernor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "force",
+          "type": "bool"
+        }
+      ],
+      "name": "transitGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x61227879e55bdb66eb5bb2d4298c4fc361590d5c2d111c162541f13faac4bc81",
+  "receipt": {
+    "to": null,
+    "from": "0x7c75D84900ee73eDf5c69E836c7BDB4aaE45549C",
+    "contractAddress": "0xAB28A3Fb7D8efC1B05D8aD4C5f1eC83862bba26d",
+    "transactionIndex": 196,
+    "gasUsed": "282069",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x0bb71ccd9eb1ef0c4d9bf732ca4223df07f22d8a197bf721d8143754457255b6",
+    "transactionHash": "0x61227879e55bdb66eb5bb2d4298c4fc361590d5c2d111c162541f13faac4bc81",
+    "logs": [],
+    "blockNumber": 13661527,
+    "cumulativeGasUsed": "31694438",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "132a0ae4e0297df67766db98dcfb66e6",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"BaksDAOOnlyDepositaryAllowed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"BaksDAOOnlySuperUserAllowed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ContractAlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedCantGoverItself\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedGovernorZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyGovernorAllowedToCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyPendingGovernorAllowedToCall\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"PendingGovernanceTransition\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"core\",\"outputs\":[{\"internalType\":\"contract ICore\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract ICore\",\"name\":\"_core\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"force\",\"type\":\"bool\"}],\"name\":\"transitGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/DevelopmentFund.sol\":\"DevelopmentFund\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/Core.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nimport \\\"./libraries/Beneficiary.sol\\\";\\nimport {Governed} from \\\"./Governance.sol\\\";\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\n\\ninterface ICore {\\n    /// @dev Thrown when trying to set platform fees that don't sum up to one.\\n    /// @param stabilizationFee The stabilization fee that was tried to set.\\n    /// @param exchangeFee The stabilization fee that was tried to set.\\n    /// @param developmentFee The stabilization fee that was tried to set.\\n    error BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);\\n\\n    event PriceOracleUpdated(address priceOracle, address newPriceOracle);\\n\\n    event BaksUpdated(address baks, address newBaks);\\n    event VoiceUpdated(address voice, address newVoice);\\n\\n    event BankUpdated(address bank, address newBank);\\n    event DepositaryUpdated(address depositary, address newDepositary);\\n    event ExchangeFundUpdated(address exchangeFund, address newExchangeFund);\\n    event DevelopmentFundUpdated(address developmentFund, address newDevelopmentFund);\\n\\n    event OperatorUpdated(address operator, address newOperator);\\n    event LiquidatorUpdated(address liquidator, address newLiquidator);\\n\\n    event InterestUpdated(uint256 interest, uint256 newInterest);\\n    event MinimumPrincipalAmountUpdated(uint256 minimumPrincipalAmount, uint256 newMinimumPrincipalAmount);\\n    event StabilityFeeUpdated(uint256 stabilityFee, uint256 newStabilityFee);\\n    event RebalancingThresholdUpdated(uint256 rebalancingThreshold, uint256 newRebalancingThreshold);\\n    event PlatformFeesUpdated(\\n        uint256 stabilizationFee,\\n        uint256 newStabilizationFee,\\n        uint256 exchangeFee,\\n        uint256 newExchangeFee,\\n        uint256 developmentFee,\\n        uint256 newDevelopmentFee\\n    );\\n    event MarginCallLoanToValueRatioUpdated(uint256 marginCallLoanToValueRatio, uint256 newMarginCallLoanToValueRatio);\\n    event LiquidationLoanToValueRatioUpdated(\\n        uint256 liqudationLoanToValueRatio,\\n        uint256 newLiquidationLoanToValueRatio\\n    );\\n\\n    event MinimumMagisterDepositAmountUpdated(\\n        uint256 minimumMagisterDepositAmount,\\n        uint256 newMinimumMagisterDepositAmount\\n    );\\n    event WorkFeeUpdated(uint256 workFee, uint256 newWorkFee);\\n    event EarlyWithdrawalPeriodUpdated(uint256 earlyWithdrawalPeriod, uint256 newEarlyWithdrawalPeriod);\\n    event EarlyWithdrawalFeeUpdated(uint256 earlyWithdrawalFee, uint256 newEarlyWithdrawalFee);\\n\\n    event ServicingThresholdUpdated(uint256 servicingThreshold, uint256 newServicingThreshold);\\n    event MinimumLiquidityUpdated(uint256 minimumLiquidity, uint256 newMinimumLiquidity);\\n\\n    function wrappedNativeCurrency() external view returns (address);\\n\\n    function uniswapV2Router() external view returns (address);\\n\\n    function priceOracle() external view returns (address);\\n\\n    function baks() external view returns (address);\\n\\n    function voice() external view returns (address);\\n\\n    function bank() external view returns (address);\\n\\n    function depositary() external view returns (address);\\n\\n    function exchangeFund() external view returns (address);\\n\\n    function developmentFund() external view returns (address);\\n\\n    function operator() external view returns (address);\\n\\n    function liquidator() external view returns (address);\\n\\n    function interest() external view returns (uint256);\\n\\n    function minimumPrincipalAmount() external view returns (uint256);\\n\\n    function stabilityFee() external view returns (uint256);\\n\\n    function stabilizationFee() external view returns (uint256);\\n\\n    function exchangeFee() external view returns (uint256);\\n\\n    function developmentFee() external view returns (uint256);\\n\\n    function marginCallLoanToValueRatio() external view returns (uint256);\\n\\n    function liquidationLoanToValueRatio() external view returns (uint256);\\n\\n    function rebalancingThreshold() external view returns (uint256);\\n\\n    function minimumMagisterDepositAmount() external view returns (uint256);\\n\\n    function workFee() external view returns (uint256);\\n\\n    function earlyWithdrawalPeriod() external view returns (uint256);\\n\\n    function earlyWithdrawalFee() external view returns (uint256);\\n\\n    function servicingThreshold() external view returns (uint256);\\n\\n    function minimumLiquidity() external view returns (uint256);\\n\\n    function voiceMintingSchedule() external view returns (uint256[] memory);\\n\\n    function voiceTotalShares() external view returns (uint256);\\n\\n    function voiceMintingBeneficiaries() external view returns (uint256[] memory);\\n\\n    function isSuperUser(address account) external view returns (bool);\\n}\\n\\ncontract Core is Initializable, Governed, ICore {\\n    uint256 internal constant ONE = 100e16;\\n\\n    address public override wrappedNativeCurrency;\\n    address public override uniswapV2Router;\\n\\n    address public override priceOracle;\\n\\n    address public override baks;\\n    address public override voice;\\n\\n    address public override bank;\\n    address public override depositary;\\n    address public override exchangeFund;\\n    address public override developmentFund;\\n\\n    // Roles\\n    address public override operator;\\n    address public override liquidator;\\n\\n    // Bank parameters\\n    uint256 public override interest;\\n    uint256 public override minimumPrincipalAmount;\\n    uint256 public override stabilityFee;\\n    uint256 public override stabilizationFee;\\n    uint256 public override exchangeFee;\\n    uint256 public override developmentFee;\\n    uint256 public override marginCallLoanToValueRatio;\\n    uint256 public override liquidationLoanToValueRatio;\\n    uint256 public override rebalancingThreshold;\\n\\n    // Depositary parameters\\n    uint256 public override minimumMagisterDepositAmount;\\n    uint256 public override workFee;\\n    uint256 public override earlyWithdrawalPeriod;\\n    uint256 public override earlyWithdrawalFee;\\n\\n    // Exchange fund parameters\\n    uint256 public override servicingThreshold;\\n    uint256 public override minimumLiquidity;\\n\\n    // Voice\\n    uint256[] internal _voiceMintingSchedule;\\n    uint256[] internal _voiceMintingBeneficiaries;\\n    uint256 public override voiceTotalShares;\\n\\n    mapping(address => bool) public override isSuperUser;\\n\\n    function initialize(\\n        address _wrappedNativeCurrency,\\n        address _uniswapV2Router,\\n        address _operator,\\n        address _liquidator\\n    ) external initializer {\\n        setGovernor(msg.sender);\\n\\n        wrappedNativeCurrency = _wrappedNativeCurrency;\\n        uniswapV2Router = _uniswapV2Router;\\n\\n        operator = _operator;\\n        liquidator = _liquidator;\\n\\n        interest = 11e16; // 11 %\\n        minimumPrincipalAmount = 50e18; // 50 BAKS\\n        stabilityFee = 15e15; // 1,5 %\\n        stabilizationFee = 85e16; // 85 %\\n        exchangeFee = 15e16; // 15 %\\n        developmentFee = 0;\\n        marginCallLoanToValueRatio = 75e16; // 75 %\\n        liquidationLoanToValueRatio = 83e16; // 83 %\\n        rebalancingThreshold = 1e16; // 1 %\\n\\n        minimumMagisterDepositAmount = 50000e18; // 50000 BAKS\\n        workFee = 2e16; // 2 %\\n        earlyWithdrawalPeriod = 72 hours;\\n        earlyWithdrawalFee = 1e15; // 0,1 %\\n\\n        servicingThreshold = 1e16; // 1%\\n        minimumLiquidity = 50000e18; // 50000 BAKS\\n\\n        _voiceMintingSchedule = [\\n            0x295be96e64066972000000,\\n            0x0422ca8b0a00a4250000000000000000295be96e64066972000000,\\n            0x084595161401484a000000000000000052b7d2dcc80cd2e4000000,\\n            0x108b2a2c28029094000000000000000052b7d2dcc80cd2e4000000,\\n            0x2116545850052128000000000000000052b7d2dcc80cd2e4000000,\\n            0x422ca8b0a00a4250000000000000000052b7d2dcc80cd2e4000000,\\n            0x84595161401484a0000000000000000052b7d2dcc80cd2e4000000,\\n            0x0108b2a2c280290940000000000000000052b7d2dcc80cd2e4000000,\\n            0x014adf4b7320334b90000000000000000052b7d2dcc80cd2e4000000,\\n            0x018d0bf423c03d8de0000000000000000052b7d2dcc80cd2e4000000,\\n            0x01cf389cd46047d030000000000000000052b7d2dcc80cd2e4000000,\\n            0x021165458500521280000000000000000052b7d2dcc80cd2e4000000,\\n            0x025391ee35a05c54d0000000000000000052b7d2dcc80cd2e4000000,\\n            0x0295be96e6406697200000000000000000a56fa5b99019a5c8000000,\\n            0x02d7eb3f96e070d9700000000000000000a56fa5b99019a5c8000000,\\n            0x031a17e847807b1bc00000000000000000a56fa5b99019a5c8000000,\\n            0x035c4490f820855e100000000000000000a56fa5b99019a5c8000000\\n        ];\\n\\n        isSuperUser[msg.sender] = true;\\n    }\\n\\n    function setPriceOracle(address newPriceOracle) external onlyGovernor {\\n        emit PriceOracleUpdated(priceOracle, newPriceOracle);\\n        priceOracle = newPriceOracle;\\n    }\\n\\n    function setBaks(address newBaks) external onlyGovernor {\\n        emit BaksUpdated(baks, newBaks);\\n        baks = newBaks;\\n    }\\n\\n    function setVoice(address newVoice) external onlyGovernor {\\n        emit VoiceUpdated(voice, newVoice);\\n        voice = newVoice;\\n    }\\n\\n    function setBank(address newBank) external onlyGovernor {\\n        emit BankUpdated(bank, newBank);\\n        bank = newBank;\\n    }\\n\\n    function setDepositary(address newDepositary) external onlyGovernor {\\n        emit DepositaryUpdated(depositary, newDepositary);\\n        depositary = newDepositary;\\n    }\\n\\n    function setExchangeFund(address newExchangeFund) external onlyGovernor {\\n        emit ExchangeFundUpdated(exchangeFund, newExchangeFund);\\n        exchangeFund = newExchangeFund;\\n    }\\n\\n    function setDevelopmentFund(address newDevelopmentFund) external onlyGovernor {\\n        emit DevelopmentFundUpdated(developmentFund, newDevelopmentFund);\\n        developmentFund = newDevelopmentFund;\\n    }\\n\\n    function setOperator(address newOperator) external onlyGovernor {\\n        emit OperatorUpdated(operator, newOperator);\\n        operator = newOperator;\\n    }\\n\\n    function setLiquidator(address newLiquidator) external onlyGovernor {\\n        emit LiquidatorUpdated(liquidator, newLiquidator);\\n        liquidator = newLiquidator;\\n    }\\n\\n    function setInterest(uint256 newInterest) external onlyGovernor {\\n        emit InterestUpdated(interest, newInterest);\\n        interest = newInterest;\\n    }\\n\\n    function setMinimumPrincipalAmount(uint256 newMinimumPrincipalAmount) external onlyGovernor {\\n        emit StabilityFeeUpdated(minimumPrincipalAmount, newMinimumPrincipalAmount);\\n        minimumPrincipalAmount = newMinimumPrincipalAmount;\\n    }\\n\\n    function setStabilityFee(uint256 newStabilityFee) external onlyGovernor {\\n        emit StabilityFeeUpdated(stabilityFee, newStabilityFee);\\n        stabilityFee = newStabilityFee;\\n    }\\n\\n    function setPlatformFees(\\n        uint256 newStabilizationFee,\\n        uint256 newExchangeFee,\\n        uint256 newDevelopmentFee\\n    ) external onlyGovernor {\\n        if (newStabilizationFee + newExchangeFee + newDevelopmentFee != ONE) {\\n            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);\\n        }\\n        emit PlatformFeesUpdated(\\n            stabilizationFee,\\n            newStabilizationFee,\\n            exchangeFee,\\n            newExchangeFee,\\n            developmentFee,\\n            newDevelopmentFee\\n        );\\n        stabilizationFee = newStabilizationFee;\\n        exchangeFee = newExchangeFee;\\n        developmentFee = newDevelopmentFee;\\n    }\\n\\n    function setMarginCallLoanToValueRatio(uint256 newMarginCallLoanToValueRatio) external onlyGovernor {\\n        emit MarginCallLoanToValueRatioUpdated(marginCallLoanToValueRatio, newMarginCallLoanToValueRatio);\\n        marginCallLoanToValueRatio = newMarginCallLoanToValueRatio;\\n    }\\n\\n    function setLiquidationLoanToValueRatio(uint256 newLiquidationLoanToValueRatio) external onlyGovernor {\\n        emit LiquidationLoanToValueRatioUpdated(liquidationLoanToValueRatio, newLiquidationLoanToValueRatio);\\n        liquidationLoanToValueRatio = newLiquidationLoanToValueRatio;\\n    }\\n\\n    function setRebalancingThreshold(uint256 newRebalancingThreshold) external onlyGovernor {\\n        emit RebalancingThresholdUpdated(rebalancingThreshold, newRebalancingThreshold);\\n        rebalancingThreshold = newRebalancingThreshold;\\n    }\\n\\n    function setMinimumMagisterDepositAmount(uint256 newMinimumMagisterDepositAmount) external onlyGovernor {\\n        emit MinimumMagisterDepositAmountUpdated(minimumMagisterDepositAmount, newMinimumMagisterDepositAmount);\\n        minimumMagisterDepositAmount = newMinimumMagisterDepositAmount;\\n    }\\n\\n    function setWorkFee(uint256 newWorkFee) external onlyGovernor {\\n        emit WorkFeeUpdated(workFee, newWorkFee);\\n        workFee = newWorkFee;\\n    }\\n\\n    function setEarlyWithdrawalPeriod(uint256 newEarlyWithdrawalPeriod) external onlyGovernor {\\n        emit EarlyWithdrawalPeriodUpdated(earlyWithdrawalPeriod, newEarlyWithdrawalPeriod);\\n        earlyWithdrawalPeriod = newEarlyWithdrawalPeriod;\\n    }\\n\\n    function setEarlyWithdrawalFee(uint256 newEarlyWithdrawalFee) external onlyGovernor {\\n        emit EarlyWithdrawalFeeUpdated(earlyWithdrawalFee, newEarlyWithdrawalFee);\\n        earlyWithdrawalFee = newEarlyWithdrawalFee;\\n    }\\n\\n    function setServicingThreshold(uint256 newServicingThreshold) external onlyGovernor {\\n        emit ServicingThresholdUpdated(servicingThreshold, newServicingThreshold);\\n        servicingThreshold = newServicingThreshold;\\n    }\\n\\n    function setMinimumLiquidity(uint256 newMinimumLiquidity) external onlyGovernor {\\n        emit MinimumLiquidityUpdated(minimumLiquidity, newMinimumLiquidity);\\n        minimumLiquidity = newMinimumLiquidity;\\n    }\\n\\n    function setVoiceMintingBeneficiaries(uint256[] calldata beneficiaries) external onlyGovernor {\\n        delete _voiceMintingBeneficiaries;\\n        _voiceMintingBeneficiaries = beneficiaries;\\n        voiceTotalShares = 0;\\n        for (uint256 i = 0; i < _voiceMintingBeneficiaries.length; i++) {\\n            (, uint256 share) = Beneficiary.split(_voiceMintingBeneficiaries[i]);\\n            voiceTotalShares += share;\\n        }\\n    }\\n\\n    function addSuperUser(address account) external onlyGovernor {\\n        isSuperUser[account] = true;\\n    }\\n\\n    function removeSuperUser(address account) external onlyGovernor {\\n        isSuperUser[account] = false;\\n    }\\n\\n    function voiceMintingBeneficiaries() external view override returns (uint256[] memory) {\\n        return _voiceMintingBeneficiaries;\\n    }\\n\\n    function voiceMintingSchedule() external view override returns (uint256[] memory) {\\n        return _voiceMintingSchedule;\\n    }\\n}\\n\\nabstract contract CoreInside {\\n    ICore public core;\\n\\n    error BaksDAOOnlyDepositaryAllowed();\\n    error BaksDAOOnlySuperUserAllowed();\\n\\n    modifier onlyDepositary() {\\n        if (msg.sender != address(core.depositary())) {\\n            revert BaksDAOOnlyDepositaryAllowed();\\n        }\\n        _;\\n    }\\n\\n    modifier onlySuperUser() {\\n        if (!core.isSuperUser(msg.sender)) {\\n            revert BaksDAOOnlySuperUserAllowed();\\n        }\\n        _;\\n    }\\n\\n    function initializeCoreInside(ICore _core) internal {\\n        core = _core;\\n    }\\n}\\n\",\"keccak256\":\"0x5a23b768a8129c8e1e8d263ac2271dcfc5d56c81d4cd5d9ca63ba2401fa40151\",\"license\":\"BUSL-1.1\"},\"contracts/DevelopmentFund.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nimport {Governed} from \\\"./Governance.sol\\\";\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\nimport {CoreInside, ICore} from \\\"./Core.sol\\\";\\n\\ncontract DevelopmentFund is CoreInside, Initializable, Governed {\\n    function initialize(ICore _core) external initializer {\\n        initializeCoreInside(_core);\\n        setGovernor(msg.sender);\\n    }\\n}\\n\",\"keccak256\":\"0x75c0018690280af6b38d9cc64985803ba4039202afcb54c8cd23311930e12110\",\"license\":\"BUSL-1.1\"},\"contracts/Governance.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nerror GovernedOnlyGovernorAllowedToCall();\\nerror GovernedOnlyPendingGovernorAllowedToCall();\\nerror GovernedGovernorZeroAddress();\\nerror GovernedCantGoverItself();\\n\\nabstract contract Governed {\\n    address public governor;\\n    address public pendingGovernor;\\n\\n    event PendingGovernanceTransition(address indexed governor, address indexed newGovernor);\\n    event GovernanceTransited(address indexed governor, address indexed newGovernor);\\n\\n    modifier onlyGovernor() {\\n        if (msg.sender != governor) {\\n            revert GovernedOnlyGovernorAllowedToCall();\\n        }\\n        _;\\n    }\\n\\n    function transitGovernance(address newGovernor, bool force) external onlyGovernor {\\n        if (newGovernor == address(0)) {\\n            revert GovernedGovernorZeroAddress();\\n        }\\n        if (newGovernor == address(this)) {\\n            revert GovernedCantGoverItself();\\n        }\\n\\n        pendingGovernor = newGovernor;\\n        if (!force) {\\n            emit PendingGovernanceTransition(governor, newGovernor);\\n        } else {\\n            setGovernor(newGovernor);\\n        }\\n    }\\n\\n    function acceptGovernance() external {\\n        if (msg.sender != pendingGovernor) {\\n            revert GovernedOnlyPendingGovernorAllowedToCall();\\n        }\\n\\n        governor = pendingGovernor;\\n        emit GovernanceTransited(governor, pendingGovernor);\\n    }\\n\\n    function setGovernor(address newGovernor) internal {\\n        governor = newGovernor;\\n        emit GovernanceTransited(governor, newGovernor);\\n    }\\n}\\n\",\"keccak256\":\"0x39eb94fcb72876408caf31d462e821259a1a35a48f56fafb09b442283432dd71\",\"license\":\"BUSL-1.1\"},\"contracts/libraries/Address.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nerror CallToNonContract(address target);\\n\\nlibrary Address {\\n    function functionCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.call(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function delegateCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.delegatecall(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function isContract(address account) internal view returns (bool) {\\n        uint256 codeSize;\\n        assembly {\\n            codeSize := extcodesize(account)\\n        }\\n\\n        return codeSize > 0;\\n    }\\n\\n    function verifyCallResult(\\n        bool success,\\n        bytes memory returnData,\\n        string memory errorMessage\\n    ) internal pure returns (bytes memory) {\\n        if (success) {\\n            return returnData;\\n        } else {\\n            if (returnData.length > 0) {\\n                assembly {\\n                    let returnDataSize := mload(returnData)\\n                    revert(add(returnData, 32), returnDataSize)\\n                }\\n            } else {\\n                revert(errorMessage);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xba7550b67e8e597fcbc05c61eb85d739d80547eb243b78dd1bfa933e8a3490f1\",\"license\":\"MIT\"},\"contracts/libraries/Beneficiary.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nlibrary Beneficiary {\\n    function split(uint256 b) internal pure returns (address beneficiary, uint256 share) {\\n        share = b & type(uint96).max;\\n        beneficiary = address(uint160(b >> 96));\\n    }\\n}\\n\",\"keccak256\":\"0xf0d91a872e949239988ee480caa56123a7f2f9c2cf565412aab336433d93acfe\",\"license\":\"BUSL-1.1\"},\"contracts/libraries/Upgradability.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nimport \\\"./Address.sol\\\";\\n\\nerror EIP1967ImplementationIsNotContract(address implementation);\\nerror ContractAlreadyInitialized();\\nerror OnlyProxyCallAllowed();\\nerror OnlyCurrentImplementationAllowed();\\n\\nlibrary EIP1967 {\\n    using Address for address;\\n\\n    bytes32 internal constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;\\n\\n    event Upgraded(address indexed newImplementation);\\n\\n    function upgradeTo(address newImplementation) internal {\\n        if (!newImplementation.isContract()) {\\n            revert EIP1967ImplementationIsNotContract(newImplementation);\\n        }\\n\\n        assembly {\\n            sstore(IMPLEMENTATION_SLOT, newImplementation)\\n        }\\n\\n        emit Upgraded(newImplementation);\\n    }\\n\\n    function getImplementation() internal view returns (address implementation) {\\n        assembly {\\n            implementation := sload(IMPLEMENTATION_SLOT)\\n        }\\n    }\\n}\\n\\ncontract Proxy {\\n    using Address for address;\\n\\n    constructor(address implementation, bytes memory data) {\\n        EIP1967.upgradeTo(implementation);\\n        implementation.delegateCall(data, \\\"Proxy: construction failed\\\");\\n    }\\n\\n    receive() external payable {\\n        delegateCall();\\n    }\\n\\n    fallback() external payable {\\n        delegateCall();\\n    }\\n\\n    function delegateCall() internal {\\n        address implementation = EIP1967.getImplementation();\\n\\n        assembly {\\n            calldatacopy(0, 0, calldatasize())\\n\\n            let result := delegatecall(gas(), implementation, 0, calldatasize(), 0, 0)\\n\\n            returndatacopy(0, 0, returndatasize())\\n\\n            switch result\\n            case 0 {\\n                revert(0, returndatasize())\\n            }\\n            default {\\n                return(0, returndatasize())\\n            }\\n        }\\n    }\\n}\\n\\nabstract contract Upgradeable {\\n    address private immutable self = address(this);\\n\\n    modifier onlyProxy() {\\n        if (address(this) == self) {\\n            revert OnlyProxyCallAllowed();\\n        }\\n        if (EIP1967.getImplementation() != self) {\\n            revert OnlyCurrentImplementationAllowed();\\n        }\\n        _;\\n    }\\n\\n    function upgradeTo(address newImplementation) public virtual onlyProxy {\\n        EIP1967.upgradeTo(newImplementation);\\n    }\\n}\\n\\nabstract contract Initializable {\\n    bool private initializing;\\n    bool private initialized;\\n\\n    modifier initializer() {\\n        if (!initializing && initialized) {\\n            revert ContractAlreadyInitialized();\\n        }\\n\\n        bool isTopLevelCall = !initializing;\\n        if (isTopLevelCall) {\\n            initializing = true;\\n            initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc3091e63c4fcc7642bcc850ec9c37030b6b7c0c210dcace49f8ba2b930211f88\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610426806100206000396000f3fe608060405234801561001057600080fd5b50600436106100725760003560e01c8063ddc1252611610050578063ddc12526146100c3578063e3056a34146100d6578063f2f4eb26146100e957600080fd5b80630c340a2414610077578063238efcbc146100a6578063c4d66de8146100b0575b600080fd5b60015461008a906001600160a01b031681565b6040516001600160a01b03909116815260200160405180910390f35b6100ae6100fc565b005b6100ae6100be3660046103b7565b610175565b6100ae6100d13660046103db565b610274565b60025461008a906001600160a01b031681565b60005461008a906001600160a01b031681565b6002546001600160a01b031633146101275760405163aec80d4b60e01b815260040160405180910390fd5b600254600180546001600160a01b0319166001600160a01b03909216918217905560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a3565b600054600160a01b900460ff161580156101aa57506000547501000000000000000000000000000000000000000000900460ff165b156101c857604051631ee1e30360e21b815260040160405180910390fd5b600054600160a01b900460ff1615801561021d57600080547fffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffff1675010100000000000000000000000000000000000000001790555b600080546001600160a01b0319166001600160a01b03841617905561024133610353565b801561027057600080547fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff1690555b5050565b6001546001600160a01b0316331461029f576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166102c65760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156102f0576040516306b3e95d60e21b815260040160405180910390fd5b600280546001600160a01b0319166001600160a01b0384161790558061034e576001546040516001600160a01b038085169216907fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb190600090a35050565b610270825b600180546001600160a01b0319166001600160a01b03831690811790915560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a350565b6001600160a01b03811681146103b457600080fd5b50565b6000602082840312156103c957600080fd5b81356103d48161039f565b9392505050565b600080604083850312156103ee57600080fd5b82356103f98161039f565b91506020830135801515811461040e57600080fd5b80915050925092905056fea164736f6c634300080a000a",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100725760003560e01c8063ddc1252611610050578063ddc12526146100c3578063e3056a34146100d6578063f2f4eb26146100e957600080fd5b80630c340a2414610077578063238efcbc146100a6578063c4d66de8146100b0575b600080fd5b60015461008a906001600160a01b031681565b6040516001600160a01b03909116815260200160405180910390f35b6100ae6100fc565b005b6100ae6100be3660046103b7565b610175565b6100ae6100d13660046103db565b610274565b60025461008a906001600160a01b031681565b60005461008a906001600160a01b031681565b6002546001600160a01b031633146101275760405163aec80d4b60e01b815260040160405180910390fd5b600254600180546001600160a01b0319166001600160a01b03909216918217905560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a3565b600054600160a01b900460ff161580156101aa57506000547501000000000000000000000000000000000000000000900460ff165b156101c857604051631ee1e30360e21b815260040160405180910390fd5b600054600160a01b900460ff1615801561021d57600080547fffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffff1675010100000000000000000000000000000000000000001790555b600080546001600160a01b0319166001600160a01b03841617905561024133610353565b801561027057600080547fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff1690555b5050565b6001546001600160a01b0316331461029f576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b0382166102c65760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156102f0576040516306b3e95d60e21b815260040160405180910390fd5b600280546001600160a01b0319166001600160a01b0384161790558061034e576001546040516001600160a01b038085169216907fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb190600090a35050565b610270825b600180546001600160a01b0319166001600160a01b03831690811790915560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a350565b6001600160a01b03811681146103b457600080fd5b50565b6000602082840312156103c957600080fd5b81356103d48161039f565b9392505050565b600080604083850312156103ee57600080fd5b82356103f98161039f565b91506020830135801515811461040e57600080fd5b80915050925092905056fea164736f6c634300080a000a",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 4140,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "core",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_contract(ICore)3413"
+      },
+      {
+        "astId": 11360,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "initializing",
+        "offset": 20,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 11362,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "initialized",
+        "offset": 21,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 7519,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "governor",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 7521,
+        "contract": "contracts/DevelopmentFund.sol:DevelopmentFund",
+        "label": "pendingGovernor",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_contract(ICore)3413": {
+        "encoding": "inplace",
+        "label": "contract ICore",
+        "numberOfBytes": "20"
+      }
+    }
+  }
+}

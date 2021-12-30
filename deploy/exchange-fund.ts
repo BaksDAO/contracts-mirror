@@ -28,7 +28,7 @@ const deploy: DeployFunction = async function ({ deployments, ethers }) {
     );
   }
 };
-deploy.dependencies = ["Core", "Depositary", "Voice"];
+deploy.dependencies = ["Baks", "Core", "Depositary", "Voice"];
 deploy.tags = ["ExchangeFund"];
 
 export default deploy;

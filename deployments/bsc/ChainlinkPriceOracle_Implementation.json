@@ -1,0 +1,499 @@
+{
+  "address": "0x02D23eb21b23CE68DEc01a40Abf0d6e81D47eED4",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "BaksDAOOnlyDepositaryAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "BaksDAOOnlySuperUserAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ContractAlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "prod1",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "denominator",
+          "type": "uint256"
+        }
+      ],
+      "name": "FixedPointMathMulDivOverflow",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedCantGoverItself",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedGovernorZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "GovernedOnlyPendingGovernorAllowedToCall",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "int256",
+          "name": "price",
+          "type": "int256"
+        }
+      ],
+      "name": "PriceOracleInvalidPrice",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        }
+      ],
+      "name": "PriceOracleStalePrice",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "PriceOracleTokenUnknown",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "contract IChainlinkAggregator",
+          "name": "aggregator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isQuoteNative",
+          "type": "bool"
+        }
+      ],
+      "name": "AggregatorSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "GovernanceTransited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "governor",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        }
+      ],
+      "name": "PendingGovernanceTransition",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "acceptGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "core",
+      "outputs": [
+        {
+          "internalType": "contract ICore",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "getNormalizedPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "normalizedPrice",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "governor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ICore",
+          "name": "_core",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "nativeAggregators",
+      "outputs": [
+        {
+          "internalType": "contract IChainlinkAggregator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pendingGovernor",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IChainlinkAggregator",
+          "name": "aggregator",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "isQuoteNative",
+          "type": "bool"
+        }
+      ],
+      "name": "setAggregator",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newGovernor",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "force",
+          "type": "bool"
+        }
+      ],
+      "name": "transitGovernance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "usdAggregators",
+      "outputs": [
+        {
+          "internalType": "contract IChainlinkAggregator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x5e8a828b6db242fba34ec2b8c37ca336bb4e183dfa56c9bf0bc55b6bd9c22b3e",
+  "receipt": {
+    "to": null,
+    "from": "0x7c75D84900ee73eDf5c69E836c7BDB4aaE45549C",
+    "contractAddress": "0x02D23eb21b23CE68DEc01a40Abf0d6e81D47eED4",
+    "transactionIndex": 194,
+    "gasUsed": "647439",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x41f9999d0490b580dabec7f232c4001a115623744ef02a94922f25499ad9be2f",
+    "transactionHash": "0x5e8a828b6db242fba34ec2b8c37ca336bb4e183dfa56c9bf0bc55b6bd9c22b3e",
+    "logs": [],
+    "blockNumber": 13661552,
+    "cumulativeGasUsed": "23355981",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "132a0ae4e0297df67766db98dcfb66e6",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"BaksDAOOnlyDepositaryAllowed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"BaksDAOOnlySuperUserAllowed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ContractAlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"prod1\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"denominator\",\"type\":\"uint256\"}],\"name\":\"FixedPointMathMulDivOverflow\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedCantGoverItself\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedGovernorZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyGovernorAllowedToCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"GovernedOnlyPendingGovernorAllowedToCall\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"int256\",\"name\":\"price\",\"type\":\"int256\"}],\"name\":\"PriceOracleInvalidPrice\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"name\":\"PriceOracleStalePrice\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"PriceOracleTokenUnknown\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"contract IChainlinkAggregator\",\"name\":\"aggregator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isQuoteNative\",\"type\":\"bool\"}],\"name\":\"AggregatorSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"GovernanceTransited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"governor\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"}],\"name\":\"PendingGovernanceTransition\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"acceptGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"core\",\"outputs\":[{\"internalType\":\"contract ICore\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getNormalizedPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"normalizedPrice\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"governor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract ICore\",\"name\":\"_core\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"nativeAggregators\",\"outputs\":[{\"internalType\":\"contract IChainlinkAggregator\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pendingGovernor\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"contract IChainlinkAggregator\",\"name\":\"aggregator\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"isQuoteNative\",\"type\":\"bool\"}],\"name\":\"setAggregator\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newGovernor\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"force\",\"type\":\"bool\"}],\"name\":\"transitGovernance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"usdAggregators\",\"outputs\":[{\"internalType\":\"contract IChainlinkAggregator\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"PriceOracleInvalidPrice(address,int256)\":[{\"params\":{\"price\":\"Provided price.\",\"token\":\"The address of the token contract.\"}}],\"PriceOracleStalePrice(address,uint256)\":[{\"params\":{\"price\":\"Provided price.\",\"token\":\"The address of the token contract.\"}}],\"PriceOracleTokenUnknown(address)\":[{\"params\":{\"token\":\"The address of the token contract.\"}}]},\"kind\":\"dev\",\"methods\":{\"getNormalizedPrice(address)\":{\"params\":{\"token\":\"The address of the token contract.\"},\"returns\":{\"normalizedPrice\":\"Normalized price.\"}}},\"version\":1},\"userdoc\":{\"errors\":{\"PriceOracleInvalidPrice(address,int256)\":[{\"notice\":\"Thrown when oracle provide negative, zero or in other ways invalid price `price` for `token` token.\"}],\"PriceOracleStalePrice(address,uint256)\":[{\"notice\":\"Thrown when oracle provide stale price `price` for `token` token.\"}],\"PriceOracleTokenUnknown(address)\":[{\"notice\":\"Thrown when oracle doesn't provide price for `token` token.\"}]},\"kind\":\"user\",\"methods\":{\"getNormalizedPrice(address)\":{\"notice\":\"Gets normalized to 18 decimals price for the `token` token.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/ChainlinkPriceOracle.sol\":\"ChainlinkPriceOracle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"none\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":800},\"remappings\":[]},\"sources\":{\"contracts/ChainlinkPriceOracle.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nimport \\\"./interfaces/Chainlink.sol\\\";\\nimport \\\"./interfaces/IPriceOracle.sol\\\";\\nimport \\\"./libraries/FixedPointMath.sol\\\";\\nimport {CoreInside, ICore} from \\\"./Core.sol\\\";\\nimport {Governed} from \\\"./Governance.sol\\\";\\nimport {IERC20} from \\\"./interfaces/ERC20.sol\\\";\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\n\\ncontract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOracle {\\n    using FixedPointMath for uint256;\\n\\n    uint256 internal constant ONE = 100e16;\\n    uint256 internal constant DIRECT_CONVERSION_PATH_SCALE = 1e10;\\n    uint256 internal constant INTERMEDIATE_CONVERSION_PATH_SCALE = 1e8;\\n\\n    mapping(IERC20 => IChainlinkAggregator) public nativeAggregators;\\n    mapping(IERC20 => IChainlinkAggregator) public usdAggregators;\\n\\n    event AggregatorSet(IERC20 token, IChainlinkAggregator aggregator, bool isQuoteNative);\\n\\n    function initialize(ICore _core) external initializer {\\n        initializeCoreInside(_core);\\n        setGovernor(msg.sender);\\n    }\\n\\n    function setAggregator(\\n        IERC20 token,\\n        IChainlinkAggregator aggregator,\\n        bool isQuoteNative\\n    ) external onlyGovernor {\\n        if (isQuoteNative) {\\n            nativeAggregators[token] = aggregator;\\n        } else {\\n            usdAggregators[token] = aggregator;\\n        }\\n\\n        emit AggregatorSet(token, aggregator, isQuoteNative);\\n    }\\n\\n    function getNormalizedPrice(IERC20 token) external view override returns (uint256 normalizedPrice) {\\n        if (token == IERC20(core.baks())) {\\n            return ONE;\\n        }\\n\\n        IChainlinkAggregator aggregator = usdAggregators[token];\\n        if (address(aggregator) == address(0)) {\\n            uint256 tokenToNativeCurrencyPrice = getTokenToNativeCurrencyPrice(token);\\n            uint256 nativeCurrencyToUsdPrice = getNativeCurrencyToUsdPrice();\\n            return tokenToNativeCurrencyPrice.mulDiv(nativeCurrencyToUsdPrice, INTERMEDIATE_CONVERSION_PATH_SCALE);\\n        }\\n\\n        normalizedPrice = getLatestPrice(token, aggregator) * DIRECT_CONVERSION_PATH_SCALE;\\n    }\\n\\n    function getTokenToNativeCurrencyPrice(IERC20 token) internal view returns (uint256 price) {\\n        IChainlinkAggregator aggregator = nativeAggregators[token];\\n        if (address(aggregator) == address(0)) {\\n            revert PriceOracleTokenUnknown(token);\\n        }\\n\\n        price = getLatestPrice(token, aggregator);\\n    }\\n\\n    function getNativeCurrencyToUsdPrice() internal view returns (uint256 price) {\\n        IERC20 wrappedNativeCurrency = IERC20(core.wrappedNativeCurrency());\\n        IChainlinkAggregator aggregator = usdAggregators[wrappedNativeCurrency];\\n        if (address(aggregator) == address(0)) {\\n            revert PriceOracleTokenUnknown(wrappedNativeCurrency);\\n        }\\n\\n        price = getLatestPrice(wrappedNativeCurrency, aggregator);\\n    }\\n\\n    function getLatestPrice(IERC20 token, IChainlinkAggregator aggregator) internal view returns (uint256 price) {\\n        (uint80 roundId, int256 answer, , , uint80 answeredInRound) = aggregator.latestRoundData();\\n        if (answer <= 0) {\\n            revert PriceOracleInvalidPrice(token, answer);\\n        }\\n\\n        price = uint256(answer);\\n        if (answeredInRound < roundId) {\\n            revert PriceOracleStalePrice(token, price);\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x110bb606d283cd663b1664d856a965c0f5d66d920d24c9d4d932a816b9b78bda\",\"license\":\"BUSL-1.1\"},\"contracts/Core.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nimport \\\"./libraries/Beneficiary.sol\\\";\\nimport {Governed} from \\\"./Governance.sol\\\";\\nimport {Initializable} from \\\"./libraries/Upgradability.sol\\\";\\n\\ninterface ICore {\\n    /// @dev Thrown when trying to set platform fees that don't sum up to one.\\n    /// @param stabilizationFee The stabilization fee that was tried to set.\\n    /// @param exchangeFee The stabilization fee that was tried to set.\\n    /// @param developmentFee The stabilization fee that was tried to set.\\n    error BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);\\n\\n    event PriceOracleUpdated(address priceOracle, address newPriceOracle);\\n\\n    event BaksUpdated(address baks, address newBaks);\\n    event VoiceUpdated(address voice, address newVoice);\\n\\n    event BankUpdated(address bank, address newBank);\\n    event DepositaryUpdated(address depositary, address newDepositary);\\n    event ExchangeFundUpdated(address exchangeFund, address newExchangeFund);\\n    event DevelopmentFundUpdated(address developmentFund, address newDevelopmentFund);\\n\\n    event OperatorUpdated(address operator, address newOperator);\\n    event LiquidatorUpdated(address liquidator, address newLiquidator);\\n\\n    event InterestUpdated(uint256 interest, uint256 newInterest);\\n    event MinimumPrincipalAmountUpdated(uint256 minimumPrincipalAmount, uint256 newMinimumPrincipalAmount);\\n    event StabilityFeeUpdated(uint256 stabilityFee, uint256 newStabilityFee);\\n    event RebalancingThresholdUpdated(uint256 rebalancingThreshold, uint256 newRebalancingThreshold);\\n    event PlatformFeesUpdated(\\n        uint256 stabilizationFee,\\n        uint256 newStabilizationFee,\\n        uint256 exchangeFee,\\n        uint256 newExchangeFee,\\n        uint256 developmentFee,\\n        uint256 newDevelopmentFee\\n    );\\n    event MarginCallLoanToValueRatioUpdated(uint256 marginCallLoanToValueRatio, uint256 newMarginCallLoanToValueRatio);\\n    event LiquidationLoanToValueRatioUpdated(\\n        uint256 liqudationLoanToValueRatio,\\n        uint256 newLiquidationLoanToValueRatio\\n    );\\n\\n    event MinimumMagisterDepositAmountUpdated(\\n        uint256 minimumMagisterDepositAmount,\\n        uint256 newMinimumMagisterDepositAmount\\n    );\\n    event WorkFeeUpdated(uint256 workFee, uint256 newWorkFee);\\n    event EarlyWithdrawalPeriodUpdated(uint256 earlyWithdrawalPeriod, uint256 newEarlyWithdrawalPeriod);\\n    event EarlyWithdrawalFeeUpdated(uint256 earlyWithdrawalFee, uint256 newEarlyWithdrawalFee);\\n\\n    event ServicingThresholdUpdated(uint256 servicingThreshold, uint256 newServicingThreshold);\\n    event MinimumLiquidityUpdated(uint256 minimumLiquidity, uint256 newMinimumLiquidity);\\n\\n    function wrappedNativeCurrency() external view returns (address);\\n\\n    function uniswapV2Router() external view returns (address);\\n\\n    function priceOracle() external view returns (address);\\n\\n    function baks() external view returns (address);\\n\\n    function voice() external view returns (address);\\n\\n    function bank() external view returns (address);\\n\\n    function depositary() external view returns (address);\\n\\n    function exchangeFund() external view returns (address);\\n\\n    function developmentFund() external view returns (address);\\n\\n    function operator() external view returns (address);\\n\\n    function liquidator() external view returns (address);\\n\\n    function interest() external view returns (uint256);\\n\\n    function minimumPrincipalAmount() external view returns (uint256);\\n\\n    function stabilityFee() external view returns (uint256);\\n\\n    function stabilizationFee() external view returns (uint256);\\n\\n    function exchangeFee() external view returns (uint256);\\n\\n    function developmentFee() external view returns (uint256);\\n\\n    function marginCallLoanToValueRatio() external view returns (uint256);\\n\\n    function liquidationLoanToValueRatio() external view returns (uint256);\\n\\n    function rebalancingThreshold() external view returns (uint256);\\n\\n    function minimumMagisterDepositAmount() external view returns (uint256);\\n\\n    function workFee() external view returns (uint256);\\n\\n    function earlyWithdrawalPeriod() external view returns (uint256);\\n\\n    function earlyWithdrawalFee() external view returns (uint256);\\n\\n    function servicingThreshold() external view returns (uint256);\\n\\n    function minimumLiquidity() external view returns (uint256);\\n\\n    function voiceMintingSchedule() external view returns (uint256[] memory);\\n\\n    function voiceTotalShares() external view returns (uint256);\\n\\n    function voiceMintingBeneficiaries() external view returns (uint256[] memory);\\n\\n    function isSuperUser(address account) external view returns (bool);\\n}\\n\\ncontract Core is Initializable, Governed, ICore {\\n    uint256 internal constant ONE = 100e16;\\n\\n    address public override wrappedNativeCurrency;\\n    address public override uniswapV2Router;\\n\\n    address public override priceOracle;\\n\\n    address public override baks;\\n    address public override voice;\\n\\n    address public override bank;\\n    address public override depositary;\\n    address public override exchangeFund;\\n    address public override developmentFund;\\n\\n    // Roles\\n    address public override operator;\\n    address public override liquidator;\\n\\n    // Bank parameters\\n    uint256 public override interest;\\n    uint256 public override minimumPrincipalAmount;\\n    uint256 public override stabilityFee;\\n    uint256 public override stabilizationFee;\\n    uint256 public override exchangeFee;\\n    uint256 public override developmentFee;\\n    uint256 public override marginCallLoanToValueRatio;\\n    uint256 public override liquidationLoanToValueRatio;\\n    uint256 public override rebalancingThreshold;\\n\\n    // Depositary parameters\\n    uint256 public override minimumMagisterDepositAmount;\\n    uint256 public override workFee;\\n    uint256 public override earlyWithdrawalPeriod;\\n    uint256 public override earlyWithdrawalFee;\\n\\n    // Exchange fund parameters\\n    uint256 public override servicingThreshold;\\n    uint256 public override minimumLiquidity;\\n\\n    // Voice\\n    uint256[] internal _voiceMintingSchedule;\\n    uint256[] internal _voiceMintingBeneficiaries;\\n    uint256 public override voiceTotalShares;\\n\\n    mapping(address => bool) public override isSuperUser;\\n\\n    function initialize(\\n        address _wrappedNativeCurrency,\\n        address _uniswapV2Router,\\n        address _operator,\\n        address _liquidator\\n    ) external initializer {\\n        setGovernor(msg.sender);\\n\\n        wrappedNativeCurrency = _wrappedNativeCurrency;\\n        uniswapV2Router = _uniswapV2Router;\\n\\n        operator = _operator;\\n        liquidator = _liquidator;\\n\\n        interest = 11e16; // 11 %\\n        minimumPrincipalAmount = 50e18; // 50 BAKS\\n        stabilityFee = 15e15; // 1,5 %\\n        stabilizationFee = 85e16; // 85 %\\n        exchangeFee = 15e16; // 15 %\\n        developmentFee = 0;\\n        marginCallLoanToValueRatio = 75e16; // 75 %\\n        liquidationLoanToValueRatio = 83e16; // 83 %\\n        rebalancingThreshold = 1e16; // 1 %\\n\\n        minimumMagisterDepositAmount = 50000e18; // 50000 BAKS\\n        workFee = 2e16; // 2 %\\n        earlyWithdrawalPeriod = 72 hours;\\n        earlyWithdrawalFee = 1e15; // 0,1 %\\n\\n        servicingThreshold = 1e16; // 1%\\n        minimumLiquidity = 50000e18; // 50000 BAKS\\n\\n        _voiceMintingSchedule = [\\n            0x295be96e64066972000000,\\n            0x0422ca8b0a00a4250000000000000000295be96e64066972000000,\\n            0x084595161401484a000000000000000052b7d2dcc80cd2e4000000,\\n            0x108b2a2c28029094000000000000000052b7d2dcc80cd2e4000000,\\n            0x2116545850052128000000000000000052b7d2dcc80cd2e4000000,\\n            0x422ca8b0a00a4250000000000000000052b7d2dcc80cd2e4000000,\\n            0x84595161401484a0000000000000000052b7d2dcc80cd2e4000000,\\n            0x0108b2a2c280290940000000000000000052b7d2dcc80cd2e4000000,\\n            0x014adf4b7320334b90000000000000000052b7d2dcc80cd2e4000000,\\n            0x018d0bf423c03d8de0000000000000000052b7d2dcc80cd2e4000000,\\n            0x01cf389cd46047d030000000000000000052b7d2dcc80cd2e4000000,\\n            0x021165458500521280000000000000000052b7d2dcc80cd2e4000000,\\n            0x025391ee35a05c54d0000000000000000052b7d2dcc80cd2e4000000,\\n            0x0295be96e6406697200000000000000000a56fa5b99019a5c8000000,\\n            0x02d7eb3f96e070d9700000000000000000a56fa5b99019a5c8000000,\\n            0x031a17e847807b1bc00000000000000000a56fa5b99019a5c8000000,\\n            0x035c4490f820855e100000000000000000a56fa5b99019a5c8000000\\n        ];\\n\\n        isSuperUser[msg.sender] = true;\\n    }\\n\\n    function setPriceOracle(address newPriceOracle) external onlyGovernor {\\n        emit PriceOracleUpdated(priceOracle, newPriceOracle);\\n        priceOracle = newPriceOracle;\\n    }\\n\\n    function setBaks(address newBaks) external onlyGovernor {\\n        emit BaksUpdated(baks, newBaks);\\n        baks = newBaks;\\n    }\\n\\n    function setVoice(address newVoice) external onlyGovernor {\\n        emit VoiceUpdated(voice, newVoice);\\n        voice = newVoice;\\n    }\\n\\n    function setBank(address newBank) external onlyGovernor {\\n        emit BankUpdated(bank, newBank);\\n        bank = newBank;\\n    }\\n\\n    function setDepositary(address newDepositary) external onlyGovernor {\\n        emit DepositaryUpdated(depositary, newDepositary);\\n        depositary = newDepositary;\\n    }\\n\\n    function setExchangeFund(address newExchangeFund) external onlyGovernor {\\n        emit ExchangeFundUpdated(exchangeFund, newExchangeFund);\\n        exchangeFund = newExchangeFund;\\n    }\\n\\n    function setDevelopmentFund(address newDevelopmentFund) external onlyGovernor {\\n        emit DevelopmentFundUpdated(developmentFund, newDevelopmentFund);\\n        developmentFund = newDevelopmentFund;\\n    }\\n\\n    function setOperator(address newOperator) external onlyGovernor {\\n        emit OperatorUpdated(operator, newOperator);\\n        operator = newOperator;\\n    }\\n\\n    function setLiquidator(address newLiquidator) external onlyGovernor {\\n        emit LiquidatorUpdated(liquidator, newLiquidator);\\n        liquidator = newLiquidator;\\n    }\\n\\n    function setInterest(uint256 newInterest) external onlyGovernor {\\n        emit InterestUpdated(interest, newInterest);\\n        interest = newInterest;\\n    }\\n\\n    function setMinimumPrincipalAmount(uint256 newMinimumPrincipalAmount) external onlyGovernor {\\n        emit StabilityFeeUpdated(minimumPrincipalAmount, newMinimumPrincipalAmount);\\n        minimumPrincipalAmount = newMinimumPrincipalAmount;\\n    }\\n\\n    function setStabilityFee(uint256 newStabilityFee) external onlyGovernor {\\n        emit StabilityFeeUpdated(stabilityFee, newStabilityFee);\\n        stabilityFee = newStabilityFee;\\n    }\\n\\n    function setPlatformFees(\\n        uint256 newStabilizationFee,\\n        uint256 newExchangeFee,\\n        uint256 newDevelopmentFee\\n    ) external onlyGovernor {\\n        if (newStabilizationFee + newExchangeFee + newDevelopmentFee != ONE) {\\n            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);\\n        }\\n        emit PlatformFeesUpdated(\\n            stabilizationFee,\\n            newStabilizationFee,\\n            exchangeFee,\\n            newExchangeFee,\\n            developmentFee,\\n            newDevelopmentFee\\n        );\\n        stabilizationFee = newStabilizationFee;\\n        exchangeFee = newExchangeFee;\\n        developmentFee = newDevelopmentFee;\\n    }\\n\\n    function setMarginCallLoanToValueRatio(uint256 newMarginCallLoanToValueRatio) external onlyGovernor {\\n        emit MarginCallLoanToValueRatioUpdated(marginCallLoanToValueRatio, newMarginCallLoanToValueRatio);\\n        marginCallLoanToValueRatio = newMarginCallLoanToValueRatio;\\n    }\\n\\n    function setLiquidationLoanToValueRatio(uint256 newLiquidationLoanToValueRatio) external onlyGovernor {\\n        emit LiquidationLoanToValueRatioUpdated(liquidationLoanToValueRatio, newLiquidationLoanToValueRatio);\\n        liquidationLoanToValueRatio = newLiquidationLoanToValueRatio;\\n    }\\n\\n    function setRebalancingThreshold(uint256 newRebalancingThreshold) external onlyGovernor {\\n        emit RebalancingThresholdUpdated(rebalancingThreshold, newRebalancingThreshold);\\n        rebalancingThreshold = newRebalancingThreshold;\\n    }\\n\\n    function setMinimumMagisterDepositAmount(uint256 newMinimumMagisterDepositAmount) external onlyGovernor {\\n        emit MinimumMagisterDepositAmountUpdated(minimumMagisterDepositAmount, newMinimumMagisterDepositAmount);\\n        minimumMagisterDepositAmount = newMinimumMagisterDepositAmount;\\n    }\\n\\n    function setWorkFee(uint256 newWorkFee) external onlyGovernor {\\n        emit WorkFeeUpdated(workFee, newWorkFee);\\n        workFee = newWorkFee;\\n    }\\n\\n    function setEarlyWithdrawalPeriod(uint256 newEarlyWithdrawalPeriod) external onlyGovernor {\\n        emit EarlyWithdrawalPeriodUpdated(earlyWithdrawalPeriod, newEarlyWithdrawalPeriod);\\n        earlyWithdrawalPeriod = newEarlyWithdrawalPeriod;\\n    }\\n\\n    function setEarlyWithdrawalFee(uint256 newEarlyWithdrawalFee) external onlyGovernor {\\n        emit EarlyWithdrawalFeeUpdated(earlyWithdrawalFee, newEarlyWithdrawalFee);\\n        earlyWithdrawalFee = newEarlyWithdrawalFee;\\n    }\\n\\n    function setServicingThreshold(uint256 newServicingThreshold) external onlyGovernor {\\n        emit ServicingThresholdUpdated(servicingThreshold, newServicingThreshold);\\n        servicingThreshold = newServicingThreshold;\\n    }\\n\\n    function setMinimumLiquidity(uint256 newMinimumLiquidity) external onlyGovernor {\\n        emit MinimumLiquidityUpdated(minimumLiquidity, newMinimumLiquidity);\\n        minimumLiquidity = newMinimumLiquidity;\\n    }\\n\\n    function setVoiceMintingBeneficiaries(uint256[] calldata beneficiaries) external onlyGovernor {\\n        delete _voiceMintingBeneficiaries;\\n        _voiceMintingBeneficiaries = beneficiaries;\\n        voiceTotalShares = 0;\\n        for (uint256 i = 0; i < _voiceMintingBeneficiaries.length; i++) {\\n            (, uint256 share) = Beneficiary.split(_voiceMintingBeneficiaries[i]);\\n            voiceTotalShares += share;\\n        }\\n    }\\n\\n    function addSuperUser(address account) external onlyGovernor {\\n        isSuperUser[account] = true;\\n    }\\n\\n    function removeSuperUser(address account) external onlyGovernor {\\n        isSuperUser[account] = false;\\n    }\\n\\n    function voiceMintingBeneficiaries() external view override returns (uint256[] memory) {\\n        return _voiceMintingBeneficiaries;\\n    }\\n\\n    function voiceMintingSchedule() external view override returns (uint256[] memory) {\\n        return _voiceMintingSchedule;\\n    }\\n}\\n\\nabstract contract CoreInside {\\n    ICore public core;\\n\\n    error BaksDAOOnlyDepositaryAllowed();\\n    error BaksDAOOnlySuperUserAllowed();\\n\\n    modifier onlyDepositary() {\\n        if (msg.sender != address(core.depositary())) {\\n            revert BaksDAOOnlyDepositaryAllowed();\\n        }\\n        _;\\n    }\\n\\n    modifier onlySuperUser() {\\n        if (!core.isSuperUser(msg.sender)) {\\n            revert BaksDAOOnlySuperUserAllowed();\\n        }\\n        _;\\n    }\\n\\n    function initializeCoreInside(ICore _core) internal {\\n        core = _core;\\n    }\\n}\\n\",\"keccak256\":\"0x5a23b768a8129c8e1e8d263ac2271dcfc5d56c81d4cd5d9ca63ba2401fa40151\",\"license\":\"BUSL-1.1\"},\"contracts/Governance.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nerror GovernedOnlyGovernorAllowedToCall();\\nerror GovernedOnlyPendingGovernorAllowedToCall();\\nerror GovernedGovernorZeroAddress();\\nerror GovernedCantGoverItself();\\n\\nabstract contract Governed {\\n    address public governor;\\n    address public pendingGovernor;\\n\\n    event PendingGovernanceTransition(address indexed governor, address indexed newGovernor);\\n    event GovernanceTransited(address indexed governor, address indexed newGovernor);\\n\\n    modifier onlyGovernor() {\\n        if (msg.sender != governor) {\\n            revert GovernedOnlyGovernorAllowedToCall();\\n        }\\n        _;\\n    }\\n\\n    function transitGovernance(address newGovernor, bool force) external onlyGovernor {\\n        if (newGovernor == address(0)) {\\n            revert GovernedGovernorZeroAddress();\\n        }\\n        if (newGovernor == address(this)) {\\n            revert GovernedCantGoverItself();\\n        }\\n\\n        pendingGovernor = newGovernor;\\n        if (!force) {\\n            emit PendingGovernanceTransition(governor, newGovernor);\\n        } else {\\n            setGovernor(newGovernor);\\n        }\\n    }\\n\\n    function acceptGovernance() external {\\n        if (msg.sender != pendingGovernor) {\\n            revert GovernedOnlyPendingGovernorAllowedToCall();\\n        }\\n\\n        governor = pendingGovernor;\\n        emit GovernanceTransited(governor, pendingGovernor);\\n    }\\n\\n    function setGovernor(address newGovernor) internal {\\n        governor = newGovernor;\\n        emit GovernanceTransited(governor, newGovernor);\\n    }\\n}\\n\",\"keccak256\":\"0x39eb94fcb72876408caf31d462e821259a1a35a48f56fafb09b442283432dd71\",\"license\":\"BUSL-1.1\"},\"contracts/interfaces/Chainlink.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\ninterface IChainlinkAggregator {\\n    function decimals() external view returns (uint8);\\n\\n    function latestRoundData()\\n        external\\n        view\\n        returns (\\n            uint80 roundId,\\n            int256 answer,\\n            uint256 startedAt,\\n            uint256 updatedAt,\\n            uint80 answeredInRound\\n        );\\n}\\n\",\"keccak256\":\"0x796e77d9578bdfbe1686e667f04e7971c295da03aa706c6cb8010d39e78fef18\",\"license\":\"MIT\"},\"contracts/interfaces/ERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\ninterface IERC20 {\\n    event Approval(address indexed owner, address indexed spender, uint256 amount);\\n    event Transfer(address indexed from, address indexed to, uint256 amount);\\n\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    function transferFrom(\\n        address from,\\n        address to,\\n        uint256 amount\\n    ) external returns (bool);\\n\\n    function transfer(address to, uint256 amount) external returns (bool);\\n\\n    function totalSupply() external view returns (uint256);\\n\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    function name() external view returns (string memory);\\n\\n    function symbol() external view returns (string memory);\\n\\n    function decimals() external view returns (uint8);\\n}\\n\\ninterface IMintableAndBurnableERC20 is IERC20 {\\n    function mint(address to, uint256 amount) external;\\n\\n    function burn(address from, uint256 amount) external;\\n}\\n\",\"keccak256\":\"0x88fd15d408cc6fc41f6aecff5e0722a8b3ec59bc306635524e43715b3e2bf5c1\",\"license\":\"MIT\"},\"contracts/interfaces/IPriceOracle.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nimport {IERC20} from \\\"./ERC20.sol\\\";\\nimport \\\"./../libraries/FixedPointMath.sol\\\";\\n\\n/// @notice Thrown when oracle doesn't provide price for `token` token.\\n/// @param token The address of the token contract.\\nerror PriceOracleTokenUnknown(IERC20 token);\\n/// @notice Thrown when oracle provide stale price `price` for `token` token.\\n/// @param token The address of the token contract.\\n/// @param price Provided price.\\nerror PriceOracleStalePrice(IERC20 token, uint256 price);\\n/// @notice Thrown when oracle provide negative, zero or in other ways invalid price `price` for `token` token.\\n/// @param token The address of the token contract.\\n/// @param price Provided price.\\nerror PriceOracleInvalidPrice(IERC20 token, int256 price);\\n\\ninterface IPriceOracle {\\n    /// @notice Gets normalized to 18 decimals price for the `token` token.\\n    /// @param token The address of the token contract.\\n    /// @return normalizedPrice Normalized price.\\n    function getNormalizedPrice(IERC20 token) external view returns (uint256 normalizedPrice);\\n}\\n\",\"keccak256\":\"0x3cfee478a9d2c5f5e7af40f2daedbce24d01ec3f552a21a9ac719fcef21d22c7\",\"license\":\"MIT\"},\"contracts/libraries/Address.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nerror CallToNonContract(address target);\\n\\nlibrary Address {\\n    function functionCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.call(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function delegateCall(\\n        address target,\\n        bytes memory data,\\n        string memory errorMessage\\n    ) internal returns (bytes memory) {\\n        if (!isContract(target)) {\\n            revert CallToNonContract(target);\\n        }\\n\\n        (bool success, bytes memory returnData) = target.delegatecall(data);\\n        return verifyCallResult(success, returnData, errorMessage);\\n    }\\n\\n    function isContract(address account) internal view returns (bool) {\\n        uint256 codeSize;\\n        assembly {\\n            codeSize := extcodesize(account)\\n        }\\n\\n        return codeSize > 0;\\n    }\\n\\n    function verifyCallResult(\\n        bool success,\\n        bytes memory returnData,\\n        string memory errorMessage\\n    ) internal pure returns (bytes memory) {\\n        if (success) {\\n            return returnData;\\n        } else {\\n            if (returnData.length > 0) {\\n                assembly {\\n                    let returnDataSize := mload(returnData)\\n                    revert(add(returnData, 32), returnDataSize)\\n                }\\n            } else {\\n                revert(errorMessage);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xba7550b67e8e597fcbc05c61eb85d739d80547eb243b78dd1bfa933e8a3490f1\",\"license\":\"MIT\"},\"contracts/libraries/Beneficiary.sol\":{\"content\":\"// SPDX-License-Identifier: BUSL-1.1\\npragma solidity 0.8.10;\\n\\nlibrary Beneficiary {\\n    function split(uint256 b) internal pure returns (address beneficiary, uint256 share) {\\n        share = b & type(uint96).max;\\n        beneficiary = address(uint160(b >> 96));\\n    }\\n}\\n\",\"keccak256\":\"0xf0d91a872e949239988ee480caa56123a7f2f9c2cf565412aab336433d93acfe\",\"license\":\"BUSL-1.1\"},\"contracts/libraries/FixedPointMath.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nimport \\\"./Math.sol\\\";\\n\\nerror FixedPointMathMulDivOverflow(uint256 prod1, uint256 denominator);\\nerror FixedPointMathExpArgumentTooBig(uint256 a);\\nerror FixedPointMathExp2ArgumentTooBig(uint256 a);\\nerror FixedPointMathLog2ArgumentTooBig(uint256 a);\\n\\n/// @title Fixed point math implementation\\nlibrary FixedPointMath {\\n    uint256 internal constant SCALE = 1e18;\\n    uint256 internal constant HALF_SCALE = 5e17;\\n    /// @dev Largest power of two divisor of scale.\\n    uint256 internal constant SCALE_LPOTD = 262144;\\n    /// @dev Scale inverted mod 2**256.\\n    uint256 internal constant SCALE_INVERSE =\\n        78156646155174841979727994598816262306175212592076161876661508869554232690281;\\n    uint256 internal constant LOG2_E = 1_442695040888963407;\\n\\n    function mul(uint256 a, uint256 b) internal pure returns (uint256 result) {\\n        uint256 prod0;\\n        uint256 prod1;\\n        assembly {\\n            let mm := mulmod(a, b, not(0))\\n            prod0 := mul(a, b)\\n            prod1 := sub(sub(mm, prod0), lt(mm, prod0))\\n        }\\n\\n        if (prod1 >= SCALE) {\\n            revert FixedPointMathMulDivOverflow(prod1, SCALE);\\n        }\\n\\n        uint256 remainder;\\n        uint256 roundUpUnit;\\n        assembly {\\n            remainder := mulmod(a, b, SCALE)\\n            roundUpUnit := gt(remainder, 499999999999999999)\\n        }\\n\\n        if (prod1 == 0) {\\n            assembly {\\n                result := add(div(prod0, SCALE), roundUpUnit)\\n            }\\n            return result;\\n        }\\n\\n        assembly {\\n            result := add(\\n                mul(\\n                    or(\\n                        div(sub(prod0, remainder), SCALE_LPOTD),\\n                        mul(sub(prod1, gt(remainder, prod0)), add(div(sub(0, SCALE_LPOTD), SCALE_LPOTD), 1))\\n                    ),\\n                    SCALE_INVERSE\\n                ),\\n                roundUpUnit\\n            )\\n        }\\n    }\\n\\n    function div(uint256 a, uint256 b) internal pure returns (uint256 result) {\\n        result = mulDiv(a, SCALE, b);\\n    }\\n\\n    /// @notice Calculates \\u230aa \\u00d7 b \\u00f7 denominator\\u230b with full precision.\\n    /// @dev Credit to Remco Bloemen under MIT license https://2\\u03c0.com/21/muldiv.\\n    function mulDiv(\\n        uint256 a,\\n        uint256 b,\\n        uint256 denominator\\n    ) internal pure returns (uint256 result) {\\n        uint256 prod0;\\n        uint256 prod1;\\n        assembly {\\n            let mm := mulmod(a, b, not(0))\\n            prod0 := mul(a, b)\\n            prod1 := sub(sub(mm, prod0), lt(mm, prod0))\\n        }\\n\\n        if (prod1 >= denominator) {\\n            revert FixedPointMathMulDivOverflow(prod1, denominator);\\n        }\\n\\n        if (prod1 == 0) {\\n            assembly {\\n                result := div(prod0, denominator)\\n            }\\n            return result;\\n        }\\n\\n        uint256 remainder;\\n        assembly {\\n            remainder := mulmod(a, b, denominator)\\n\\n            prod1 := sub(prod1, gt(remainder, prod0))\\n            prod0 := sub(prod0, remainder)\\n        }\\n\\n        unchecked {\\n            uint256 lpotdod = denominator & (~denominator + 1);\\n            assembly {\\n                denominator := div(denominator, lpotdod)\\n                prod0 := div(prod0, lpotdod)\\n                lpotdod := add(div(sub(0, lpotdod), lpotdod), 1)\\n            }\\n            prod0 |= prod1 * lpotdod;\\n\\n            uint256 inverse = (3 * denominator) ^ 2;\\n            inverse *= 2 - denominator * inverse;\\n            inverse *= 2 - denominator * inverse;\\n            inverse *= 2 - denominator * inverse;\\n            inverse *= 2 - denominator * inverse;\\n            inverse *= 2 - denominator * inverse;\\n            inverse *= 2 - denominator * inverse;\\n\\n            result = prod0 * inverse;\\n        }\\n    }\\n\\n    function exp(uint256 x) internal pure returns (uint256 result) {\\n        if (x >= 133_084258667509499441) {\\n            revert FixedPointMathExpArgumentTooBig(x);\\n        }\\n\\n        unchecked {\\n            uint256 doubleScaleProduct = x * LOG2_E;\\n            result = exp2((doubleScaleProduct + HALF_SCALE) / SCALE);\\n        }\\n    }\\n\\n    function exp2(uint256 x) internal pure returns (uint256 result) {\\n        if (x >= 192e18) {\\n            revert FixedPointMathExp2ArgumentTooBig(x);\\n        }\\n\\n        unchecked {\\n            x = (x << 64) / SCALE;\\n\\n            result = 0x800000000000000000000000000000000000000000000000;\\n            if (x & 0x8000000000000000 > 0) {\\n                result = (result * 0x16A09E667F3BCC909) >> 64;\\n            }\\n            if (x & 0x4000000000000000 > 0) {\\n                result = (result * 0x1306FE0A31B7152DF) >> 64;\\n            }\\n            if (x & 0x2000000000000000 > 0) {\\n                result = (result * 0x1172B83C7D517ADCE) >> 64;\\n            }\\n            if (x & 0x1000000000000000 > 0) {\\n                result = (result * 0x10B5586CF9890F62A) >> 64;\\n            }\\n            if (x & 0x800000000000000 > 0) {\\n                result = (result * 0x1059B0D31585743AE) >> 64;\\n            }\\n            if (x & 0x400000000000000 > 0) {\\n                result = (result * 0x102C9A3E778060EE7) >> 64;\\n            }\\n            if (x & 0x200000000000000 > 0) {\\n                result = (result * 0x10163DA9FB33356D8) >> 64;\\n            }\\n            if (x & 0x100000000000000 > 0) {\\n                result = (result * 0x100B1AFA5ABCBED61) >> 64;\\n            }\\n            if (x & 0x80000000000000 > 0) {\\n                result = (result * 0x10058C86DA1C09EA2) >> 64;\\n            }\\n            if (x & 0x40000000000000 > 0) {\\n                result = (result * 0x1002C605E2E8CEC50) >> 64;\\n            }\\n            if (x & 0x20000000000000 > 0) {\\n                result = (result * 0x100162F3904051FA1) >> 64;\\n            }\\n            if (x & 0x10000000000000 > 0) {\\n                result = (result * 0x1000B175EFFDC76BA) >> 64;\\n            }\\n            if (x & 0x8000000000000 > 0) {\\n                result = (result * 0x100058BA01FB9F96D) >> 64;\\n            }\\n            if (x & 0x4000000000000 > 0) {\\n                result = (result * 0x10002C5CC37DA9492) >> 64;\\n            }\\n            if (x & 0x2000000000000 > 0) {\\n                result = (result * 0x1000162E525EE0547) >> 64;\\n            }\\n            if (x & 0x1000000000000 > 0) {\\n                result = (result * 0x10000B17255775C04) >> 64;\\n            }\\n            if (x & 0x800000000000 > 0) {\\n                result = (result * 0x1000058B91B5BC9AE) >> 64;\\n            }\\n            if (x & 0x400000000000 > 0) {\\n                result = (result * 0x100002C5C89D5EC6D) >> 64;\\n            }\\n            if (x & 0x200000000000 > 0) {\\n                result = (result * 0x10000162E43F4F831) >> 64;\\n            }\\n            if (x & 0x100000000000 > 0) {\\n                result = (result * 0x100000B1721BCFC9A) >> 64;\\n            }\\n            if (x & 0x80000000000 > 0) {\\n                result = (result * 0x10000058B90CF1E6E) >> 64;\\n            }\\n            if (x & 0x40000000000 > 0) {\\n                result = (result * 0x1000002C5C863B73F) >> 64;\\n            }\\n            if (x & 0x20000000000 > 0) {\\n                result = (result * 0x100000162E430E5A2) >> 64;\\n            }\\n            if (x & 0x10000000000 > 0) {\\n                result = (result * 0x1000000B172183551) >> 64;\\n            }\\n            if (x & 0x8000000000 > 0) {\\n                result = (result * 0x100000058B90C0B49) >> 64;\\n            }\\n            if (x & 0x4000000000 > 0) {\\n                result = (result * 0x10000002C5C8601CC) >> 64;\\n            }\\n            if (x & 0x2000000000 > 0) {\\n                result = (result * 0x1000000162E42FFF0) >> 64;\\n            }\\n            if (x & 0x1000000000 > 0) {\\n                result = (result * 0x10000000B17217FBB) >> 64;\\n            }\\n            if (x & 0x800000000 > 0) {\\n                result = (result * 0x1000000058B90BFCE) >> 64;\\n            }\\n            if (x & 0x400000000 > 0) {\\n                result = (result * 0x100000002C5C85FE3) >> 64;\\n            }\\n            if (x & 0x200000000 > 0) {\\n                result = (result * 0x10000000162E42FF1) >> 64;\\n            }\\n            if (x & 0x100000000 > 0) {\\n                result = (result * 0x100000000B17217F8) >> 64;\\n            }\\n            if (x & 0x80000000 > 0) {\\n                result = (result * 0x10000000058B90BFC) >> 64;\\n            }\\n            if (x & 0x40000000 > 0) {\\n                result = (result * 0x1000000002C5C85FE) >> 64;\\n            }\\n            if (x & 0x20000000 > 0) {\\n                result = (result * 0x100000000162E42FF) >> 64;\\n            }\\n            if (x & 0x10000000 > 0) {\\n                result = (result * 0x1000000000B17217F) >> 64;\\n            }\\n            if (x & 0x8000000 > 0) {\\n                result = (result * 0x100000000058B90C0) >> 64;\\n            }\\n            if (x & 0x4000000 > 0) {\\n                result = (result * 0x10000000002C5C860) >> 64;\\n            }\\n            if (x & 0x2000000 > 0) {\\n                result = (result * 0x1000000000162E430) >> 64;\\n            }\\n            if (x & 0x1000000 > 0) {\\n                result = (result * 0x10000000000B17218) >> 64;\\n            }\\n            if (x & 0x800000 > 0) {\\n                result = (result * 0x1000000000058B90C) >> 64;\\n            }\\n            if (x & 0x400000 > 0) {\\n                result = (result * 0x100000000002C5C86) >> 64;\\n            }\\n            if (x & 0x200000 > 0) {\\n                result = (result * 0x10000000000162E43) >> 64;\\n            }\\n            if (x & 0x100000 > 0) {\\n                result = (result * 0x100000000000B1721) >> 64;\\n            }\\n            if (x & 0x80000 > 0) {\\n                result = (result * 0x10000000000058B91) >> 64;\\n            }\\n            if (x & 0x40000 > 0) {\\n                result = (result * 0x1000000000002C5C8) >> 64;\\n            }\\n            if (x & 0x20000 > 0) {\\n                result = (result * 0x100000000000162E4) >> 64;\\n            }\\n            if (x & 0x10000 > 0) {\\n                result = (result * 0x1000000000000B172) >> 64;\\n            }\\n            if (x & 0x8000 > 0) {\\n                result = (result * 0x100000000000058B9) >> 64;\\n            }\\n            if (x & 0x4000 > 0) {\\n                result = (result * 0x10000000000002C5D) >> 64;\\n            }\\n            if (x & 0x2000 > 0) {\\n                result = (result * 0x1000000000000162E) >> 64;\\n            }\\n            if (x & 0x1000 > 0) {\\n                result = (result * 0x10000000000000B17) >> 64;\\n            }\\n            if (x & 0x800 > 0) {\\n                result = (result * 0x1000000000000058C) >> 64;\\n            }\\n            if (x & 0x400 > 0) {\\n                result = (result * 0x100000000000002C6) >> 64;\\n            }\\n            if (x & 0x200 > 0) {\\n                result = (result * 0x10000000000000163) >> 64;\\n            }\\n            if (x & 0x100 > 0) {\\n                result = (result * 0x100000000000000B1) >> 64;\\n            }\\n            if (x & 0x80 > 0) {\\n                result = (result * 0x10000000000000059) >> 64;\\n            }\\n            if (x & 0x40 > 0) {\\n                result = (result * 0x1000000000000002C) >> 64;\\n            }\\n            if (x & 0x20 > 0) {\\n                result = (result * 0x10000000000000016) >> 64;\\n            }\\n            if (x & 0x10 > 0) {\\n                result = (result * 0x1000000000000000B) >> 64;\\n            }\\n            if (x & 0x8 > 0) {\\n                result = (result * 0x10000000000000006) >> 64;\\n            }\\n            if (x & 0x4 > 0) {\\n                result = (result * 0x10000000000000003) >> 64;\\n            }\\n            if (x & 0x2 > 0) {\\n                result = (result * 0x10000000000000001) >> 64;\\n            }\\n            if (x & 0x1 > 0) {\\n                result = (result * 0x10000000000000001) >> 64;\\n            }\\n\\n            result *= SCALE;\\n            result >>= (191 - (x >> 64));\\n        }\\n    }\\n\\n    function pow(uint256 x, uint256 y) internal pure returns (uint256 result) {\\n        if (x == 0) {\\n            result = y == 0 ? SCALE : uint256(0);\\n        } else {\\n            result = exp2(mul(log2(x), y));\\n        }\\n    }\\n\\n    function log2(uint256 x) internal pure returns (uint256 result) {\\n        if (x < SCALE) {\\n            revert FixedPointMathLog2ArgumentTooBig(x);\\n        }\\n        unchecked {\\n            uint256 n = Math.mostSignificantBit(x / SCALE);\\n\\n            result = n * SCALE;\\n\\n            uint256 y = x >> n;\\n\\n            if (y == SCALE) {\\n                return result;\\n            }\\n\\n            for (uint256 delta = HALF_SCALE; delta > 0; delta >>= 1) {\\n                y = (y * y) / SCALE;\\n\\n                if (y >= 2 * SCALE) {\\n                    result += delta;\\n\\n                    y >>= 1;\\n                }\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x71c26d3323eefeb3c355a976ba14a02ed35bb9dc461dae1b832cae44058aa0ff\",\"license\":\"MIT\"},\"contracts/libraries/Math.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nlibrary Math {\\n    function min(uint256 a, uint256 b) internal pure returns (uint256) {\\n        return a < b ? a : b;\\n    }\\n\\n    function max(uint256 a, uint256 b) internal pure returns (uint256) {\\n        return a >= b ? a : b;\\n    }\\n\\n    function abs(int256 a) internal pure returns (uint256) {\\n        return a >= 0 ? uint256(a) : uint256(-a);\\n    }\\n\\n    function sqrt(uint256 x) internal pure returns (uint256 result) {\\n        if (x == 0) {\\n            return 0;\\n        }\\n        uint256 xAux = x;\\n        result = 1;\\n        if (xAux >= 0x100000000000000000000000000000000) {\\n            xAux >>= 128;\\n            result <<= 64;\\n        }\\n        if (xAux >= 0x10000000000000000) {\\n            xAux >>= 64;\\n            result <<= 32;\\n        }\\n        if (xAux >= 0x100000000) {\\n            xAux >>= 32;\\n            result <<= 16;\\n        }\\n        if (xAux >= 0x10000) {\\n            xAux >>= 16;\\n            result <<= 8;\\n        }\\n        if (xAux >= 0x100) {\\n            xAux >>= 8;\\n            result <<= 4;\\n        }\\n        if (xAux >= 0x10) {\\n            xAux >>= 4;\\n            result <<= 2;\\n        }\\n        if (xAux >= 0x8) {\\n            result <<= 1;\\n        }\\n\\n        uint256 repeat = 7;\\n        while (repeat > 0) {\\n            result = (result + x / result) >> 1;\\n            repeat--;\\n        }\\n        uint256 roundedDownResult = x / result;\\n\\n        return result >= roundedDownResult ? roundedDownResult : result;\\n    }\\n\\n    function fpsqrt(uint256 a) internal pure returns (uint256 result) {\\n        if (a == 0) result = 0;\\n        else result = sqrt(a) * 1e9;\\n    }\\n\\n    function mostSignificantBit(uint256 x) internal pure returns (uint256 msb) {\\n        if (x >= 2**128) {\\n            x >>= 128;\\n            msb += 128;\\n        }\\n        if (x >= 2**64) {\\n            x >>= 64;\\n            msb += 64;\\n        }\\n        if (x >= 2**32) {\\n            x >>= 32;\\n            msb += 32;\\n        }\\n        if (x >= 2**16) {\\n            x >>= 16;\\n            msb += 16;\\n        }\\n        if (x >= 2**8) {\\n            x >>= 8;\\n            msb += 8;\\n        }\\n        if (x >= 2**4) {\\n            x >>= 4;\\n            msb += 4;\\n        }\\n        if (x >= 2**2) {\\n            x >>= 2;\\n            msb += 2;\\n        }\\n        if (x >= 2**1) {\\n            // No need to shift x any more.\\n            msb += 1;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x65702f55f84a336879fb5ce6747897873c83742a496b759b105326346934b7da\",\"license\":\"MIT\"},\"contracts/libraries/Upgradability.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.10;\\n\\nimport \\\"./Address.sol\\\";\\n\\nerror EIP1967ImplementationIsNotContract(address implementation);\\nerror ContractAlreadyInitialized();\\nerror OnlyProxyCallAllowed();\\nerror OnlyCurrentImplementationAllowed();\\n\\nlibrary EIP1967 {\\n    using Address for address;\\n\\n    bytes32 internal constant IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;\\n\\n    event Upgraded(address indexed newImplementation);\\n\\n    function upgradeTo(address newImplementation) internal {\\n        if (!newImplementation.isContract()) {\\n            revert EIP1967ImplementationIsNotContract(newImplementation);\\n        }\\n\\n        assembly {\\n            sstore(IMPLEMENTATION_SLOT, newImplementation)\\n        }\\n\\n        emit Upgraded(newImplementation);\\n    }\\n\\n    function getImplementation() internal view returns (address implementation) {\\n        assembly {\\n            implementation := sload(IMPLEMENTATION_SLOT)\\n        }\\n    }\\n}\\n\\ncontract Proxy {\\n    using Address for address;\\n\\n    constructor(address implementation, bytes memory data) {\\n        EIP1967.upgradeTo(implementation);\\n        implementation.delegateCall(data, \\\"Proxy: construction failed\\\");\\n    }\\n\\n    receive() external payable {\\n        delegateCall();\\n    }\\n\\n    fallback() external payable {\\n        delegateCall();\\n    }\\n\\n    function delegateCall() internal {\\n        address implementation = EIP1967.getImplementation();\\n\\n        assembly {\\n            calldatacopy(0, 0, calldatasize())\\n\\n            let result := delegatecall(gas(), implementation, 0, calldatasize(), 0, 0)\\n\\n            returndatacopy(0, 0, returndatasize())\\n\\n            switch result\\n            case 0 {\\n                revert(0, returndatasize())\\n            }\\n            default {\\n                return(0, returndatasize())\\n            }\\n        }\\n    }\\n}\\n\\nabstract contract Upgradeable {\\n    address private immutable self = address(this);\\n\\n    modifier onlyProxy() {\\n        if (address(this) == self) {\\n            revert OnlyProxyCallAllowed();\\n        }\\n        if (EIP1967.getImplementation() != self) {\\n            revert OnlyCurrentImplementationAllowed();\\n        }\\n        _;\\n    }\\n\\n    function upgradeTo(address newImplementation) public virtual onlyProxy {\\n        EIP1967.upgradeTo(newImplementation);\\n    }\\n}\\n\\nabstract contract Initializable {\\n    bool private initializing;\\n    bool private initialized;\\n\\n    modifier initializer() {\\n        if (!initializing && initialized) {\\n            revert ContractAlreadyInitialized();\\n        }\\n\\n        bool isTopLevelCall = !initializing;\\n        if (isTopLevelCall) {\\n            initializing = true;\\n            initialized = true;\\n        }\\n\\n        _;\\n\\n        if (isTopLevelCall) {\\n            initializing = false;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc3091e63c4fcc7642bcc850ec9c37030b6b7c0c210dcace49f8ba2b930211f88\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610ac2806100206000396000f3fe608060405234801561001057600080fd5b50600436106100be5760003560e01c8063a534acb811610076578063ddc125261161005b578063ddc1252614610196578063e3056a34146101a9578063f2f4eb26146101bc57600080fd5b8063a534acb81461015a578063c4d66de81461018357600080fd5b8063238efcbc116100a7578063238efcbc146101145780637f2141c81461011e578063a3e832921461013157600080fd5b80630c340a24146100c35780631e1f1264146100f3575b600080fd5b6001546100d6906001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b610106610101366004610953565b6101cf565b6040519081526020016100ea565b61011c6102e1565b005b61011c61012c366004610985565b61035a565b6100d661013f366004610953565b6003602052600090815260409020546001600160a01b031681565b6100d6610168366004610953565b6004602052600090815260409020546001600160a01b031681565b61011c610191366004610953565b61043d565b61011c6101a43660046109cc565b61053c565b6002546100d6906001600160a01b031681565b6000546100d6906001600160a01b031681565b60008060009054906101000a90046001600160a01b03166001600160a01b0316634c4e61e96040518163ffffffff1660e01b8152600401602060405180830381865afa158015610223573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102479190610a01565b6001600160a01b0316826001600160a01b0316141561026f5750670de0b6b3a7640000919050565b6001600160a01b0380831660009081526004602052604090205416806102c057600061029a8461061f565b905060006102a6610674565b90506102b782826305f5e10061073a565b95945050505050565b6402540be4006102d084836107f5565b6102da9190610a1e565b9392505050565b6002546001600160a01b0316331461030c5760405163aec80d4b60e01b815260040160405180910390fd5b600254600180546001600160a01b0319166001600160a01b03909216918217905560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a3565b6001546001600160a01b03163314610385576040516305e7700560e51b815260040160405180910390fd5b80156103be576001600160a01b03838116600090815260036020526040902080546001600160a01b0319169184169190911790556103ed565b6001600160a01b03838116600090815260046020526040902080546001600160a01b0319169184169190911790555b604080516001600160a01b038581168252841660208201528215158183015290517f63fd82896bab8eef1a35d3ab2266a9c3153779e4e3294e42cb7083100a8360759181900360600190a1505050565b600254600160a01b900460ff1615801561047257506002547501000000000000000000000000000000000000000000900460ff165b1561049057604051631ee1e30360e21b815260040160405180910390fd5b600254600160a01b900460ff161580156104e557600280547fffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffff1675010100000000000000000000000000000000000000001790555b600080546001600160a01b0319166001600160a01b038416179055610509336108ef565b801561053857600280547fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff1690555b5050565b6001546001600160a01b03163314610567576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b03821661058e5760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156105b8576040516306b3e95d60e21b815260040160405180910390fd5b600280546001600160a01b0319166001600160a01b03841617905580610616576001546040516001600160a01b038085169216907fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb190600090a35050565b610538826108ef565b6001600160a01b038082166000908152600360205260408120549091168061066a57604051637b32290760e01b81526001600160a01b03841660048201526024015b60405180910390fd5b6102da83826107f5565b60008054604080516339fcc0a360e21b8152905183926001600160a01b03169163e7f3028c9160048083019260209291908290030181865afa1580156106be573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106e29190610a01565b6001600160a01b03808216600090815260046020526040902054919250168061072957604051637b32290760e01b81526001600160a01b0383166004820152602401610661565b61073382826107f5565b9250505090565b6000808060001985870985870292508281108382030391505083811061077d5760405163072fa3c960e31b81526004810182905260248101859052604401610661565b8061078d575082900490506102da565b600084868809600260036001881981018916988990049182028318808302840302808302840302808302840302808302840302808302840302918202909203026000889003889004909101858311909403939093029303949094049190911702949350505050565b600080600080846001600160a01b031663feaf968c6040518163ffffffff1660e01b815260040160a060405180830381865afa158015610839573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061085d9190610a65565b94505050925092506000821361089857604051631919cdd560e31b81526001600160a01b038716600482015260248101839052604401610661565b8193508269ffffffffffffffffffff168169ffffffffffffffffffff1610156108e657604051638a7611fb60e01b81526001600160a01b038716600482015260248101859052604401610661565b50505092915050565b600180546001600160a01b0319166001600160a01b03831690811790915560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a350565b6001600160a01b038116811461095057600080fd5b50565b60006020828403121561096557600080fd5b81356102da8161093b565b8035801515811461098057600080fd5b919050565b60008060006060848603121561099a57600080fd5b83356109a58161093b565b925060208401356109b58161093b565b91506109c360408501610970565b90509250925092565b600080604083850312156109df57600080fd5b82356109ea8161093b565b91506109f860208401610970565b90509250929050565b600060208284031215610a1357600080fd5b81516102da8161093b565b6000816000190483118215151615610a4657634e487b7160e01b600052601160045260246000fd5b500290565b805169ffffffffffffffffffff8116811461098057600080fd5b600080600080600060a08688031215610a7d57600080fd5b610a8686610a4b565b9450602086015193506040860151925060608601519150610aa960808701610a4b565b9050929550929590935056fea164736f6c634300080a000a",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100be5760003560e01c8063a534acb811610076578063ddc125261161005b578063ddc1252614610196578063e3056a34146101a9578063f2f4eb26146101bc57600080fd5b8063a534acb81461015a578063c4d66de81461018357600080fd5b8063238efcbc116100a7578063238efcbc146101145780637f2141c81461011e578063a3e832921461013157600080fd5b80630c340a24146100c35780631e1f1264146100f3575b600080fd5b6001546100d6906001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b610106610101366004610953565b6101cf565b6040519081526020016100ea565b61011c6102e1565b005b61011c61012c366004610985565b61035a565b6100d661013f366004610953565b6003602052600090815260409020546001600160a01b031681565b6100d6610168366004610953565b6004602052600090815260409020546001600160a01b031681565b61011c610191366004610953565b61043d565b61011c6101a43660046109cc565b61053c565b6002546100d6906001600160a01b031681565b6000546100d6906001600160a01b031681565b60008060009054906101000a90046001600160a01b03166001600160a01b0316634c4e61e96040518163ffffffff1660e01b8152600401602060405180830381865afa158015610223573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102479190610a01565b6001600160a01b0316826001600160a01b0316141561026f5750670de0b6b3a7640000919050565b6001600160a01b0380831660009081526004602052604090205416806102c057600061029a8461061f565b905060006102a6610674565b90506102b782826305f5e10061073a565b95945050505050565b6402540be4006102d084836107f5565b6102da9190610a1e565b9392505050565b6002546001600160a01b0316331461030c5760405163aec80d4b60e01b815260040160405180910390fd5b600254600180546001600160a01b0319166001600160a01b03909216918217905560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a3565b6001546001600160a01b03163314610385576040516305e7700560e51b815260040160405180910390fd5b80156103be576001600160a01b03838116600090815260036020526040902080546001600160a01b0319169184169190911790556103ed565b6001600160a01b03838116600090815260046020526040902080546001600160a01b0319169184169190911790555b604080516001600160a01b038581168252841660208201528215158183015290517f63fd82896bab8eef1a35d3ab2266a9c3153779e4e3294e42cb7083100a8360759181900360600190a1505050565b600254600160a01b900460ff1615801561047257506002547501000000000000000000000000000000000000000000900460ff165b1561049057604051631ee1e30360e21b815260040160405180910390fd5b600254600160a01b900460ff161580156104e557600280547fffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffff1675010100000000000000000000000000000000000000001790555b600080546001600160a01b0319166001600160a01b038416179055610509336108ef565b801561053857600280547fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff1690555b5050565b6001546001600160a01b03163314610567576040516305e7700560e51b815260040160405180910390fd5b6001600160a01b03821661058e5760405163604b48b960e11b815260040160405180910390fd5b6001600160a01b0382163014156105b8576040516306b3e95d60e21b815260040160405180910390fd5b600280546001600160a01b0319166001600160a01b03841617905580610616576001546040516001600160a01b038085169216907fc606c9af1451cadeb333f6ff7b24a5540974f4e800bac274fa7fff9edc305cb190600090a35050565b610538826108ef565b6001600160a01b038082166000908152600360205260408120549091168061066a57604051637b32290760e01b81526001600160a01b03841660048201526024015b60405180910390fd5b6102da83826107f5565b60008054604080516339fcc0a360e21b8152905183926001600160a01b03169163e7f3028c9160048083019260209291908290030181865afa1580156106be573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106e29190610a01565b6001600160a01b03808216600090815260046020526040902054919250168061072957604051637b32290760e01b81526001600160a01b0383166004820152602401610661565b61073382826107f5565b9250505090565b6000808060001985870985870292508281108382030391505083811061077d5760405163072fa3c960e31b81526004810182905260248101859052604401610661565b8061078d575082900490506102da565b600084868809600260036001881981018916988990049182028318808302840302808302840302808302840302808302840302808302840302918202909203026000889003889004909101858311909403939093029303949094049190911702949350505050565b600080600080846001600160a01b031663feaf968c6040518163ffffffff1660e01b815260040160a060405180830381865afa158015610839573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061085d9190610a65565b94505050925092506000821361089857604051631919cdd560e31b81526001600160a01b038716600482015260248101839052604401610661565b8193508269ffffffffffffffffffff168169ffffffffffffffffffff1610156108e657604051638a7611fb60e01b81526001600160a01b038716600482015260248101859052604401610661565b50505092915050565b600180546001600160a01b0319166001600160a01b03831690811790915560405181907f564590b81987d147246f63910a8e1ee4eb09c4d64cc75ee975a8ffedfcc2210e90600090a350565b6001600160a01b038116811461095057600080fd5b50565b60006020828403121561096557600080fd5b81356102da8161093b565b8035801515811461098057600080fd5b919050565b60008060006060848603121561099a57600080fd5b83356109a58161093b565b925060208401356109b58161093b565b91506109c360408501610970565b90509250925092565b600080604083850312156109df57600080fd5b82356109ea8161093b565b91506109f860208401610970565b90509250929050565b600060208284031215610a1357600080fd5b81516102da8161093b565b6000816000190483118215151615610a4657634e487b7160e01b600052601160045260246000fd5b500290565b805169ffffffffffffffffffff8116811461098057600080fd5b600080600080600060a08688031215610a7d57600080fd5b610a8686610a4b565b9450602086015193506040860151925060608601519150610aa960808701610a4b565b9050929550929590935056fea164736f6c634300080a000a",
+  "devdoc": {
+    "errors": {
+      "PriceOracleInvalidPrice(address,int256)": [
+        {
+          "params": {
+            "price": "Provided price.",
+            "token": "The address of the token contract."
+          }
+        }
+      ],
+      "PriceOracleStalePrice(address,uint256)": [
+        {
+          "params": {
+            "price": "Provided price.",
+            "token": "The address of the token contract."
+          }
+        }
+      ],
+      "PriceOracleTokenUnknown(address)": [
+        {
+          "params": {
+            "token": "The address of the token contract."
+          }
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "getNormalizedPrice(address)": {
+        "params": {
+          "token": "The address of the token contract."
+        },
+        "returns": {
+          "normalizedPrice": "Normalized price."
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "errors": {
+      "PriceOracleInvalidPrice(address,int256)": [
+        {
+          "notice": "Thrown when oracle provide negative, zero or in other ways invalid price `price` for `token` token."
+        }
+      ],
+      "PriceOracleStalePrice(address,uint256)": [
+        {
+          "notice": "Thrown when oracle provide stale price `price` for `token` token."
+        }
+      ],
+      "PriceOracleTokenUnknown(address)": [
+        {
+          "notice": "Thrown when oracle doesn't provide price for `token` token."
+        }
+      ]
+    },
+    "kind": "user",
+    "methods": {
+      "getNormalizedPrice(address)": {
+        "notice": "Gets normalized to 18 decimals price for the `token` token."
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 4140,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "core",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_contract(ICore)3413"
+      },
+      {
+        "astId": 7519,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "governor",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 7521,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "pendingGovernor",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_address"
+      },
+      {
+        "astId": 11360,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "initializing",
+        "offset": 20,
+        "slot": "2",
+        "type": "t_bool"
+      },
+      {
+        "astId": 11362,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "initialized",
+        "offset": 21,
+        "slot": "2",
+        "type": "t_bool"
+      },
+      {
+        "astId": 2835,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "nativeAggregators",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_contract(IERC20)7757,t_contract(IChainlinkAggregator)7673)"
+      },
+      {
+        "astId": 2841,
+        "contract": "contracts/ChainlinkPriceOracle.sol:ChainlinkPriceOracle",
+        "label": "usdAggregators",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_contract(IERC20)7757,t_contract(IChainlinkAggregator)7673)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_contract(IChainlinkAggregator)7673": {
+        "encoding": "inplace",
+        "label": "contract IChainlinkAggregator",
+        "numberOfBytes": "20"
+      },
+      "t_contract(ICore)3413": {
+        "encoding": "inplace",
+        "label": "contract ICore",
+        "numberOfBytes": "20"
+      },
+      "t_contract(IERC20)7757": {
+        "encoding": "inplace",
+        "label": "contract IERC20",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_contract(IERC20)7757,t_contract(IChainlinkAggregator)7673)": {
+        "encoding": "mapping",
+        "key": "t_contract(IERC20)7757",
+        "label": "mapping(contract IERC20 => contract IChainlinkAggregator)",
+        "numberOfBytes": "32",
+        "value": "t_contract(IChainlinkAggregator)7673"
+      }
+    }
+  }
+}

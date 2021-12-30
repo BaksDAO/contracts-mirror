@@ -78,19 +78,22 @@ export interface BankInterface extends utils.Interface {
     "getLoanAccruedInterest(uint256)": FunctionFragment;
     "getLoanToValueRatio(uint256)": FunctionFragment;
     "getLoans(address)": FunctionFragment;
-    "getTotalValueLocked()": FunctionFragment;
+    "getTotalValueLocked(address)": FunctionFragment;
     "governor()": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "liquidate(uint256)": FunctionFragment;
     "listCollateralToken(address,uint256)": FunctionFragment;
     "loanIds(address,uint256)": FunctionFragment;
     "loans(uint256)": FunctionFragment;
+    "migrate()": FunctionFragment;
+    "mintVoice()": FunctionFragment;
+    "nextVoiceMintingStage()": FunctionFragment;
     "onNewDeposit(address,uint256)": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
     "rebalance()": FunctionFragment;
     "repay(uint256,uint256)": FunctionFragment;
-    "salvage(address)": FunctionFragment;
     "setInitialLoanToValueRatio(address,uint256)": FunctionFragment;
+    "transferBaksToExchangeFund(uint256)": FunctionFragment;
     "transitGovernance(address,bool)": FunctionFragment;
     "unlistCollateralToken(address)": FunctionFragment;
   };
@@ -151,7 +154,7 @@ export interface BankInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "getLoans", values: [string]): string;
   encodeFunctionData(
     functionFragment: "getTotalValueLocked",
-    values?: undefined
+    values: [string]
   ): string;
   encodeFunctionData(functionFragment: "governor", values?: undefined): string;
   encodeFunctionData(functionFragment: "initialize", values: [string]): string;
@@ -168,6 +171,12 @@ export interface BankInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "loans", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "migrate", values?: undefined): string;
+  encodeFunctionData(functionFragment: "mintVoice", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "nextVoiceMintingStage",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "onNewDeposit",
     values: [string, BigNumberish]
@@ -181,10 +190,13 @@ export interface BankInterface extends utils.Interface {
     functionFragment: "repay",
     values: [BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "salvage", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setInitialLoanToValueRatio",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferBaksToExchangeFund",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transitGovernance",
@@ -256,6 +268,12 @@ export interface BankInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "loanIds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "loans", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "migrate", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mintVoice", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "nextVoiceMintingStage",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "onNewDeposit",
     data: BytesLike
@@ -266,9 +284,12 @@ export interface BankInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "rebalance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "repay", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "salvage", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setInitialLoanToValueRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferBaksToExchangeFund",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -547,7 +568,12 @@ export interface Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[DataStructOutput[]] & { _loans: DataStructOutput[] }>;
 
-    getTotalValueLocked(
+    "getTotalValueLocked(address)"(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { totalValueLocked: BigNumber }>;
+
+    "getTotalValueLocked()"(
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { totalValueLocked: BigNumber }>;
 
@@ -608,6 +634,16 @@ export interface Bank extends BaseContract {
       }
     >;
 
+    migrate(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    mintVoice(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    nextVoiceMintingStage(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     onNewDeposit(
       token: string,
       amount: BigNumberish,
@@ -626,14 +662,14 @@ export interface Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    salvage(
-      token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     setInitialLoanToValueRatio(
       token: string,
       newInitialLoanToValueRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    transferBaksToExchangeFund(
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -766,7 +802,12 @@ export interface Bank extends BaseContract {
     overrides?: CallOverrides
   ): Promise<DataStructOutput[]>;
 
-  getTotalValueLocked(overrides?: CallOverrides): Promise<BigNumber>;
+  "getTotalValueLocked(address)"(
+    token: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "getTotalValueLocked()"(overrides?: CallOverrides): Promise<BigNumber>;
 
   governor(overrides?: CallOverrides): Promise<string>;
 
@@ -825,6 +866,16 @@ export interface Bank extends BaseContract {
     }
   >;
 
+  migrate(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  mintVoice(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  nextVoiceMintingStage(overrides?: CallOverrides): Promise<BigNumber>;
+
   onNewDeposit(
     token: string,
     amount: BigNumberish,
@@ -843,14 +894,14 @@ export interface Bank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  salvage(
-    token: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   setInitialLoanToValueRatio(
     token: string,
     newInitialLoanToValueRatio: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  transferBaksToExchangeFund(
+    amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -984,7 +1035,12 @@ export interface Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<DataStructOutput[]>;
 
-    getTotalValueLocked(overrides?: CallOverrides): Promise<BigNumber>;
+    "getTotalValueLocked(address)"(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getTotalValueLocked()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     governor(overrides?: CallOverrides): Promise<string>;
 
@@ -1037,6 +1093,12 @@ export interface Bank extends BaseContract {
       }
     >;
 
+    migrate(overrides?: CallOverrides): Promise<void>;
+
+    mintVoice(overrides?: CallOverrides): Promise<void>;
+
+    nextVoiceMintingStage(overrides?: CallOverrides): Promise<BigNumber>;
+
     onNewDeposit(
       token: string,
       amount: BigNumberish,
@@ -1053,11 +1115,14 @@ export interface Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    salvage(token: string, overrides?: CallOverrides): Promise<void>;
-
     setInitialLoanToValueRatio(
       token: string,
       newInitialLoanToValueRatio: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    transferBaksToExchangeFund(
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1233,7 +1298,12 @@ export interface Bank extends BaseContract {
 
     getLoans(borrower: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    getTotalValueLocked(overrides?: CallOverrides): Promise<BigNumber>;
+    "getTotalValueLocked(address)"(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getTotalValueLocked()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     governor(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1261,6 +1331,16 @@ export interface Bank extends BaseContract {
 
     loans(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
+    migrate(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    mintVoice(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    nextVoiceMintingStage(overrides?: CallOverrides): Promise<BigNumber>;
+
     onNewDeposit(
       token: string,
       amount: BigNumberish,
@@ -1279,14 +1359,14 @@ export interface Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    salvage(
-      token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     setInitialLoanToValueRatio(
       token: string,
       newInitialLoanToValueRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    transferBaksToExchangeFund(
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1378,7 +1458,12 @@ export interface Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getTotalValueLocked(
+    "getTotalValueLocked(address)"(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getTotalValueLocked()"(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1411,6 +1496,18 @@ export interface Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    migrate(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mintVoice(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    nextVoiceMintingStage(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     onNewDeposit(
       token: string,
       amount: BigNumberish,
@@ -1429,14 +1526,14 @@ export interface Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    salvage(
-      token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     setInitialLoanToValueRatio(
       token: string,
       newInitialLoanToValueRatio: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferBaksToExchangeFund(
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
