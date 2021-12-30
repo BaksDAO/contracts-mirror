@@ -20,8 +20,12 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface CoreInterface extends utils.Interface {
   functions: {
     "acceptGovernance()": FunctionFragment;
+    "addSuperUser(address)": FunctionFragment;
     "baks()": FunctionFragment;
     "bank()": FunctionFragment;
+    "depositDevelopmentFee()": FunctionFragment;
+    "depositExchangeFee()": FunctionFragment;
+    "depositStabilizationFee()": FunctionFragment;
     "depositary()": FunctionFragment;
     "developmentFee()": FunctionFragment;
     "developmentFund()": FunctionFragment;
@@ -32,6 +36,7 @@ export interface CoreInterface extends utils.Interface {
     "governor()": FunctionFragment;
     "initialize(address,address,address,address)": FunctionFragment;
     "interest()": FunctionFragment;
+    "isSuperUser(address)": FunctionFragment;
     "liquidationLoanToValueRatio()": FunctionFragment;
     "liquidator()": FunctionFragment;
     "marginCallLoanToValueRatio()": FunctionFragment;
@@ -42,9 +47,11 @@ export interface CoreInterface extends utils.Interface {
     "pendingGovernor()": FunctionFragment;
     "priceOracle()": FunctionFragment;
     "rebalancingThreshold()": FunctionFragment;
+    "removeSuperUser(address)": FunctionFragment;
     "servicingThreshold()": FunctionFragment;
     "setBaks(address)": FunctionFragment;
     "setBank(address)": FunctionFragment;
+    "setDepositFees(uint256,uint256,uint256)": FunctionFragment;
     "setDepositary(address)": FunctionFragment;
     "setDevelopmentFund(address)": FunctionFragment;
     "setEarlyWithdrawalFee(uint256)": FunctionFragment;
@@ -64,12 +71,16 @@ export interface CoreInterface extends utils.Interface {
     "setServicingThreshold(uint256)": FunctionFragment;
     "setStabilityFee(uint256)": FunctionFragment;
     "setVoice(address)": FunctionFragment;
+    "setVoiceMintingBeneficiaries(uint256[])": FunctionFragment;
     "setWorkFee(uint256)": FunctionFragment;
     "stabilityFee()": FunctionFragment;
     "stabilizationFee()": FunctionFragment;
     "transitGovernance(address,bool)": FunctionFragment;
     "uniswapV2Router()": FunctionFragment;
     "voice()": FunctionFragment;
+    "voiceMintingBeneficiaries()": FunctionFragment;
+    "voiceMintingSchedule()": FunctionFragment;
+    "voiceTotalShares()": FunctionFragment;
     "workFee()": FunctionFragment;
     "wrappedNativeCurrency()": FunctionFragment;
   };
@@ -78,8 +89,24 @@ export interface CoreInterface extends utils.Interface {
     functionFragment: "acceptGovernance",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "addSuperUser",
+    values: [string]
+  ): string;
   encodeFunctionData(functionFragment: "baks", values?: undefined): string;
   encodeFunctionData(functionFragment: "bank", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "depositDevelopmentFee",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "depositExchangeFee",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "depositStabilizationFee",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "depositary",
     values?: undefined
@@ -114,6 +141,7 @@ export interface CoreInterface extends utils.Interface {
     values: [string, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: "interest", values?: undefined): string;
+  encodeFunctionData(functionFragment: "isSuperUser", values: [string]): string;
   encodeFunctionData(
     functionFragment: "liquidationLoanToValueRatio",
     values?: undefined
@@ -152,11 +180,19 @@ export interface CoreInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "removeSuperUser",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "servicingThreshold",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "setBaks", values: [string]): string;
   encodeFunctionData(functionFragment: "setBank", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setDepositFees",
+    values: [BigNumberish, BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "setDepositary",
     values: [string]
@@ -228,6 +264,10 @@ export interface CoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "setVoice", values: [string]): string;
   encodeFunctionData(
+    functionFragment: "setVoiceMintingBeneficiaries",
+    values: [BigNumberish[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setWorkFee",
     values: [BigNumberish]
   ): string;
@@ -248,6 +288,18 @@ export interface CoreInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "voice", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "voiceMintingBeneficiaries",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "voiceMintingSchedule",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "voiceTotalShares",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "workFee", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "wrappedNativeCurrency",
@@ -258,8 +310,24 @@ export interface CoreInterface extends utils.Interface {
     functionFragment: "acceptGovernance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "addSuperUser",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "baks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bank", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "depositDevelopmentFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "depositExchangeFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "depositStabilizationFee",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "depositary", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "developmentFee",
@@ -288,6 +356,10 @@ export interface CoreInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "governor", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "interest", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "isSuperUser",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "liquidationLoanToValueRatio",
     data: BytesLike
@@ -323,11 +395,19 @@ export interface CoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "removeSuperUser",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "servicingThreshold",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setBaks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setBank", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setDepositFees",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setDepositary",
     data: BytesLike
@@ -401,6 +481,10 @@ export interface CoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setVoice", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setVoiceMintingBeneficiaries",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setWorkFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "stabilityFee",
@@ -419,6 +503,18 @@ export interface CoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "voice", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "voiceMintingBeneficiaries",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "voiceMintingSchedule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "voiceTotalShares",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "workFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "wrappedNativeCurrency",
@@ -428,6 +524,7 @@ export interface CoreInterface extends utils.Interface {
   events: {
     "BaksUpdated(address,address)": EventFragment;
     "BankUpdated(address,address)": EventFragment;
+    "DepositFeesUpdated(uint256,uint256,uint256,uint256,uint256,uint256)": EventFragment;
     "DepositaryUpdated(address,address)": EventFragment;
     "DevelopmentFundUpdated(address,address)": EventFragment;
     "EarlyWithdrawalFeeUpdated(uint256,uint256)": EventFragment;
@@ -454,6 +551,7 @@ export interface CoreInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "BaksUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BankUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DepositFeesUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositaryUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DevelopmentFundUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EarlyWithdrawalFeeUpdated"): EventFragment;
@@ -505,6 +603,21 @@ export type BankUpdatedEvent = TypedEvent<
 >;
 
 export type BankUpdatedEventFilter = TypedEventFilter<BankUpdatedEvent>;
+
+export type DepositFeesUpdatedEvent = TypedEvent<
+  [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber],
+  {
+    stabilizationFee: BigNumber;
+    newStabilizationFee: BigNumber;
+    exchangeFee: BigNumber;
+    newExchangeFee: BigNumber;
+    developmentFee: BigNumber;
+    newDevelopmentFee: BigNumber;
+  }
+>;
+
+export type DepositFeesUpdatedEventFilter =
+  TypedEventFilter<DepositFeesUpdatedEvent>;
 
 export type DepositaryUpdatedEvent = TypedEvent<
   [string, string],
@@ -725,9 +838,20 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    addSuperUser(
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     baks(overrides?: CallOverrides): Promise<[string]>;
 
     bank(overrides?: CallOverrides): Promise<[string]>;
+
+    depositDevelopmentFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    depositExchangeFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    depositStabilizationFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     depositary(overrides?: CallOverrides): Promise<[string]>;
 
@@ -755,6 +879,8 @@ export interface Core extends BaseContract {
 
     interest(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    isSuperUser(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
+
     liquidationLoanToValueRatio(
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -779,6 +905,11 @@ export interface Core extends BaseContract {
 
     rebalancingThreshold(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    removeSuperUser(
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     servicingThreshold(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     setBaks(
@@ -788,6 +919,13 @@ export interface Core extends BaseContract {
 
     setBank(
       newBank: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDepositFees(
+      newDepositStabilizationFee: BigNumberish,
+      newDepositExchangeFee: BigNumberish,
+      newDepositDevelopmentFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -888,6 +1026,11 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setVoiceMintingBeneficiaries(
+      beneficiaries: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setWorkFee(
       newWorkFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -907,6 +1050,14 @@ export interface Core extends BaseContract {
 
     voice(overrides?: CallOverrides): Promise<[string]>;
 
+    voiceMintingBeneficiaries(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
+    voiceMintingSchedule(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
+    voiceTotalShares(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     workFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     wrappedNativeCurrency(overrides?: CallOverrides): Promise<[string]>;
@@ -916,9 +1067,20 @@ export interface Core extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  addSuperUser(
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   baks(overrides?: CallOverrides): Promise<string>;
 
   bank(overrides?: CallOverrides): Promise<string>;
+
+  depositDevelopmentFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  depositExchangeFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  depositStabilizationFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   depositary(overrides?: CallOverrides): Promise<string>;
 
@@ -946,6 +1108,8 @@ export interface Core extends BaseContract {
 
   interest(overrides?: CallOverrides): Promise<BigNumber>;
 
+  isSuperUser(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+
   liquidationLoanToValueRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
   liquidator(overrides?: CallOverrides): Promise<string>;
@@ -966,6 +1130,11 @@ export interface Core extends BaseContract {
 
   rebalancingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
+  removeSuperUser(
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   servicingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
   setBaks(
@@ -975,6 +1144,13 @@ export interface Core extends BaseContract {
 
   setBank(
     newBank: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDepositFees(
+    newDepositStabilizationFee: BigNumberish,
+    newDepositExchangeFee: BigNumberish,
+    newDepositDevelopmentFee: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1075,6 +1251,11 @@ export interface Core extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setVoiceMintingBeneficiaries(
+    beneficiaries: BigNumberish[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setWorkFee(
     newWorkFee: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -1094,6 +1275,12 @@ export interface Core extends BaseContract {
 
   voice(overrides?: CallOverrides): Promise<string>;
 
+  voiceMintingBeneficiaries(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+  voiceMintingSchedule(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+  voiceTotalShares(overrides?: CallOverrides): Promise<BigNumber>;
+
   workFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   wrappedNativeCurrency(overrides?: CallOverrides): Promise<string>;
@@ -1101,9 +1288,17 @@ export interface Core extends BaseContract {
   callStatic: {
     acceptGovernance(overrides?: CallOverrides): Promise<void>;
 
+    addSuperUser(account: string, overrides?: CallOverrides): Promise<void>;
+
     baks(overrides?: CallOverrides): Promise<string>;
 
     bank(overrides?: CallOverrides): Promise<string>;
+
+    depositDevelopmentFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositExchangeFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositStabilizationFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     depositary(overrides?: CallOverrides): Promise<string>;
 
@@ -1131,6 +1326,8 @@ export interface Core extends BaseContract {
 
     interest(overrides?: CallOverrides): Promise<BigNumber>;
 
+    isSuperUser(arg0: string, overrides?: CallOverrides): Promise<boolean>;
+
     liquidationLoanToValueRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
     liquidator(overrides?: CallOverrides): Promise<string>;
@@ -1151,11 +1348,20 @@ export interface Core extends BaseContract {
 
     rebalancingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
+    removeSuperUser(account: string, overrides?: CallOverrides): Promise<void>;
+
     servicingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
     setBaks(newBaks: string, overrides?: CallOverrides): Promise<void>;
 
     setBank(newBank: string, overrides?: CallOverrides): Promise<void>;
+
+    setDepositFees(
+      newDepositStabilizationFee: BigNumberish,
+      newDepositExchangeFee: BigNumberish,
+      newDepositDevelopmentFee: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setDepositary(
       newDepositary: string,
@@ -1248,6 +1454,11 @@ export interface Core extends BaseContract {
 
     setVoice(newVoice: string, overrides?: CallOverrides): Promise<void>;
 
+    setVoiceMintingBeneficiaries(
+      beneficiaries: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setWorkFee(
       newWorkFee: BigNumberish,
       overrides?: CallOverrides
@@ -1267,6 +1478,12 @@ export interface Core extends BaseContract {
 
     voice(overrides?: CallOverrides): Promise<string>;
 
+    voiceMintingBeneficiaries(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+    voiceMintingSchedule(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+    voiceTotalShares(overrides?: CallOverrides): Promise<BigNumber>;
+
     workFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     wrappedNativeCurrency(overrides?: CallOverrides): Promise<string>;
@@ -1284,6 +1501,23 @@ export interface Core extends BaseContract {
       newBank?: null
     ): BankUpdatedEventFilter;
     BankUpdated(bank?: null, newBank?: null): BankUpdatedEventFilter;
+
+    "DepositFeesUpdated(uint256,uint256,uint256,uint256,uint256,uint256)"(
+      stabilizationFee?: null,
+      newStabilizationFee?: null,
+      exchangeFee?: null,
+      newExchangeFee?: null,
+      developmentFee?: null,
+      newDevelopmentFee?: null
+    ): DepositFeesUpdatedEventFilter;
+    DepositFeesUpdated(
+      stabilizationFee?: null,
+      newStabilizationFee?: null,
+      exchangeFee?: null,
+      newExchangeFee?: null,
+      developmentFee?: null,
+      newDevelopmentFee?: null
+    ): DepositFeesUpdatedEventFilter;
 
     "DepositaryUpdated(address,address)"(
       depositary?: null,
@@ -1494,9 +1728,20 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    addSuperUser(
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     baks(overrides?: CallOverrides): Promise<BigNumber>;
 
     bank(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositDevelopmentFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositExchangeFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositStabilizationFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     depositary(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1524,6 +1769,8 @@ export interface Core extends BaseContract {
 
     interest(overrides?: CallOverrides): Promise<BigNumber>;
 
+    isSuperUser(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
     liquidationLoanToValueRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
     liquidator(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1544,6 +1791,11 @@ export interface Core extends BaseContract {
 
     rebalancingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
+    removeSuperUser(
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     servicingThreshold(overrides?: CallOverrides): Promise<BigNumber>;
 
     setBaks(
@@ -1553,6 +1805,13 @@ export interface Core extends BaseContract {
 
     setBank(
       newBank: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDepositFees(
+      newDepositStabilizationFee: BigNumberish,
+      newDepositExchangeFee: BigNumberish,
+      newDepositDevelopmentFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1653,6 +1912,11 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setVoiceMintingBeneficiaries(
+      beneficiaries: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setWorkFee(
       newWorkFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1672,6 +1936,12 @@ export interface Core extends BaseContract {
 
     voice(overrides?: CallOverrides): Promise<BigNumber>;
 
+    voiceMintingBeneficiaries(overrides?: CallOverrides): Promise<BigNumber>;
+
+    voiceMintingSchedule(overrides?: CallOverrides): Promise<BigNumber>;
+
+    voiceTotalShares(overrides?: CallOverrides): Promise<BigNumber>;
+
     workFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     wrappedNativeCurrency(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1682,9 +1952,26 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    addSuperUser(
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     baks(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bank(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    depositDevelopmentFee(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    depositExchangeFee(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    depositStabilizationFee(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     depositary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1716,6 +2003,11 @@ export interface Core extends BaseContract {
 
     interest(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    isSuperUser(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     liquidationLoanToValueRatio(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1746,6 +2038,11 @@ export interface Core extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    removeSuperUser(
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     servicingThreshold(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1757,6 +2054,13 @@ export interface Core extends BaseContract {
 
     setBank(
       newBank: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDepositFees(
+      newDepositStabilizationFee: BigNumberish,
+      newDepositExchangeFee: BigNumberish,
+      newDepositDevelopmentFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1857,6 +2161,11 @@ export interface Core extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setVoiceMintingBeneficiaries(
+      beneficiaries: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setWorkFee(
       newWorkFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1875,6 +2184,16 @@ export interface Core extends BaseContract {
     uniswapV2Router(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     voice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    voiceMintingBeneficiaries(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    voiceMintingSchedule(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    voiceTotalShares(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     workFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

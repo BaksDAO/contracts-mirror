@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -24,6 +25,7 @@ export interface DevelopmentFundInterface extends utils.Interface {
     "initialize(address)": FunctionFragment;
     "pendingGovernor()": FunctionFragment;
     "transitGovernance(address,bool)": FunctionFragment;
+    "withdraw(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -41,6 +43,10 @@ export interface DevelopmentFundInterface extends utils.Interface {
     functionFragment: "transitGovernance",
     values: [string, boolean]
   ): string;
+  encodeFunctionData(
+    functionFragment: "withdraw",
+    values: [BigNumberish]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "acceptGovernance",
@@ -57,6 +63,7 @@ export interface DevelopmentFundInterface extends utils.Interface {
     functionFragment: "transitGovernance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
     "GovernanceTransited(address,address)": EventFragment;
@@ -132,6 +139,11 @@ export interface DevelopmentFund extends BaseContract {
       force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    withdraw(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   acceptGovernance(
@@ -155,6 +167,11 @@ export interface DevelopmentFund extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  withdraw(
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     acceptGovernance(overrides?: CallOverrides): Promise<void>;
 
@@ -171,6 +188,8 @@ export interface DevelopmentFund extends BaseContract {
       force: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    withdraw(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -214,6 +233,11 @@ export interface DevelopmentFund extends BaseContract {
       force: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    withdraw(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -235,6 +259,11 @@ export interface DevelopmentFund extends BaseContract {
     transitGovernance(
       newGovernor: string,
       force: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    withdraw(
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

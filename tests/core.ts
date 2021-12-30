@@ -34,7 +34,7 @@ describe("Core", () => {
             newExchangeFee,
             newDevelopmentFee,
           ),
-        ).to.be.revertedWith(BaksDAOErrors.PlatformFeesDontSumUpToOne);
+        ).to.be.revertedWith(BaksDAOErrors.FeesDontSumUpToOne);
       });
 
       it("reverts when platform fees sum up to more than one", async () => {
@@ -48,7 +48,7 @@ describe("Core", () => {
             newExchangeFee,
             newDevelopmentFee,
           ),
-        ).to.be.revertedWith(BaksDAOErrors.PlatformFeesDontSumUpToOne);
+        ).to.be.revertedWith(BaksDAOErrors.FeesDontSumUpToOne);
       });
 
       it("updates platform fees", async () => {

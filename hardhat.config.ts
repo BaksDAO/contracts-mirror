@@ -95,6 +95,12 @@ const config: HardhatUserConfig = {
       accounts,
       tags: ["mainnet", "production"],
     },
+    "bsc-2": {
+      url: "https://bsc-dataseed.binance.org",
+      chainId: 56,
+      accounts,
+      tags: ["mainnet", "production"],
+    },
     "bsc-test": {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,
@@ -174,6 +180,7 @@ const config: HardhatUserConfig = {
       "Depositary",
       "DevelopmentFund",
       "ExchangeFund",
+      "Voice",
     ],
     includeFactories: true,
   },

@@ -128,7 +128,7 @@ describe("Bank", () => {
       });
     });
 
-    describe("salvation", () => {
+    /* describe("salvation", () => {
       it("reverts when trying to salvage one of collateral tokens", async () => {
         await expect(
           env.governedBank.salvage(env.collateralToken.address),
@@ -140,7 +140,7 @@ describe("Bank", () => {
           env.governedBank.salvage(env.$.address),
         ).to.be.revertedWith(BaksDAOErrors.TokenNotAllowedToBeSalvaged);
       });
-    });
+    }); */
   });
 
   describe("borrow", () => {
@@ -212,7 +212,7 @@ describe("Bank", () => {
       const createdLoan = await env.bank.loanIds(env.user.address, 0);
       expect(createdLoan).to.be.equal(0);
 
-      expect(await env.bank.getTotalValueLocked()).to.be.equal(
+      expect(await env.bank["getTotalValueLocked()"]()).to.be.equal(
         loan.collateralAmount.mul(INITIAL_COL_PRICE).div(e10(18)),
       );
 

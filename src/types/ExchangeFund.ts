@@ -40,6 +40,7 @@ export interface ExchangeFundInterface extends utils.Interface {
     "slippageTolerance()": FunctionFragment;
     "swap(address,address,uint256,bool)": FunctionFragment;
     "swapDeadline()": FunctionFragment;
+    "transferBaksToBank(uint256)": FunctionFragment;
     "transitGovernance(address,bool)": FunctionFragment;
     "unlistDepositableToken(address)": FunctionFragment;
     "withdraw(address,uint256)": FunctionFragment;
@@ -115,6 +116,10 @@ export interface ExchangeFundInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "transferBaksToBank",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "transitGovernance",
     values: [string, boolean]
   ): string;
@@ -173,6 +178,10 @@ export interface ExchangeFundInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "swap", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "swapDeadline",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferBaksToBank",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -436,6 +445,11 @@ export interface ExchangeFund extends BaseContract {
 
     swapDeadline(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    transferBaksToBank(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     transitGovernance(
       newGovernor: string,
       force: boolean,
@@ -546,6 +560,11 @@ export interface ExchangeFund extends BaseContract {
 
   swapDeadline(overrides?: CallOverrides): Promise<BigNumber>;
 
+  transferBaksToBank(
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   transitGovernance(
     newGovernor: string,
     force: boolean,
@@ -647,6 +666,11 @@ export interface ExchangeFund extends BaseContract {
     ): Promise<void>;
 
     swapDeadline(overrides?: CallOverrides): Promise<BigNumber>;
+
+    transferBaksToBank(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     transitGovernance(
       newGovernor: string,
@@ -881,6 +905,11 @@ export interface ExchangeFund extends BaseContract {
 
     swapDeadline(overrides?: CallOverrides): Promise<BigNumber>;
 
+    transferBaksToBank(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     transitGovernance(
       newGovernor: string,
       force: boolean,
@@ -996,6 +1025,11 @@ export interface ExchangeFund extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     swapDeadline(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    transferBaksToBank(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     transitGovernance(
       newGovernor: string,

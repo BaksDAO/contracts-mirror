@@ -1,10 +1,7 @@
 import { smock } from "@defi-wonderland/smock";
 import { BigNumber } from "@ethersproject/bignumber";
 import chai, { expect } from "chai";
-import { parseEther, parseUnits } from "ethers/lib/utils";
 import { ethers } from "hardhat";
-import { IERC20 } from "typechain";
-import { COL } from "./shared/constants";
 import { Environment, setupEnvironment } from "./shared/environment";
 import { percent } from "./shared/helpers";
 
@@ -99,7 +96,7 @@ describe("Exchange Fund", () => {
       );
     });
 
-    it("service (stableCoin=>token) and need addLiquidity", async () => {
+    /*  it("service (stableCoin=>token) and need addLiquidity", async () => {
       env.uniswapV2Pair.getReserves.reset();
       env.uniswapV2Router.addLiquidity.reset();
       let amountStableCoin: BigNumber = parseEther("40000");
@@ -503,6 +500,6 @@ describe("Exchange Fund", () => {
           BigNumber.from(nextBlockTimeStamp).add(deadLine),
         );
       }
-    });
+    }); */
   });
 });

@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.10;
 
+import "./libraries/Beneficiary.sol";
 import {Governed} from "./Governance.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
 
 interface ICore {
-    /// @dev Thrown when trying to set platform fees that don't sum up to one.
+    /// @dev Thrown when trying to set fees that don't sum up to one.
     /// @param stabilizationFee The stabilization fee that was tried to set.
     /// @param exchangeFee The stabilization fee that was tried to set.
     /// @param developmentFee The stabilization fee that was tried to set.
-    error BaksDAOPlatformFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);
+    error BaksDAOFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);
 
     event PriceOracleUpdated(address priceOracle, address newPriceOracle);
 
@@ -29,6 +30,14 @@ interface ICore {
     event StabilityFeeUpdated(uint256 stabilityFee, uint256 newStabilityFee);
     event RebalancingThresholdUpdated(uint256 rebalancingThreshold, uint256 newRebalancingThreshold);
     event PlatformFeesUpdated(
+        uint256 stabilizationFee,
+        uint256 newStabilizationFee,
+        uint256 exchangeFee,
+        uint256 newExchangeFee,
+        uint256 developmentFee,
+        uint256 newDevelopmentFee
+    );
+    event DepositFeesUpdated(
         uint256 stabilizationFee,
         uint256 newStabilizationFee,
         uint256 exchangeFee,
@@ -104,6 +113,20 @@ interface ICore {
     function servicingThreshold() external view returns (uint256);
 
     function minimumLiquidity() external view returns (uint256);
+
+    function voiceMintingSchedule() external view returns (uint256[] memory);
+
+    function voiceTotalShares() external view returns (uint256);
+
+    function voiceMintingBeneficiaries() external view returns (uint256[] memory);
+
+    function isSuperUser(address account) external view returns (bool);
+
+    function depositStabilizationFee() external view returns (uint256);
+
+    function depositExchangeFee() external view returns (uint256);
+
+    function depositDevelopmentFee() external view returns (uint256);
 }
 
 contract Core is Initializable, Governed, ICore {
@@ -147,6 +170,17 @@ contract Core is Initializable, Governed, ICore {
     uint256 public override servicingThreshold;
     uint256 public override minimumLiquidity;
 
+    // Voice
+    uint256[] internal _voiceMintingSchedule;
+    uint256[] internal _voiceMintingBeneficiaries;
+    uint256 public override voiceTotalShares;
+
+    mapping(address => bool) public override isSuperUser;
+
+    uint256 public override depositStabilizationFee;
+    uint256 public override depositExchangeFee;
+    uint256 public override depositDevelopmentFee;
+
     function initialize(
         address _wrappedNativeCurrency,
         address _uniswapV2Router,
@@ -178,6 +212,32 @@ contract Core is Initializable, Governed, ICore {
 
         servicingThreshold = 1e16; // 1%
         minimumLiquidity = 50000e18; // 50000 BAKS
+
+        depositStabilizationFee = 15e16; // 15 %
+        depositExchangeFee = 85e16; // 85 %
+        depositDevelopmentFee = 0;
+
+        _voiceMintingSchedule = [
+            0x295be96e64066972000000,
+            0x0422ca8b0a00a4250000000000000000295be96e64066972000000,
+            0x084595161401484a000000000000000052b7d2dcc80cd2e4000000,
+            0x108b2a2c28029094000000000000000052b7d2dcc80cd2e4000000,
+            0x2116545850052128000000000000000052b7d2dcc80cd2e4000000,
+            0x422ca8b0a00a4250000000000000000052b7d2dcc80cd2e4000000,
+            0x84595161401484a0000000000000000052b7d2dcc80cd2e4000000,
+            0x0108b2a2c280290940000000000000000052b7d2dcc80cd2e4000000,
+            0x014adf4b7320334b90000000000000000052b7d2dcc80cd2e4000000,
+            0x018d0bf423c03d8de0000000000000000052b7d2dcc80cd2e4000000,
+            0x01cf389cd46047d030000000000000000052b7d2dcc80cd2e4000000,
+            0x021165458500521280000000000000000052b7d2dcc80cd2e4000000,
+            0x025391ee35a05c54d0000000000000000052b7d2dcc80cd2e4000000,
+            0x0295be96e6406697200000000000000000a56fa5b99019a5c8000000,
+            0x02d7eb3f96e070d9700000000000000000a56fa5b99019a5c8000000,
+            0x031a17e847807b1bc00000000000000000a56fa5b99019a5c8000000,
+            0x035c4490f820855e100000000000000000a56fa5b99019a5c8000000
+        ];
+
+        isSuperUser[msg.sender] = true;
     }
 
     function setPriceOracle(address newPriceOracle) external onlyGovernor {
@@ -246,7 +306,7 @@ contract Core is Initializable, Governed, ICore {
         uint256 newDevelopmentFee
     ) external onlyGovernor {
         if (newStabilizationFee + newExchangeFee + newDevelopmentFee != ONE) {
-            revert BaksDAOPlatformFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);
+            revert BaksDAOFeesDontSumUpToOne(newStabilizationFee, newExchangeFee, newDevelopmentFee);
         }
         emit PlatformFeesUpdated(
             stabilizationFee,
@@ -259,6 +319,31 @@ contract Core is Initializable, Governed, ICore {
         stabilizationFee = newStabilizationFee;
         exchangeFee = newExchangeFee;
         developmentFee = newDevelopmentFee;
+    }
+
+    function setDepositFees(
+        uint256 newDepositStabilizationFee,
+        uint256 newDepositExchangeFee,
+        uint256 newDepositDevelopmentFee
+    ) external onlyGovernor {
+        if (newDepositStabilizationFee + newDepositExchangeFee + newDepositDevelopmentFee != ONE) {
+            revert BaksDAOFeesDontSumUpToOne(
+                newDepositStabilizationFee,
+                newDepositExchangeFee,
+                newDepositDevelopmentFee
+            );
+        }
+        emit DepositFeesUpdated(
+            depositStabilizationFee,
+            newDepositStabilizationFee,
+            depositExchangeFee,
+            newDepositExchangeFee,
+            depositDevelopmentFee,
+            newDepositDevelopmentFee
+        );
+        depositStabilizationFee = newDepositStabilizationFee;
+        depositExchangeFee = newDepositExchangeFee;
+        depositDevelopmentFee = newDepositDevelopmentFee;
     }
 
     function setMarginCallLoanToValueRatio(uint256 newMarginCallLoanToValueRatio) external onlyGovernor {
@@ -305,16 +390,50 @@ contract Core is Initializable, Governed, ICore {
         emit MinimumLiquidityUpdated(minimumLiquidity, newMinimumLiquidity);
         minimumLiquidity = newMinimumLiquidity;
     }
+
+    function setVoiceMintingBeneficiaries(uint256[] calldata beneficiaries) external onlyGovernor {
+        delete _voiceMintingBeneficiaries;
+        _voiceMintingBeneficiaries = beneficiaries;
+        voiceTotalShares = 0;
+        for (uint256 i = 0; i < _voiceMintingBeneficiaries.length; i++) {
+            (, uint256 share) = Beneficiary.split(_voiceMintingBeneficiaries[i]);
+            voiceTotalShares += share;
+        }
+    }
+
+    function addSuperUser(address account) external onlyGovernor {
+        isSuperUser[account] = true;
+    }
+
+    function removeSuperUser(address account) external onlyGovernor {
+        isSuperUser[account] = false;
+    }
+
+    function voiceMintingBeneficiaries() external view override returns (uint256[] memory) {
+        return _voiceMintingBeneficiaries;
+    }
+
+    function voiceMintingSchedule() external view override returns (uint256[] memory) {
+        return _voiceMintingSchedule;
+    }
 }
 
 abstract contract CoreInside {
     ICore public core;
 
     error BaksDAOOnlyDepositaryAllowed();
+    error BaksDAOOnlySuperUserAllowed();
 
     modifier onlyDepositary() {
         if (msg.sender != address(core.depositary())) {
             revert BaksDAOOnlyDepositaryAllowed();
+        }
+        _;
+    }
+
+    modifier onlySuperUser() {
+        if (!core.isSuperUser(msg.sender)) {
+            revert BaksDAOOnlySuperUserAllowed();
         }
         _;
     }
