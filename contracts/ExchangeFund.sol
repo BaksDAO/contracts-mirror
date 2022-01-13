@@ -56,6 +56,8 @@ error ExchangeFundTokenNotAllowedToBeSwapped(IERC20 token);
 /// @param token The address of the token contract.
 error ExchangeFundNoNeedToService(IERC20 token);
 
+error ExchangeFundTokenNotApproved();
+
 contract ExchangeFund is CoreInside, Governed, Initializable {
     using AmountNormalization for IERC20;
     using EnumerableAddressSet for EnumerableAddressSet.Set;
@@ -111,11 +113,19 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         IERC20 baks = IERC20(core.baks());
         IERC20 voice = IERC20(core.voice());
 
-        baks.approve(core.uniswapV2Router(), type(uint256).max);
-        baks.approve(core.depositary(), type(uint256).max);
+        if (!baks.approve(core.uniswapV2Router(), type(uint256).max)) {
+            revert ExchangeFundTokenNotApproved();
+        }
+        if (!baks.approve(core.depositary(), type(uint256).max)) {
+            revert ExchangeFundTokenNotApproved();
+        }
 
-        voice.approve(core.uniswapV2Router(), type(uint256).max);
-        voice.approve(core.depositary(), type(uint256).max);
+        if (!voice.approve(core.uniswapV2Router(), type(uint256).max)) {
+            revert ExchangeFundTokenNotApproved();
+        }
+        if (!voice.approve(core.depositary(), type(uint256).max)) {
+            revert ExchangeFundTokenNotApproved();
+        }
     }
 
     function deposit(IERC20 token, uint256 amount) external tokenAllowedToBeDeposited(token) onlySuperUser {

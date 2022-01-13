@@ -119,17 +119,6 @@ library FixedPointMath {
         }
     }
 
-    function exp(uint256 x) internal pure returns (uint256 result) {
-        if (x >= 133_084258667509499441) {
-            revert FixedPointMathExpArgumentTooBig(x);
-        }
-
-        unchecked {
-            uint256 doubleScaleProduct = x * LOG2_E;
-            result = exp2((doubleScaleProduct + HALF_SCALE) / SCALE);
-        }
-    }
-
     function exp2(uint256 x) internal pure returns (uint256 result) {
         if (x >= 192e18) {
             revert FixedPointMathExp2ArgumentTooBig(x);

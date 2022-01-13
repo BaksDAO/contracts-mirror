@@ -118,7 +118,6 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         Liquidation
     }
 
-    uint256 internal constant ONE = 100e16;
     uint8 internal constant DECIMALS = 18;
 
     Loan.Data[] public loans;
