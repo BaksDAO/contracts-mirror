@@ -12,6 +12,8 @@ interface ICore {
     /// @param developmentFee The stabilization fee that was tried to set.
     error BaksDAOFeesDontSumUpToOne(uint256 stabilizationFee, uint256 exchangeFee, uint256 developmentFee);
 
+    error BaksDAOZeroAddress();
+
     event PriceOracleUpdated(address priceOracle, address newPriceOracle);
 
     event BaksUpdated(address baks, address newBaks);
@@ -189,10 +191,22 @@ contract Core is Initializable, Governed, ICore {
     ) external initializer {
         setGovernor(msg.sender);
 
+        if (_wrappedNativeCurrency == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         wrappedNativeCurrency = _wrappedNativeCurrency;
+        if (_uniswapV2Router == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         uniswapV2Router = _uniswapV2Router;
 
+        if (_operator == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         operator = _operator;
+        if (_liquidator == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         liquidator = _liquidator;
 
         interest = 11e16; // 11 %
@@ -241,46 +255,73 @@ contract Core is Initializable, Governed, ICore {
     }
 
     function setPriceOracle(address newPriceOracle) external onlyGovernor {
+        if (newPriceOracle == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit PriceOracleUpdated(priceOracle, newPriceOracle);
         priceOracle = newPriceOracle;
     }
 
     function setBaks(address newBaks) external onlyGovernor {
+        if (newBaks == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit BaksUpdated(baks, newBaks);
         baks = newBaks;
     }
 
     function setVoice(address newVoice) external onlyGovernor {
+        if (newVoice == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit VoiceUpdated(voice, newVoice);
         voice = newVoice;
     }
 
     function setBank(address newBank) external onlyGovernor {
+        if (newBank == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit BankUpdated(bank, newBank);
         bank = newBank;
     }
 
     function setDepositary(address newDepositary) external onlyGovernor {
+        if (newDepositary == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit DepositaryUpdated(depositary, newDepositary);
         depositary = newDepositary;
     }
 
     function setExchangeFund(address newExchangeFund) external onlyGovernor {
+        if (newExchangeFund == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit ExchangeFundUpdated(exchangeFund, newExchangeFund);
         exchangeFund = newExchangeFund;
     }
 
     function setDevelopmentFund(address newDevelopmentFund) external onlyGovernor {
+        if (newDevelopmentFund == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit DevelopmentFundUpdated(developmentFund, newDevelopmentFund);
         developmentFund = newDevelopmentFund;
     }
 
     function setOperator(address newOperator) external onlyGovernor {
+        if (newOperator == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit OperatorUpdated(operator, newOperator);
         operator = newOperator;
     }
 
     function setLiquidator(address newLiquidator) external onlyGovernor {
+        if (newLiquidator == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         emit LiquidatorUpdated(liquidator, newLiquidator);
         liquidator = newLiquidator;
     }
@@ -394,14 +435,18 @@ contract Core is Initializable, Governed, ICore {
     function setVoiceMintingBeneficiaries(uint256[] calldata beneficiaries) external onlyGovernor {
         delete _voiceMintingBeneficiaries;
         _voiceMintingBeneficiaries = beneficiaries;
-        voiceTotalShares = 0;
+        uint256 _voiceTotalShares = 0;
         for (uint256 i = 0; i < _voiceMintingBeneficiaries.length; i++) {
             (, uint256 share) = Beneficiary.split(_voiceMintingBeneficiaries[i]);
-            voiceTotalShares += share;
+            _voiceTotalShares += share;
         }
+        voiceTotalShares = _voiceTotalShares;
     }
 
     function addSuperUser(address account) external onlyGovernor {
+        if (account == address(0)) {
+            revert BaksDAOZeroAddress();
+        }
         isSuperUser[account] = true;
     }
 

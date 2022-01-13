@@ -362,7 +362,7 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
         d.depositorTotalAccruedRewards += depositorRewards;
         if (magisters[msg.sender].isActive) {
-            magisters[d.magister].totalIncome += depositorRewards.mul(depositTokenPrice);
+            magisters[msg.sender].totalIncome += depositorRewards.mul(depositTokenPrice);
         }
     }
 
