@@ -9,6 +9,8 @@ import {Governed} from "./Governance.sol";
 import {IERC20} from "./interfaces/ERC20.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
 
+/// @title Ценовой оракул, работающий с Chainlink
+/// @author BaksDAO
 contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOracle {
     using FixedPointMath for uint256;
 
@@ -16,9 +18,15 @@ contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOrac
     uint256 internal constant DIRECT_CONVERSION_PATH_SCALE = 1e10;
     uint256 internal constant INTERMEDIATE_CONVERSION_PATH_SCALE = 1e8;
 
+    /// @dev Адреса агрегаторов Chainlink, отдающих цены в нативной валюте.
     mapping(IERC20 => IChainlinkAggregator) public nativeAggregators;
+    /// @dev Адреса агрегаторов Chainlink, отдающих цены в USD.
     mapping(IERC20 => IChainlinkAggregator) public usdAggregators;
 
+    /// @dev Генерируется после добавления агрегатора Chainlink для токена.
+    /// @param token Адрес токена
+    /// @param aggregator Агрегатор Chainlink
+    /// @param isQuoteNative Агрегатор отдаёт курсы в нативной валюте?
     event AggregatorSet(IERC20 token, IChainlinkAggregator aggregator, bool isQuoteNative);
 
     function initialize(ICore _core) external initializer {
@@ -26,6 +34,10 @@ contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOrac
         setGovernor(msg.sender);
     }
 
+    /// @dev Добавить агрегатор Chainlink для токена.
+    /// @param token Адрес токена
+    /// @param aggregator Агрегатор Chainlink
+    /// @param isQuoteNative Агрегатор отдаёт курсы в нативной валюте?
     function setAggregator(
         IERC20 token,
         IChainlinkAggregator aggregator,
@@ -40,6 +52,9 @@ contract ChainlinkPriceOracle is CoreInside, Governed, Initializable, IPriceOrac
         emit AggregatorSet(token, aggregator, isQuoteNative);
     }
 
+    /// @dev Получить нормализованную (10 ^ 18) цену токена.
+    /// @param token Адрес токена
+    /// @return normalizedPrice Нормализованная цена токена.
     function getNormalizedPrice(IERC20 token) external view override returns (uint256 normalizedPrice) {
         if (token == IERC20(core.baks())) {
             return ONE;

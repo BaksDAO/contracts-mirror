@@ -4,6 +4,7 @@ import "@typechain/hardhat";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import "hardhat-deploy";
+import "hardhat-docgen";
 import "hardhat-gas-reporter";
 import "hardhat-packager";
 import { HardhatUserConfig } from "hardhat/config";

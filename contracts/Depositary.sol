@@ -17,13 +17,23 @@ import {IPriceOracle} from "./interfaces/IPriceOracle.sol";
 import "./interfaces/IDepositary.sol";
 import "./interfaces/IBank.sol";
 
+/// @dev Генерируется после попытки добавить уже существующего магистра.
+/// @param magister Адрес магистра
 error BaksDAOMagisterAlreadyWhitelisted(address magister);
+/// @dev Генерируется после попытки взаимодействия с удалённым магистром.
+/// @param magister Адрес магистра
 error BaksDAOMagisterBlacklisted(address magister);
+/// @dev Взаимодействие разрешено только вкладчику, либо магистру.
 error BaksDAOOnlyDepositorOrMagisterAllowed();
+/// @dev Сумма снятия превышает вложенную.
 error BaksDAOWithdrawAmountExceedsPrincipal();
+/// @dev Сумма депозита с магистром не превышает минимально требуемую.
 error BaksDAOBelowMinimumMagisterDepositAmount();
+/// @dev Попытка депонировать нулевую сумму.
 error BaksDAODepositZeroAmount();
 
+/// @title Контракт для работы с депозитами
+/// @author BaksDAO
 contract Depositary is CoreInside, Governed, IDepositary, Initializable {
     using AmountNormalization for IERC20;
     using Deposit for Deposit.Data;
@@ -35,15 +45,23 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
 
     uint256 internal constant ONE = 100e16;
 
+    /// @dev Информация о магистрах.
     mapping(address => Magister.Data) public magisters;
     EnumerableAddressSet.Set internal magistersSet;
 
+    /// @dev Информация о пулах.
     Pool.Data[] public pools;
 
+    /// @dev Массив с информацией о депозитах.
     Deposit.Data[] public deposits;
+    /// @dev Идентификаторы депозитов по пулам и кошелькам.
     mapping(uint256 => mapping(address => uint256)) public currentDepositIds;
 
+    /// @dev Генерируется после добавления нового магистра.
+    /// @param magister Магистр.
     event MagisterWhitelisted(address indexed magister);
+    /// @dev Генерируется после удаления магистра.
+    /// @param magister Магистр.
     event MagisterBlacklisted(address indexed magister);
 
     function initialize(ICore _core) external initializer {
@@ -85,10 +103,16 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         );
     }
 
+    /// @dev Депонирование средств в пул.
+    /// @param poolId Идентифкатор пула
+    /// @param amount Сумма депозита
     function deposit(uint256 poolId, uint256 amount) external {
         deposit(poolId, amount, address(this));
     }
 
+    /// @dev Снятие средств из депозита.
+    /// @param depositId Идентифкатор депозита
+    /// @param amount Сумма снятия
     function withdraw(uint256 depositId, uint256 amount) external {
         Deposit.Data storage d = deposits[depositId];
         Pool.Data storage p = pools[d.poolId];
@@ -154,6 +178,8 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
+    /// @dev Добавить магистра.
+    /// @param magister Магистр
     function whitelistMagister(address magister) external onlySuperUser {
         if (magistersSet.contains(magister)) {
             revert BaksDAOMagisterAlreadyWhitelisted(magister);
@@ -171,6 +197,8 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
+    /// @dev Удалить магистра.
+    /// @param magister Магистр
     function blacklistMagister(address magister) external onlySuperUser {
         if (!magistersSet.contains(magister)) {
             revert BaksDAOMagisterBlacklisted(magister);
@@ -182,6 +210,13 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
+    /// @dev Добавить пул.
+    /// @param depositToken Депонируемый токен
+    /// @param isCompounding Используется ли авто-реинвестирование?
+    /// @param depositorApr APR вкладчика
+    /// @param magisterApr APR магистра
+    /// @param depositorBonusApr Бонусный APR вкладчика
+    /// @param magisterBonusApr Бонусный APR магистра
     function addPool(
         IERC20 depositToken,
         bool isCompounding,
@@ -206,6 +241,13 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         );
     }
 
+    /// @dev Обновить параметры пула.
+    /// @param poolId Идентификатор пула
+    /// @param isCompounding Используется ли авто-реинвестирование?
+    /// @param depositorApr APR вкладчика
+    /// @param magisterApr APR магистра
+    /// @param depositorBonusApr Бонусный APR вкладчика
+    /// @param magisterBonusApr Бонусный APR магистра
     function updatePool(
         uint256 poolId,
         bool isCompounding,
@@ -222,10 +264,12 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         pool.magisterBonusApr = magisterBonusApr;
     }
 
+    /// @dev Получить адреса активных магистров
     function getActiveMagisterAddresses() external view returns (address[] memory activeMagisterAddresses) {
         activeMagisterAddresses = magistersSet.elements;
     }
 
+    /// @dev Получить активных магистров
     function getActiveMagisters() external view returns (Magister.Data[] memory activeMagisters) {
         uint256 length = magistersSet.elements.length;
         activeMagisters = new Magister.Data[](length);
@@ -235,18 +279,22 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
+    /// @dev Получить количество активных пулов
     function getPoolsCount() external view returns (uint256) {
         return pools.length;
     }
 
+    /// @dev Получить активные пулы
     function getPools() external view returns (Pool.Data[] memory) {
         return pools;
     }
 
+    /// @dev Получить идентификаторы депозитов магистра
     function getMagisterDepositIds(address magister) external view returns (uint256[] memory) {
         return magisters[magister].depositIds;
     }
 
+    /// @dev Получить значение LTV по определённому токену для депозитов
     function getTotalValueLocked(IERC20 depositToken) external view returns (uint256 totalValueLocked) {
         for (uint256 i = 0; i < pools.length; i++) {
             if (pools[i].depositToken == depositToken) {
@@ -255,12 +303,17 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
+    /// @dev Получить общее значение LTV по депозитам
     function getTotalValueLocked() external view returns (uint256 totalValueLocked) {
         for (uint256 i = 0; i < pools.length; i++) {
             totalValueLocked += pools[i].getDepositsValue();
         }
     }
 
+    /// @dev Депонирование средств в пул с магистром.
+    /// @param poolId Идентифкатор пула
+    /// @param amount Сумма депозита
+    /// @param magister Магистр
     function deposit(
         uint256 poolId,
         uint256 amount,
@@ -339,6 +392,10 @@ contract Depositary is CoreInside, Governed, IDepositary, Initializable {
         }
     }
 
+    /// @dev Получить текущее значение начисленных на депозит наград.
+    /// @param depositId Идентифкатор депозита
+    /// @return depositorRewards Награды вкладчика
+    /// @return magisterRewards Награды магистра
     function getRewards(uint256 depositId) public view returns (uint256 depositorRewards, uint256 magisterRewards) {
         Deposit.Data memory d = deposits[depositId];
 

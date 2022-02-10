@@ -41,10 +41,13 @@ error ExchangeFundTokenNotAllowedToBeWithdrawn(IERC20 token);
 /// @param token The address of the token contract.
 error ExchangeFundTokenNotAllowedToBeSalvaged(IERC20 token);
 
+/// @dev Генерируется при нехватке депонированных средств суперпользователя.
 error ExchangeFundInsufficientDeposits();
 
+/// @dev Генерируется при нехватке LP-токенов суперпользователя.
 error ExchangeFundInsufficientLiquidity();
 
+/// @dev Генерируется при попытке обмена одинаковых токенов.
 error ExchangeFundSameTokenSwap(IERC20 token);
 
 /// @dev Thrown when trying to swap token that's not allowed to be swapped.
@@ -58,6 +61,8 @@ error ExchangeFundNoNeedToService(IERC20 token);
 
 error ExchangeFundTokenNotApproved();
 
+/// @title Фонд обмена
+/// @author BaksDAO
 contract ExchangeFund is CoreInside, Governed, Initializable {
     using AmountNormalization for IERC20;
     using EnumerableAddressSet for EnumerableAddressSet.Set;
@@ -67,26 +72,47 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
     uint256 internal constant ONE = 100e16;
     uint8 internal constant DECIMALS = 18;
 
+    /// @dev Допустимое проскальзывание при обмене
     uint256 public slippageTolerance;
+    /// @dev Дедлайн обмена
     uint256 public swapDeadline;
 
+    /// @dev Суммы вложенных средств по суперпользователю и пулу.
     mapping(address => mapping(IERC20 => uint256)) public deposits;
+    /// @dev Суммы LP-токенов по суперпользователю и пулу.
     mapping(address => mapping(IERC20 => uint256)) public liquidity;
 
+    /// @dev Информация о депонируемых токенах.
     mapping(IERC20 => bool) public depositableTokens;
     EnumerableAddressSet.Set internal depositableTokensSet;
 
+    /// @dev Генерируется после добавления нового депонируемого токена.
+    /// @param token Депонируемый токен.
+    /// @param pair Адрес пары.
     event DepositableTokenListed(IERC20 indexed token, IUniswapV2Pair pair);
+    /// @dev Генерируется после удаления депонируемого токена.
+    /// @param token Депонируемый токен.
     event DepositableTokenUnlisted(IERC20 indexed token);
 
+    /// @dev Генерируется после обновления значения допустимого проскальзывания.
     event SlippageToleranceUpdated(uint256 slippageTolerance, uint256 newSlippageTolerance);
+    /// @dev Генерируется после обновления значения дедлайна.
     event SwapDeadlineUpdated(uint256 swapDeadline, uint256 newSwapDeadline);
 
+    /// @dev Генерируется после депонирования средств в фонд обмена.
+    /// @param account Адрес вкладчика.
+    /// @param token Адрес депонируемого токена.
+    /// @param amount Сумма депозита.
     event Deposit(address indexed account, IERC20 indexed token, uint256 amount);
+    /// @dev Генерируется после произведённого обмена.
     event Swap(address indexed account, IERC20 indexed tokenA, IERC20 indexed tokenB, uint256 amountA, uint256 amountB);
+    /// @dev Генерируется после добавления ликвидности из фонда обмена.
     event Invest(address indexed account, IERC20 indexed token, uint256 amount);
+    /// @dev Генерируется после вывода ликвидности в фонд обмена.
     event Divest(address indexed account, IERC20 indexed token, uint256 amount);
+    /// @dev Генерируется после вывода средств из фонда обмена.
     event Withdrawal(address indexed account, IERC20 indexed token, uint256 amount);
+    /// @dev Генерируется после выравнивания курса / добавления ликвидности.
     event Service(address indexed account, IERC20 indexed token);
 
     modifier tokenAllowedToBeDeposited(IERC20 token) {
@@ -128,6 +154,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         }
     }
 
+    /// @dev Депонировать средства в фонд обмена.
     function deposit(IERC20 token, uint256 amount) external tokenAllowedToBeDeposited(token) onlySuperUser {
         token.safeTransferFrom(msg.sender, address(this), amount);
 
@@ -137,6 +164,11 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Deposit(msg.sender, token, normalizedAmount);
     }
 
+    /// @dev Произвести обмен.
+    /// @param tokenA Адрес токена А
+    /// @param tokenB Адреса токена B
+    /// @param amount Сумма обмена
+    /// @param useWrappedNativeCurrencyAsIntermediateToken Использовать WBNB/WETH как промежуточный токен обмена.
     function swap(
         IERC20 tokenA,
         IERC20 tokenB,
@@ -180,6 +212,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Swap(msg.sender, tokenA, tokenB, normalizedTokenAAmount, normalizedTokenBAmount);
     }
 
+    /// @dev Добавить ликвидность из фонда обмена.
     function invest(IERC20 token, uint256 amount) external onlySuperUser {
         uint256 normalizedAmount = token.normalizeAmount(amount);
         if (normalizedAmount > deposits[msg.sender][token]) {
@@ -204,6 +237,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Invest(msg.sender, token, normalizedAmount);
     }
 
+    /// @dev Вывести ликвидность в фонд обмена.
     function divest(IERC20 token, uint256 amount) external onlySuperUser {
         if (amount > liquidity[msg.sender][token]) {
             revert ExchangeFundInsufficientLiquidity();
@@ -225,6 +259,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Divest(msg.sender, token, amount);
     }
 
+    /// @dev Вывести средства из фонда обмена.
     function withdraw(IERC20 token, uint256 amount) external onlySuperUser {
         if (token == IERC20(core.baks())) {
             revert ExchangeFundTokenNotAllowedToBeWithdrawn(token);
@@ -241,6 +276,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Withdrawal(msg.sender, token, normalizedAmount);
     }
 
+    /// @dev Добавить новый депонируемый токен.
     function listDepositableToken(IERC20 token) external onlyGovernor {
         if (depositableTokensSet.contains(address(token))) {
             revert ExchangeFundDepositableTokenAlreadyListed(token);
@@ -272,6 +308,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         }
     }
 
+    /// @dev Удалить депонируемый токен.
     function unlistDepositableToken(IERC20 token) external onlyGovernor {
         if (!depositableTokensSet.contains(address(token))) {
             revert ExchangeFundDepositableTokenNotListed(token);
@@ -293,11 +330,13 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         }
     }
 
+    /// @dev Установить допустимое проскальзывание.
     function setSlippageTolerance(uint256 newSlippageTolerance) external onlyGovernor {
         emit SlippageToleranceUpdated(slippageTolerance, newSlippageTolerance);
         slippageTolerance = newSlippageTolerance;
     }
 
+    /// @dev Установить дедлайн обмена.
     function setSwapDeadline(uint256 newSwapDeadline) external onlyGovernor {
         emit SwapDeadlineUpdated(swapDeadline, newSwapDeadline);
         swapDeadline = newSwapDeadline;
@@ -311,6 +350,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         token.safeTransfer(core.operator(), token.balanceOf(address(this)));
     }
 
+    /// @dev Привести курс к рыночному / добавить ликвидность до минимального порогового уровня.
     function service(IERC20 token) external {
         (uint256 baksReserve, uint256 tokenReserve) = getReserves(token);
         tokenReserve = token.normalizeAmount(tokenReserve);
@@ -353,10 +393,12 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         emit Service(msg.sender, token);
     }
 
+    /// @dev Перевести BAKS в фонд стабилизации.
     function transferBaksToBank(uint256 amount) external onlySuperUser {
         IERC20(core.baks()).safeTransfer(core.bank(), amount);
     }
 
+    /// @dev Получить депонируемые токены.
     function getDepositableTokens() external view returns (IERC20[] memory tokens) {
         uint256 length = depositableTokensSet.elements.length;
         tokens = new IERC20[](length);
@@ -366,6 +408,7 @@ contract ExchangeFund is CoreInside, Governed, Initializable {
         }
     }
 
+    /// @dev Рассчитать сумму обмена токена на BAKS.
     function quote(IERC20 token, uint256 amount) public view returns (uint256 baksAmount) {
         IERC20 baks = IERC20(core.baks());
         IUniswapV2Router uniswapV2Router = IUniswapV2Router(core.uniswapV2Router());

@@ -84,16 +84,23 @@ error BaksDAOTokenNotAllowedToBeSalvaged(IERC20 token);
 /// @param id The loan id.
 error BaksDAONativeCurrencyCollateralNotAllowed(uint256 id);
 
+/// @dev Генерируется, если не получилось отправить нативную валюту (ETH, BNB и т. д.).
 error BaksDAONativeCurrencyTransferFailed();
 
+/// @dev Генерируется, если контракт не принимает переводы нативной валюты.
 error BaksDAOPlainNativeCurrencyTransferNotAllowed();
 
+/// @dev Генерируется при создании займа, если отправлена недостаточная сумма обеспечения.
+/// @param minimumRequiredSecurityAmount Минимально требуемый размер суммы обеспечения.
 error BaksDAOInsufficientSecurityAmount(uint256 minimumRequiredSecurityAmount);
 
+/// @dev Генерируется, если следующий этап эмиссии BDV ещё не наступил (TVL платформы не достиг порогового значения).
 error BaksDAOVoiceNothingToMint();
 
+/// @dev Генерируется после окончания эмиссии BDV.
 error BaksDAOVoiceMintingEnded();
 
+/// @dev Генерируется, если отсутствует необходимость в миграции контракта.
 error BaksDAONoNeedToMigrate();
 
 /// @title Core smart contract of BaksDAO platform
@@ -120,23 +127,42 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
 
     uint8 internal constant DECIMALS = 18;
 
+    /// @dev Массив с информацией о займах.
     Loan.Data[] public loans;
+    /// @dev Идентификаторы займа каждого кошелька.
     mapping(address => uint256[]) public loanIds;
 
+    /// @dev Массив с информацией о залоговых токенах.
     mapping(IERC20 => CollateralToken.Data) public collateralTokens;
     EnumerableAddressSet.Set internal collateralTokensSet;
 
+    /// @dev Номер следующего этапа эмиссии BDV.
     uint256 public nextVoiceMintingStage;
 
+    /// @dev Генерируется после добавления нового залогового токена.
+    /// @param token Залоговый токен.
     event CollateralTokenListed(IERC20 indexed token);
+    /// @dev Генерируется после удаления залогового токена.
+    /// @param token Залоговый токен.
     event CollateralTokenUnlisted(IERC20 indexed token);
 
+    /// @dev Генерируется после изменения начального LTV залогового токена.
+    /// @param token Залоговый токен.
+    /// @param initialLoanToValueRatio Начальный LTV.
+    /// @param newInitialLoanToValueRatio Новый начальный LTV.
     event InitialLoanToValueRatioUpdated(
         IERC20 indexed token,
         uint256 initialLoanToValueRatio,
         uint256 newInitialLoanToValueRatio
     );
 
+    /// @dev Генерируется после создания нового займа.
+    /// @param id Идентификатор займа.
+    /// @param borrower Заёмщик.
+    /// @param token Залоговый токен.
+    /// @param principalAmount Сумма займа.
+    /// @param collateralAmount Сумма залога.
+    /// @param initialLoanToValueRatio Начальный LTV.
     event Borrow(
         uint256 indexed id,
         address indexed borrower,
@@ -145,12 +171,25 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         uint256 collateralAmount,
         uint256 initialLoanToValueRatio
     );
+    /// @dev Генерируется после добавления залога в займ.
+    /// @param id Идентификатор займа.
+    /// @param collateralAmount Сумма добавленного залога.
     event Deposit(uint256 indexed id, uint256 collateralAmount);
+    /// @dev Генерируется после частичного погашения займа.
+    /// @param id Идентификатор займа.
+    /// @param principalAmount Сумма погашения.
     event Repay(uint256 indexed id, uint256 principalAmount);
+    /// @dev Генерируется после полного погашения займа.
+    /// @param id Идентификатор займа.
     event Repaid(uint256 indexed id);
 
+    /// @dev Генерируется после ликвидации займа.
+    /// @param id Идентификатор займа.
     event Liquidated(uint256 indexed id);
 
+    /// @dev Генерируется после ребалансировки стабилизационного фонда и эмиссии BDV.
+    /// @param delta Количество BAKS, которое было сожжено или эмитированно.
+    /// @param voiceMinted Количество вновь эмитированных BDV.
     event Rebalance(int256 delta, uint256 voiceMinted);
 
     modifier tokenAllowedAsCollateral(IERC20 token) {
@@ -346,6 +385,8 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         }
     }
 
+    /// @dev Ликвидирует займ.
+    /// @param loanId Идентификатор займа.
     function liquidate(uint256 loanId) external onActiveLoan(loanId) onSubjectToLiquidation(loanId) {
         Loan.Data storage loan = loans[loanId];
 
@@ -364,6 +405,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         emit Liquidated(loanId);
     }
 
+    /// @dev Производит ребалансировку стабилизационного фонда.
     function rebalance() external {
         IMintableAndBurnableERC20 baks = IMintableAndBurnableERC20(core.baks());
 
@@ -389,6 +431,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         emit Rebalance(delta, 0);
     }
 
+    /// @dev Производит эмиссию BDV.
     function mintVoice() external {
         uint256[] memory voiceMintingSchedule = core.voiceMintingSchedule();
         uint256 length = voiceMintingSchedule.length;
@@ -441,6 +484,9 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         baks.mint(core.developmentFund(), amount.mul(core.depositDevelopmentFee()));
     }
 
+    /// @dev Добавляет новый залоговый токен.
+    /// @param token Залоговый токен.
+    /// @param initialLoanToValueRatio Начальный LTV.
     function listCollateralToken(IERC20 token, uint256 initialLoanToValueRatio) external onlyGovernor {
         if (collateralTokensSet.contains(address(token))) {
             revert BaksDAOCollateralTokenAlreadyListed(token);
@@ -477,6 +523,8 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         }
     }
 
+    /// @dev Удаляет залоговый токен.
+    /// @param token Залоговый токен.
     function unlistCollateralToken(IERC20 token) external onlyGovernor {
         if (!collateralTokensSet.contains(address(token))) {
             revert BaksDAOCollateralTokenNotListed(token);
@@ -488,6 +536,9 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         }
     }
 
+    /// @dev Изменяет значение начального LTV для залогового токена.
+    /// @param token Залоговый токен.
+    /// @param newInitialLoanToValueRatio Новый начальный LTV.
     function setInitialLoanToValueRatio(IERC20 token, uint256 newInitialLoanToValueRatio) external onlyGovernor {
         if (!collateralTokensSet.contains(address(token))) {
             revert BaksDAOCollateralTokenNotListed(token);
@@ -512,10 +563,13 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         token.safeTransfer(core.operator(), token.balanceOf(address(this)));
     } */
 
+    /// @dev Переводит BAKS в фонд обмена.
+    /// @param amount Сумма BAKS для перевода.
     function transferBaksToExchangeFund(uint256 amount) external onlySuperUser {
         IERC20(core.baks()).safeTransfer(core.exchangeFund(), amount);
     }
 
+    /// @dev Призводит миграцию BAKS на новый контракт фонда стабилизации.
     function migrate() external onlyGovernor {
         if (core.bank() == address(this)) {
             revert BaksDAONoNeedToMigrate();
@@ -530,6 +584,8 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         nextVoiceMintingStage = IBank(core.bank()).nextVoiceMintingStage();
     }
 
+    /// @dev Получить займы по адресу заёмщика.
+    /// @param borrower Адрес заёмщика.
     function getLoans(address borrower) external view returns (Loan.Data[] memory _loans) {
         uint256 length = loanIds[borrower].length;
         _loans = new Loan.Data[](length);
@@ -539,6 +595,7 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         }
     }
 
+    /// @dev Получить разрешённые залоговые токены.
     function getAllowedCollateralTokens()
         external
         view
@@ -552,6 +609,13 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         }
     }
 
+    /// @dev Рассчитать займ по сумме займа.
+    /// @param collateralToken Залоговый токен
+    /// @param principalAmount Сумма займа
+    /// @return loan Рассчитанный займ
+    /// @return exchangeFee Платёж в фонд обмена
+    /// @return developmentFee Платёж в фонд развития
+    /// @return stabilityFee Платёж за стабильность
     function calculateLoanByPrincipalAmount(IERC20 collateralToken, uint256 principalAmount)
         public
         view
@@ -565,6 +629,13 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         return collateralTokens[collateralToken].calculateLoanByPrincipalAmount(principalAmount);
     }
 
+    /// @dev Рассчитать займ по сумме залога.
+    /// @param collateralToken Залоговый токен
+    /// @param collateralAmount Сумма залога
+    /// @return loan Рассчитанный займ
+    /// @return exchangeFee Платёж в фонд обмена
+    /// @return developmentFee Платёж в фонд развития
+    /// @return stabilityFee Платёж за стабильность
     function calculateLoanByCollateralAmount(IERC20 collateralToken, uint256 collateralAmount)
         public
         view
@@ -578,6 +649,13 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         return collateralTokens[collateralToken].calculateLoanByCollateralAmount(collateralAmount);
     }
 
+    /// @dev Рассчитать займ по сумме обеспечения.
+    /// @param collateralToken Залоговый токен
+    /// @param securityAmount Сумма залога
+    /// @return loan Рассчитанный займ
+    /// @return exchangeFee Платёж в фонд обмена
+    /// @return developmentFee Платёж в фонд развития
+    /// @return stabilityFee Платёж за стабильность
     function calculateLoanBySecurityAmount(IERC20 collateralToken, uint256 securityAmount)
         public
         view
@@ -591,6 +669,8 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         return collateralTokens[collateralToken].calculateLoanBySecurityAmount(securityAmount);
     }
 
+    /// @dev Получить общий текущий TVL платформы.
+    /// @return totalValueLocked Текущий TVL платформы
     function getTotalValueLocked() public view returns (uint256 totalValueLocked) {
         for (uint256 i = 0; i < collateralTokensSet.elements.length; i++) {
             totalValueLocked += collateralTokens[IERC20(collateralTokensSet.elements[i])].getCollateralValue();
@@ -598,21 +678,33 @@ contract Bank is CoreInside, Governed, IBank, Initializable, ReentrancyGuard {
         totalValueLocked += IDepositary(core.depositary()).getTotalValueLocked();
     }
 
+    /// @dev Получить текущий TVL платформы по токену.
+    /// @param token Токен
+    /// @return totalValueLocked Текущий TVL платформы по данному токену
     function getTotalValueLocked(IERC20 token) public view returns (uint256 totalValueLocked) {
         totalValueLocked = collateralTokens[token].getCollateralValue();
         totalValueLocked += IDepositary(core.depositary()).getTotalValueLocked(token);
     }
 
+    /// @dev Получить текущее значение LTV займа.
+    /// @param loanId Идентификатор займа
+    /// @return loanToValueRatio Текущее значение LTV займа
     function getLoanToValueRatio(uint256 loanId) public view returns (uint256 loanToValueRatio) {
         Loan.Data memory loan = loans[loanId];
         loanToValueRatio = loan.calculateLoanToValueRatio();
     }
 
+    /// @dev Получить текущую сумму начисленных на заём процентов.
+    /// @param loanId Идентификатор займа
+    /// @return accruedInterest Текущую сумму начисленных на заём процентов
     function getLoanAccruedInterest(uint256 loanId) public view returns (uint256 accruedInterest) {
         Loan.Data memory loan = loans[loanId];
         accruedInterest = loan.calculateInterest();
     }
 
+    /// @dev Получить состояние займа.
+    /// @param loanId Идентификатор займа
+    /// @return health Состояние займа
     function checkHealth(uint256 loanId) public view returns (Health health) {
         uint256 loanToValueRatio = getLoanToValueRatio(loanId);
         health = loanToValueRatio >= core.liquidationLoanToValueRatio()

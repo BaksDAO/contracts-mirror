@@ -7,6 +7,8 @@ import {Governed} from "./Governance.sol";
 import {IERC20} from "./interfaces/ERC20.sol";
 import {Initializable} from "./libraries/Upgradability.sol";
 
+/// @title Фонд развития
+/// @author BaksDAO
 contract DevelopmentFund is CoreInside, Initializable, Governed {
     using SafeERC20 for IERC20;
 
@@ -15,6 +17,8 @@ contract DevelopmentFund is CoreInside, Initializable, Governed {
         setGovernor(msg.sender);
     }
 
+    /// @dev Вывод BAKS.
+    /// @param amount Сумма для вывода.
     function withdraw(uint256 amount) external onlyGovernor {
         IERC20(core.baks()).safeTransfer(msg.sender, amount);
     }

@@ -10,7 +10,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "minter",
+        name: "_minter",
         type: "address",
       },
     ],
@@ -736,16 +736,16 @@ export class Baks__factory extends ContractFactory {
   }
 
   deploy(
-    minter: string,
+    _minter: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<Baks> {
-    return super.deploy(minter, overrides || {}) as Promise<Baks>;
+    return super.deploy(_minter, overrides || {}) as Promise<Baks>;
   }
   getDeployTransaction(
-    minter: string,
+    _minter: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
-    return super.getDeployTransaction(minter, overrides || {});
+    return super.getDeployTransaction(_minter, overrides || {});
   }
   attach(address: string): Baks {
     return super.attach(address) as Baks;
